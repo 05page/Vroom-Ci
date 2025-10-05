@@ -38,7 +38,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
   }, [currentLetterIndex, letters.length, onComplete]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: '#000000' }}>
       <div className="flex items-center gap-1 sm:gap-2">
         {letters.map((letter, index) => (
           <span
