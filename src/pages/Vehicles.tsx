@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Heart, MessageCircle, Star, TrendingUp, Eye } from "lucide-react";
+import { Heart, MessageCircle, Star, Eye } from "lucide-react";
 import { toast } from "sonner";
 import car1 from "@/assets/car-1.jpg";
 import car2 from "@/assets/car-2.jpg";
@@ -25,7 +25,7 @@ interface CarData {
   trending?: boolean;
 }
 
-const Dashboard = () => {
+const Vehicles = () => {
   const [cars] = useState<CarData[]>([
     {
       id: "1",
@@ -87,6 +87,8 @@ const Dashboard = () => {
     },
   ]);
 
+  const [filter, setFilter] = useState<"tous" | "vente" | "location">("tous");
+
   const handleLike = (carName: string) => {
     toast.success(`Vous aimez ${carName}`);
   };
@@ -99,12 +101,9 @@ const Dashboard = () => {
     toast.info(`Détails de ${carName}`);
   };
 
-  const stats = [
-    { label: "Véhicules disponibles", value: "250+", trend: "+12%" },
-    { label: "Ventes ce mois", value: "48", trend: "+8%" },
-    { label: "Locations actives", value: "156", trend: "+23%" },
-    { label: "Clients satisfaits", value: "2.5K", trend: "+15%" },
-  ];
+  const filteredCars = filter === "tous" 
+    ? cars 
+    : cars.filter(car => car.type === filter);
 
   return (
     <div className="min-h-screen bg-secondary/20">
@@ -112,45 +111,46 @@ const Dashboard = () => {
         {/* Header */}
         <div className="mb-8 animate-fade-in">
           <h1 className="font-heading text-4xl md:text-5xl font-bold mb-2">
-            Dashboard
+            Nos Véhicules
           </h1>
           <p className="text-muted-foreground text-lg">
-            Découvrez les derniers véhicules disponibles
+            Explorez notre catalogue complet de véhicules
           </p>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 animate-fade-in">
-          {stats.map((stat, index) => (
-            <Card key={stat.label} className="shadow-card hover:shadow-hover transition-smooth" style={{ animationDelay: `${index * 100}ms` }}>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  <div className="flex items-center gap-1 text-[hsl(var(--success))] text-xs font-medium">
-                    <TrendingUp className="h-3 w-3" />
-                    {stat.trend}
-                  </div>
-                </div>
-                <p className="text-3xl font-bold font-heading">{stat.value}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Cars Grid */}
+        {/* Filters */}
         <div className="mb-6 flex items-center justify-between">
           <h2 className="font-heading text-2xl font-semibold">
-            Derniers véhicules
+            {filteredCars.length} véhicules disponibles
           </h2>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm">Vente</Button>
-            <Button variant="outline" size="sm">Location</Button>
-            <Button variant="default" size="sm">Tous</Button>
+            <Button 
+              variant={filter === "vente" ? "default" : "outline"} 
+              size="sm"
+              onClick={() => setFilter("vente")}
+            >
+              Vente
+            </Button>
+            <Button 
+              variant={filter === "location" ? "default" : "outline"} 
+              size="sm"
+              onClick={() => setFilter("location")}
+            >
+              Location
+            </Button>
+            <Button 
+              variant={filter === "tous" ? "default" : "outline"} 
+              size="sm"
+              onClick={() => setFilter("tous")}
+            >
+              Tous
+            </Button>
           </div>
         </div>
 
+        {/* Cars Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 animate-fade-in">
-          {cars.map((car, index) => (
+          {filteredCars.map((car, index) => (
             <Card 
               key={car.id} 
               className="overflow-hidden shadow-card hover:shadow-hover transition-smooth group"
@@ -248,4 +248,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Vehicles;
