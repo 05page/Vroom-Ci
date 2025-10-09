@@ -27,21 +27,21 @@ export function AppSidebar() {
   const isCollapsed = state === "collapsed";
 
   return (
-    <Sidebar className={isCollapsed ? "w-20" : "w-72"} collapsible="icon">
+    <Sidebar className={isCollapsed ? "w-16" : "w-64"} collapsible="icon">
       <SidebarContent>
-        <div className="px-7 py-9">
-          <div className={`flex items-center gap-4 ${isCollapsed ? "justify-center" : ""}`}>
-            <div className="h-14 w-14 rounded-lg bg-primary flex items-center justify-center">
-              <Car className="h-8 w-8 text-primary-foreground" />
+        <div className="px-5 py-6">
+          <div className={`flex items-center gap-3 ${isCollapsed ? "justify-center" : ""}`}>
+            <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
+              <Car className="h-7 w-7 text-primary-foreground" />
             </div>
             {!isCollapsed && (
-              <span className="font-heading text-3xl font-bold text-primary">Vroom CI</span>
+              <span className="font-heading text-2xl font-bold text-primary">Vroom CI</span>
             )}
           </div>
         </div>
 
         <SidebarGroup>
-          <SidebarGroupLabel className={isCollapsed ? "sr-only" : "text-base font-medium"}>
+          <SidebarGroupLabel className={isCollapsed ? "sr-only" : "text-sm font-medium"}>
             Navigation
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -53,15 +53,15 @@ export function AppSidebar() {
                       to={item.url}
                       end
                       className={({ isActive }) =>
-                        `flex items-center gap-5 rounded-lg px-5 py-3.5 transition-smooth ${
+                        `flex items-center gap-3 rounded-lg px-4 py-3 transition-smooth ${
                           isActive
                             ? "bg-primary/10 text-primary font-semibold"
                             : "text-foreground/80 hover:bg-accent hover:text-foreground"
                         }`
                       }
                     >
-                      <item.icon className="h-7 w-7" />
-                      {!isCollapsed && <span className="text-lg leading-none">{item.title}</span>}
+                      <item.icon className="h-5 w-5" />
+                      {!isCollapsed && <span className="text-base leading-none">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

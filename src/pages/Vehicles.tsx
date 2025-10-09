@@ -23,6 +23,7 @@ interface CarData {
   type: "vente" | "location";
   price: string;
   image: string;
+  images?: string[];
   year: number;
   mileage: string;
   fuel: string;
@@ -41,6 +42,7 @@ const Vehicles = () => {
       type: "vente",
       price: "68 500 €",
       image: car1,
+      images: [car1, car2, car3, car4],
       year: 2023,
       mileage: "12 000 km",
       fuel: "Hybride",
@@ -56,6 +58,7 @@ const Vehicles = () => {
       type: "vente",
       price: "125 000 €",
       image: car2,
+      images: [car2, car1, car4, car3],
       year: 2024,
       mileage: "5 000 km",
       fuel: "Essence",
@@ -71,6 +74,7 @@ const Vehicles = () => {
       type: "location",
       price: "89 €/jour",
       image: car3,
+      images: [car3, car4, car1, car2],
       year: 2023,
       mileage: "25 000 km",
       fuel: "Électrique",
@@ -85,6 +89,7 @@ const Vehicles = () => {
       type: "location",
       price: "120 €/jour",
       image: car4,
+      images: [car4, car3, car2, car1],
       year: 2024,
       mileage: "8 000 km",
       fuel: "Diesel",
@@ -104,11 +109,15 @@ const Vehicles = () => {
     setCars(cars.map(car => 
       car.id === carId ? { ...car, likes: car.likes + 1 } : car
     ));
-    toast.success("J'aime ajouté !");
+    toast.success("❤️ J'aime ajouté !", {
+      description: "Vous aimez ce véhicule",
+    });
   };
 
   const handleFavorite = (carName: string) => {
-    toast.success(`${carName} ajouté aux favoris`);
+    toast.success(`⭐ ${carName} ajouté aux favoris`, {
+      description: "Retrouvez-le dans votre liste de favoris",
+    });
   };
 
   const handleViewDetails = (car: CarData) => {
@@ -121,21 +130,29 @@ const Vehicles = () => {
     setCars(cars.map(car => 
       car.id === carId ? { ...car, comments: car.comments + 1 } : car
     ));
-    toast.success("Commentaire ajouté !");
+    toast.success("💬 Commentaire ajouté !", {
+      description: "Votre commentaire a été publié avec succès",
+    });
     setNewComment("");
     setShowComments(null);
   };
 
   const handleContactSeller = () => {
-    toast.info("Redirection vers la messagerie...");
+    toast.info("📧 Redirection vers la messagerie...", {
+      description: "Vous allez pouvoir discuter avec le vendeur",
+    });
   };
 
   const handleReport = () => {
-    toast.warning("Signalement envoyé");
+    toast.warning("⚠️ Signalement envoyé", {
+      description: "Notre équipe va examiner votre signalement",
+    });
   };
 
   const handleShare = (carName: string) => {
-    toast.success(`${carName} partagé !`);
+    toast.success(`🔗 ${carName} partagé !`, {
+      description: "Le lien a été copié dans votre presse-papiers",
+    });
   };
 
   const filteredCars = filter === "tous" 
@@ -156,31 +173,31 @@ const Vehicles = () => {
         </div>
 
         {/* Filters */}
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h2 className="font-heading text-2xl font-semibold">
-            {filteredCars.length} véhicules disponibles
+            {filteredCars.length} véhicule{filteredCars.length > 1 ? 's' : ''} disponible{filteredCars.length > 1 ? 's' : ''}
           </h2>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
+            <Button 
+              variant={filter === "tous" ? "default" : "outline"} 
+              size="sm"
+              onClick={() => setFilter("tous")}
+            >
+              Tous ({cars.length})
+            </Button>
             <Button 
               variant={filter === "vente" ? "default" : "outline"} 
               size="sm"
               onClick={() => setFilter("vente")}
             >
-              Vente
+              Vente ({cars.filter(c => c.type === "vente").length})
             </Button>
             <Button 
               variant={filter === "location" ? "default" : "outline"} 
               size="sm"
               onClick={() => setFilter("location")}
             >
-              Location
-            </Button>
-            <Button 
-              variant={filter === "tous" ? "default" : "outline"} 
-              size="sm"
-              onClick={() => setFilter("tous")}
-            >
-              Tous
+              Location ({cars.filter(c => c.type === "location").length})
             </Button>
           </div>
         </div>
