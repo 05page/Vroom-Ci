@@ -137,12 +137,6 @@ const Dashboard = () => {
     toast.success(`${carName} partagé !`);
   };
 
-  const stats = [
-    { label: "Véhicules disponibles", value: "250+", trend: "+12%" },
-    { label: "Ventes ce mois", value: "48", trend: "+8%" },
-    { label: "Locations actives", value: "156", trend: "+23%" },
-    { label: "Clients satisfaits", value: "2.5K", trend: "+15%" },
-  ];
 
   return (
     <div className="min-h-screen bg-secondary/20">
@@ -157,23 +151,6 @@ const Dashboard = () => {
           </p>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 animate-fade-in">
-          {stats.map((stat, index) => (
-            <Card key={stat.label} className="shadow-card hover:shadow-hover transition-smooth" style={{ animationDelay: `${index * 100}ms` }}>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  <div className="flex items-center gap-1 text-[hsl(var(--success))] text-xs font-medium">
-                    <TrendingUp className="h-3 w-3" />
-                    {stat.trend}
-                  </div>
-                </div>
-                <p className="text-3xl font-bold font-heading">{stat.value}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
 
         {/* Cars Grid */}
         <div className="mb-6 flex items-center justify-between">
@@ -254,7 +231,7 @@ const Dashboard = () => {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleLike(car.id)}
-                    className="flex items-center gap-2 hover:text-primary"
+                    className="flex items-center gap-2"
                   >
                     <Heart className="h-4 w-4 fill-primary" />
                     <span className="font-medium">{car.likes}</span>
@@ -263,7 +240,7 @@ const Dashboard = () => {
                     variant="ghost"
                     size="sm"
                     onClick={() => setShowComments(showComments === car.id ? null : car.id)}
-                    className="flex items-center gap-2 hover:text-primary"
+                    className="flex items-center gap-2"
                   >
                     <MessageCircle className="h-4 w-4" />
                     <span className="font-medium">{car.comments}</span>
