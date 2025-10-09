@@ -1,4 +1,4 @@
-import { Home, LayoutDashboard, Bell, Car, Heart, Settings, MessageCircle } from "lucide-react";
+import { Home, LayoutDashboard, Bell, Car, Heart, Settings, MessageCircle, User } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import {
   Sidebar,
@@ -19,6 +19,7 @@ const menuItems = [
   { title: "Favoris", url: "/favorites", icon: Heart },
   { title: "Messages", url: "/messages", icon: MessageCircle },
   { title: "Notifications", url: "/notifications", icon: Bell },
+  { title: "Mon compte", url: "/account", icon: User },
   { title: "Paramètres", url: "/settings", icon: Settings },
 ];
 

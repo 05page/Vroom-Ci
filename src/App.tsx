@@ -14,6 +14,7 @@ import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
 import SplashScreen from "./components/SplashScreen";
 import BookingForm from "./pages/BookingForm";
+import Account from "./pages/Account";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="/favorites" element={<Layout><Favorites /></Layout>} />
             <Route path="/messages" element={<Layout><Messages /></Layout>} />
             <Route path="/notifications" element={<Layout><Notifications /></Layout>} />
+            <Route path="/account" element={<Layout><Account /></Layout>} />
             <Route path="/settings" element={<Layout><Dashboard /></Layout>} />
             <Route path="/booking/:id" element={<Layout><BookingForm /></Layout>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
