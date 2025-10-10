@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Landing from "./pages/Landing";
-import Dashboard from "./pages/Dashboard";
 import Vehicles from "./pages/Vehicles";
 import Favorites from "./pages/Favorites";
 import Messages from "./pages/Messages";
@@ -33,13 +32,11 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
             <Route path="/vehicles" element={<Layout><Vehicles /></Layout>} />
             <Route path="/favorites" element={<Layout><Favorites /></Layout>} />
             <Route path="/messages" element={<Layout><Messages /></Layout>} />
             <Route path="/notifications" element={<Layout><Notifications /></Layout>} />
             <Route path="/account" element={<Layout><Account /></Layout>} />
-            <Route path="/settings" element={<Layout><Dashboard /></Layout>} />
             <Route path="/booking/:id" element={<Layout><BookingForm /></Layout>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

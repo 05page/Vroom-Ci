@@ -14,7 +14,6 @@ import {
 
 const menuItems = [
   { title: "Accueil", url: "/", icon: Home },
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Véhicules", url: "/vehicles", icon: Car },
   { title: "Favoris", url: "/favorites", icon: Heart },
   { title: "Messages", url: "/messages", icon: MessageCircle },

@@ -4,20 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { ArrowLeft, Upload, CreditCard, Calendar, MapPin, ClipboardCheck } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-
 const BookingForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const car = location.state?.car;
 
-  const [currentStep, setCurrentStep] = useState(1)
+  const [currentStep, setCurrentStep] = useState(1);
+  
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -26,12 +25,12 @@ const BookingForm = () => {
     rentalDuration: "",
     deliveryOption: "agency",
     technicalVisit: false,
-    paymentMethod: "mobile_money"
+    paymentMethod: "mobile_money",
   });
 
   const [idFront, setIdFront] = useState<File | null>(null);
   const [idBack, setIdBack] = useState<File | null>(null);
-  const [driveLicence, setDriveLicence] = useState<File | null>(null)
+  const [drivingLicense, setDrivingLicense] = useState<File | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -48,7 +47,7 @@ const BookingForm = () => {
       } else if (type === "back") {
         setIdBack(file);
       } else {
-        setDriveLicence(file)
+        setDrivingLicense(file);
       }
     }
   };
@@ -56,26 +55,27 @@ const BookingForm = () => {
   const handleNext = () => {
     if (currentStep === 1) {
       if (!formData.fullName || !formData.email || !formData.phone || !formData.address) {
-        toast.error("Veuillez remplir tous les champs obligatoires")
-        return
+        toast.error("Veuillez remplir tous les champs obligatoires");
+        return;
       }
     } else if (currentStep === 2 && car.type === "location") {
       if (!formData.rentalDuration) {
-        toast.error("Veuiilez sélectionner une durée de location");
-        return
+        toast.error("Veuillez sélectionner une durée de location");
+        return;
       }
     }
     setCurrentStep(currentStep + 1);
-  }
+  };
 
   const handlePrevious = () => {
     setCurrentStep(currentStep - 1);
-  }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!idFront || !idBack) {
-      toast.error("Veuillez télécharger les deux photos de votre pièce d'identité");
+    
+    if (!idFront || !idBack || !drivingLicense) {
+      toast.error("Veuillez télécharger toutes les pièces justificatives");
       return;
     }
 
@@ -110,7 +110,7 @@ const BookingForm = () => {
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Car Summary */}
-          <Card className="lg:col-span-1">
+          <Card className="lg:col-span-1 h-fit lg:sticky lg:top-4">
             <CardHeader>
               <CardTitle className="font-heading">Récapitulatif</CardTitle>
             </CardHeader>
@@ -137,14 +137,14 @@ const BookingForm = () => {
                 </div>
               </div>
 
+              {/* Progress Indicator */}
               <div className="mt-6 pt-6 border-t">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-medium">Étape {currentStep}/3</span>
                   <span className="text-sm text-muted-foreground">{Math.round((currentStep / 3) * 100)}%</span>
                 </div>
-
                 <div className="w-full bg-secondary rounded-full h-2">
-                  <div
+                  <div 
                     className="bg-primary h-2 rounded-full transition-all duration-300"
                     style={{ width: `${(currentStep / 3) * 100}%` }}
                   />
@@ -158,8 +158,8 @@ const BookingForm = () => {
             <CardHeader>
               <CardTitle className="font-heading text-2xl">
                 {currentStep === 1 && "Informations personnelles"}
-                {currentStep === 2 && "Détailes de la réservation"}
-                {currentStep === 3 && "Document et paiement"}
+                {currentStep === 2 && "Détails de la réservation"}
+                {currentStep === 3 && "Documents et paiement"}
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
                 {currentStep === 1 && "Veuillez renseigner vos coordonnées"}
@@ -169,57 +169,71 @@ const BookingForm = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit}>
-                {/* step1: Informations personnelles */}
+                {/* Step 1: Personal Information */}
                 {currentStep === 1 && (
                   <div className="space-y-6 animate-fade-in">
                     <div className="grid gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="fullName">Nom Complet *</Label>
+                        <Label htmlFor="fullName">Nom complet *</Label>
                         <Input
-                          id="fullName" name="fullName" value={formData.fullName}
+                          id="fullName"
+                          name="fullName"
+                          value={formData.fullName}
                           onChange={handleInputChange}
-                          required placeholder="Jean Dupont"
+                          required
+                          placeholder="Jean Dupont"
                         />
                       </div>
-
+                      
                       <div className="space-y-2">
                         <Label htmlFor="email">Email *</Label>
                         <Input
-                          id="email" name="email" value={formData.email}
-                          type="email" onChange={handleInputChange}
-                          required placeholder="Jd@gmail.com"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="phone">Telephone *</Label>
-                        <Input
-                          id="phone" name="phone" value={formData.phone}
-                          type="tel" onChange={handleInputChange}
-                          required placeholder="+225 07 08 09 10 11"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="address">Votre Adresse *</Label>
-                        <Input
-                          id="address" name="address" value={formData.address}
+                          id="email"
+                          name="email"
+                          type="email"
+                          value={formData.email}
                           onChange={handleInputChange}
-                          required placeholder="Yopougon"
+                          required
+                          placeholder="jean.dupont@example.com"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">Téléphone *</Label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          required
+                          placeholder="+33 6 12 34 56 78"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="address">Adresse complète *</Label>
+                        <Input
+                          id="address"
+                          name="address"
+                          value={formData.address}
+                          onChange={handleInputChange}
+                          required
+                          placeholder="123 Rue de la Paix, Paris"
                         />
                       </div>
                     </div>
                   </div>
                 )}
 
-                {/* Step2: Details de location */}
+                {/* Step 2: Rental Details */}
                 {currentStep === 2 && (
                   <div className="space-y-6 animate-fade-in">
                     {car.type === "location" && (
                       <div className="space-y-2">
                         <Label htmlFor="rentalDuration" className="flex items-center gap-2">
                           <Calendar className="h-4 w-4" />
-                          Durée de la location *
+                          Durée de location *
                         </Label>
                         <Select
                           value={formData.rentalDuration}
@@ -235,15 +249,16 @@ const BookingForm = () => {
                             <SelectItem value="2-semaines">2 semaines</SelectItem>
                             <SelectItem value="1-mois">1 mois</SelectItem>
                             <SelectItem value="3-mois">3 mois</SelectItem>
+                            <SelectItem value="6-mois">6 mois</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     )}
 
                     <div className="space-y-4">
-                      <Label>
+                      <Label className="flex items-center gap-2">
                         <MapPin className="h-4 w-4" />
-                        Option de livraison *
+                        Options de livraison *
                       </Label>
                       <RadioGroup
                         value={formData.deliveryOption}
@@ -256,12 +271,11 @@ const BookingForm = () => {
                             <div className="text-sm text-muted-foreground">Gratuit - Venez récupérer le véhicule à notre agence</div>
                           </Label>
                         </div>
-
                         <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-smooth cursor-pointer">
                           <RadioGroupItem value="home" id="home" />
                           <Label htmlFor="home" className="cursor-pointer flex-1">
-                            <div className="font-medium">Livraison à domicie</div>
-                            <div className="text-sm text-muted-foreground">15000Fcfa - Le véhicule est livré à votre adresse</div>
+                            <div className="font-medium">Livraison à domicile</div>
+                            <div className="text-sm text-muted-foreground">+50€ - Le véhicule est livré à votre adresse</div>
                           </Label>
                         </div>
                       </RadioGroup>
@@ -276,7 +290,7 @@ const BookingForm = () => {
                         <Checkbox
                           id="technicalVisit"
                           checked={formData.technicalVisit}
-                          onCheckedChange={(checked) =>
+                          onCheckedChange={(checked) => 
                             setFormData({ ...formData, technicalVisit: checked as boolean })
                           }
                         />
@@ -356,10 +370,10 @@ const BookingForm = () => {
                             className="cursor-pointer"
                             required
                           />
-                          {driveLicence && (
+                          {drivingLicense && (
                             <p className="text-sm text-[hsl(var(--success))] mt-2 flex items-center gap-2">
                               <Upload className="h-4 w-4" />
-                              {driveLicence.name}
+                              {drivingLicense.name}
                             </p>
                           )}
                         </div>

@@ -3,10 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Car, Shield, Zap, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-car.jpg";
+import { useScrollAnimation } from "@/hooks/useAnimation";
 
 const Landing = () => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
+  const { elementRef: featuresRef, isVisible: featuresVisible } = useScrollAnimation();
+  const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation();
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
@@ -51,7 +54,7 @@ const Landing = () => {
               <span className="text-primary block mt-2">voiture idéale</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in-slow">
-              Achetez ou louez la voiture de vos rêves avec DriveHub. 
+              Revendez, achetez ou louez la voiture de vos rêves avec Vroom Ci.
               Des centaines de véhicules vérifiés vous attendent.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-slow">
@@ -86,20 +89,27 @@ const Landing = () => {
 
       {/* Features Section */}
       <section className="py-20 bg-secondary/30">
-        <div className="container mx-auto px-4">
-          <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
-            Pourquoi choisir DriveHub ?
-          </h2>
-          <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
-            Une plateforme innovante qui révolutionne l'achat et la location de véhicules
-          </p>
+        <div
+          ref={featuresRef}
+          className="container mx-auto px-4">
+          <div className={`transition-all duration-700 ${featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
+              Pourquoi choisir DriveHub ?
+            </h2>
+            <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
+              Une plateforme innovante qui révolutionne l'achat et la location de véhicules
+            </p>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className="bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-smooth animate-fade-in"
-                style={{ animationDelay: `${index * 150}ms` }}
+                className={`bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all duration-700 ${
+                  featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: featuresVisible ? `${index * 150}ms` : '0ms' }}
               >
                 <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
                   <feature.icon className="h-7 w-7 text-primary" />
@@ -118,7 +128,12 @@ const Landing = () => {
 
       {/* CTA Section */}
       <section className="py-20 gradient-primary">
-        <div className="container mx-auto px-4 text-center">
+        <div 
+        ref={ctaRef}
+        className={`container mx-auto px-4 text-center transition-all duration-700 ${
+            ctaVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}>
+            
           <h2 className="font-heading text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
             Prêt à trouver votre voiture ?
           </h2>

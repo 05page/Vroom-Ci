@@ -28,9 +28,6 @@ interface CarData {
   mileage: string;
   fuel: string;
   transmission: string;
-  likes: number;
-  comments: number;
-  favorites: number;
   trending?: boolean;
 }
 
@@ -40,79 +37,56 @@ const Vehicles = () => {
       id: "1",
       name: "Mercedes-Benz GLE 350",
       type: "vente",
-      price: "68 500 €",
+      price: "50 000 000 Fcfa",
       image: car1,
       images: [car1, car2, car3, car4],
       year: 2023,
       mileage: "12 000 km",
       fuel: "Hybride",
       transmission: "Automatique",
-      likes: 245,
-      comments: 38,
-      favorites: 89,
       trending: true,
     },
     {
       id: "2",
       name: "Porsche 911 Carrera",
       type: "vente",
-      price: "125 000 €",
+      price: "250 000 000 Fcfa",
       image: car2,
       images: [car2, car1, car4, car3],
       year: 2024,
       mileage: "5 000 km",
       fuel: "Essence",
       transmission: "Automatique",
-      likes: 512,
-      comments: 94,
-      favorites: 203,
       trending: true,
     },
     {
       id: "3",
       name: "Tesla Model 3",
       type: "location",
-      price: "89 €/jour",
+      price: "35 000 Fcfa/jour",
       image: car3,
       images: [car3, car4, car1, car2],
       year: 2023,
       mileage: "25 000 km",
       fuel: "Électrique",
       transmission: "Automatique",
-      likes: 387,
-      comments: 62,
-      favorites: 156,
     },
     {
       id: "4",
       name: "BMW X5 M Sport",
       type: "location",
-      price: "120 €/jour",
+      price: "50 000 Fcfa/jour",
       image: car4,
       images: [car4, car3, car2, car1],
       year: 2024,
       mileage: "8 000 km",
       fuel: "Diesel",
       transmission: "Automatique",
-      likes: 298,
-      comments: 45,
-      favorites: 124,
     },
   ]);
 
   const [filter, setFilter] = useState<"tous" | "vente" | "location">("tous");
   const [selectedCar, setSelectedCar] = useState<CarData | null>(null);
-  const [showComments, setShowComments] = useState<string | null>(null);
-  const [newComment, setNewComment] = useState("");
-
-  const handleLike = (carId: string) => {
-    setCars(cars.map(car => 
-      car.id === carId ? { ...car, likes: car.likes + 1 } : car
-    ));
-    toast.success("❤️ J'aime ajouté !", {
-      description: "Vous aimez ce véhicule",
-    });
-  };
 
   const handleFavorite = (carName: string) => {
     toast.success(`⭐ ${carName} ajouté aux favoris`, {
@@ -122,19 +96,6 @@ const Vehicles = () => {
 
   const handleViewDetails = (car: CarData) => {
     setSelectedCar(car);
-  };
-
-  const handleAddComment = (carId: string) => {
-    if (!newComment.trim()) return;
-    
-    setCars(cars.map(car => 
-      car.id === carId ? { ...car, comments: car.comments + 1 } : car
-    ));
-    toast.success("💬 Commentaire ajouté !", {
-      description: "Votre commentaire a été publié avec succès",
-    });
-    setNewComment("");
-    setShowComments(null);
   };
 
   const handleContactSeller = () => {
@@ -155,8 +116,8 @@ const Vehicles = () => {
     });
   };
 
-  const filteredCars = filter === "tous" 
-    ? cars 
+  const filteredCars = filter === "tous"
+    ? cars
     : cars.filter(car => car.type === filter);
 
   return (
@@ -178,22 +139,22 @@ const Vehicles = () => {
             {filteredCars.length} véhicule{filteredCars.length > 1 ? 's' : ''} disponible{filteredCars.length > 1 ? 's' : ''}
           </h2>
           <div className="flex gap-2 flex-wrap">
-            <Button 
-              variant={filter === "tous" ? "default" : "outline"} 
+            <Button
+              variant={filter === "tous" ? "default" : "outline"}
               size="sm"
               onClick={() => setFilter("tous")}
             >
               Tous ({cars.length})
             </Button>
-            <Button 
-              variant={filter === "vente" ? "default" : "outline"} 
+            <Button
+              variant={filter === "vente" ? "default" : "outline"}
               size="sm"
               onClick={() => setFilter("vente")}
             >
               Vente ({cars.filter(c => c.type === "vente").length})
             </Button>
-            <Button 
-              variant={filter === "location" ? "default" : "outline"} 
+            <Button
+              variant={filter === "location" ? "default" : "outline"}
               size="sm"
               onClick={() => setFilter("location")}
             >
@@ -205,8 +166,8 @@ const Vehicles = () => {
         {/* Cars Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 animate-fade-in">
           {filteredCars.map((car, index) => (
-            <Card 
-              key={car.id} 
+            <Card
+              key={car.id}
               className="overflow-hidden shadow-card hover:shadow-hover transition-smooth group"
               style={{ animationDelay: `${index * 150}ms` }}
             >
@@ -264,33 +225,15 @@ const Vehicles = () => {
                   </div>
                 </div>
 
-                {/* Stats */}
-                <div className="flex items-center justify-between pt-4 border-t">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleLike(car.id)}
-                    className="flex items-center gap-2 hover:text-primary"
-                  >
-                    <Heart className="h-4 w-4 fill-primary" />
-                    <span className="font-medium">{car.likes}</span>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowComments(showComments === car.id ? null : car.id)}
-                    className="flex items-center gap-2 hover:text-primary"
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                    <span className="font-medium">{car.comments}</span>
-                  </Button>
+                <div className="pt-4 border-t">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm">
-                        <MoreVertical className="h-4 w-4" />
+                      <Button variant="outline" className="w-full">
+                        <MoreVertical className="mr-2 h-4 w-4" />
+                        Actions
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="bg-background">
+                    <DropdownMenuContent align="end" className="bg-background w-56">
                       <DropdownMenuItem onClick={handleContactSeller}>
                         <Send className="mr-2 h-4 w-4" />
                         Discuter avec le vendeur
@@ -306,30 +249,8 @@ const Vehicles = () => {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-
-                {/* Comment Section */}
-                {showComments === car.id && (
-                  <div className="mt-4 p-4 bg-secondary/20 rounded-lg space-y-3">
-                    <h4 className="font-semibold text-sm">Ajouter un commentaire</h4>
-                    <Textarea
-                      placeholder="Votre commentaire..."
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
-                      rows={3}
-                    />
-                    <Button 
-                      size="sm" 
-                      onClick={() => handleAddComment(car.id)}
-                      className="w-full"
-                    >
-                      <Send className="mr-2 h-4 w-4" />
-                      Envoyer
-                    </Button>
-                  </div>
-                )}
-
-                <Button 
-                  variant="default" 
+                <Button
+                  variant="default"
                   className="w-full mt-4"
                   onClick={() => handleViewDetails(car)}
                 >

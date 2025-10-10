@@ -98,9 +98,9 @@ const Messages = () => {
 
   return (
     <div className="h-[calc(100vh-4rem)] bg-secondary/20">
-      <div className="h-full flex">
+      <div className="h-full flex flex-col md:flex-row">
         {/* Conversations List */}
-        <div className="w-80 border-r bg-background flex flex-col">
+        <div className={`${selectedConversation ? 'hidden md:flex' : 'flex'} w-full md:w-80 border-r bg-background flex-col`}>
           <div className="p-4 border-b">
             <h2 className="font-heading text-2xl font-bold mb-4">Messages</h2>
             <div className="relative">
@@ -150,12 +150,20 @@ const Messages = () => {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 flex flex-col bg-background">
+        <div className={`${selectedConversation ? 'flex' : 'hidden md:flex'} flex-1 flex-col bg-background`}>
           {selectedConv ? (
             <>
               {/* Header */}
               <div className="p-4 border-b">
                 <div className="flex items-center gap-3">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="md:hidden mr-2"
+                    onClick={() => setSelectedConversation("")}
+                  >
+                    ←
+                  </Button>
                   <Avatar className="h-10 w-10">
                     <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
                       {selectedConv.initials}

@@ -4,6 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
+//cv permet de gérer des classes intelligentes, permettant de gérer facilement les variantes (styles, tailles, états, etc.)
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
@@ -33,15 +34,16 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
-}
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,//Permet à ton composant Button d’accepter toutes les props classiques d’un <button>
+    VariantProps<typeof buttonVariants>//Permet d’accepter les props définies par cva
+  {
+    asChild?: boolean; //Prop optionnelle qui indique si le bouton doit utiliser son enfant comme élément racine (via Slot) au lieu d’un <button>
+  }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>( //forwardRef permet de passer la ref vers l’élément réel
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+    const Comp = asChild ? Slot : "button";//asChild  permet de rendre un composant enfant en un autre composant, exemple: un button dans un autre button
+    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;//cn permet de fusionner les classes
   },
 );
 Button.displayName = "Button";
