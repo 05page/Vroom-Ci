@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Car, Shield, Zap, ArrowRight } from "lucide-react";
+import { Car, Shield, Zap, ArrowRight, Search, FileCheck, Key } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-car.jpg";
 import { useScrollAnimation } from "@/hooks/useAnimation";
@@ -9,6 +9,9 @@ const Landing = () => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
   const { elementRef: featuresRef, isVisible: featuresVisible } = useScrollAnimation();
+  const { elementRef: howItWorksRef, isVisible: howItWorksVisible } = useScrollAnimation();
+  const { elementRef: statsRef, isVisible: statsVisible } = useScrollAnimation();
+  const { elementRef: partnersRef, isVisible: partnersVisible } = useScrollAnimation();
   const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation();
 
   useEffect(() => {
@@ -20,18 +23,50 @@ const Landing = () => {
     {
       icon: Car,
       title: "Large Sélection",
-      description: "Des centaines de véhicules disponibles à la vente et à la location",
+      description: "Plus de 500 véhicules de toutes marques disponibles à la vente et à la location. Du citadin compact au SUV familial, trouvez le véhicule parfait pour vos besoins.",
     },
     {
       icon: Shield,
       title: "Sécurité Garantie",
-      description: "Tous nos véhicules sont vérifiés et certifiés",
+      description: "Tous nos véhicules sont rigoureusement inspectés par des experts certifiés. Garantie complète et assistance 24/7 pour votre tranquillité d'esprit.",
     },
     {
       icon: Zap,
       title: "Réservation Rapide",
-      description: "Réservez votre véhicule en quelques clics",
+      description: "Réservez votre véhicule en moins de 5 minutes grâce à notre système de réservation instantané. Paiement sécurisé et confirmation immédiate.",
     },
+  ];
+
+  const howItWorks = [
+    {
+      step: "1",
+      icon: Search,
+      title: "Recherchez",
+      description: "Parcourez notre catalogue et utilisez nos filtres avancés pour trouver le véhicule idéal selon vos critères."
+    },
+    {
+      step: "2",
+      icon: FileCheck,
+      title: "Vérifiez",
+      description: "Consultez les détails complets, photos HD, historique et rapport de vérification de chaque véhicule."
+    },
+    {
+      step: "3",
+      icon: Key,
+      title: "Réservez",
+      description: "Finalisez votre réservation en ligne de manière sécurisée et recevez une confirmation instantanée."
+    }
+  ];
+
+  const stats = [
+    { number: "500+", label: "Véhicules disponibles" },
+    { number: "2,500+", label: "Clients satisfaits" },
+    { number: "15+", label: "Années d'expérience" },
+    { number: "98%", label: "Taux de satisfaction" }
+  ];
+
+  const partners = [
+    "Toyota", "Mercedes", "BMW", "Audi", "Peugeot", "Renault"
   ];
 
   return (
@@ -61,7 +96,7 @@ const Landing = () => {
               <Button
                 variant="hero"
                 size="lg"
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/vehicles")}
                 className="text-lg"
               >
                 Explorer les véhicules
@@ -70,7 +105,7 @@ const Landing = () => {
               <Button
                 variant="outline"
                 size="lg"
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/vehicles")}
                 className="text-lg border-primary text-primary hover:bg-primary/10"
               >
                 En savoir plus
@@ -95,10 +130,10 @@ const Landing = () => {
           <div className={`transition-all duration-700 ${featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}>
             <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
-              Pourquoi choisir DriveHub ?
+              Pourquoi choisir Vroom Ci ?
             </h2>
             <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
-              Une plateforme innovante qui révolutionne l'achat et la location de véhicules
+              Une plateforme innovante qui révolutionne l'achat et la location de véhicules en Côte d'Ivoire
             </p>
           </div>
 
@@ -106,7 +141,7 @@ const Landing = () => {
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className={`bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all duration-700 ${
+                className={`bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all duration-700 hover:scale-105 ${
                   featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
                 }`}
                 style={{ transitionDelay: featuresVisible ? `${index * 150}ms` : '0ms' }}
@@ -120,6 +155,117 @@ const Landing = () => {
                 <p className="text-muted-foreground leading-relaxed">
                   {feature.description}
                 </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20">
+        <div ref={howItWorksRef} className="container mx-auto px-4">
+          <div className={`transition-all duration-700 ${howItWorksVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
+              Comment ça marche ?
+            </h2>
+            <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
+              Un processus simple et transparent en 3 étapes
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 relative">
+            {/* Connecting lines */}
+            <div className="hidden md:block absolute top-20 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+            
+            {howItWorks.map((item, index) => (
+              <div
+                key={item.step}
+                className={`relative transition-all duration-700 ${
+                  howItWorksVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: howItWorksVisible ? `${index * 200}ms` : '0ms' }}
+              >
+                <div className="bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all hover:scale-105">
+                  <div className="relative w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <item.icon className="h-8 w-8 text-primary-foreground" />
+                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-secondary rounded-full flex items-center justify-center border-2 border-background">
+                      <span className="text-sm font-bold">{item.step}</span>
+                    </div>
+                  </div>
+                  <h3 className="font-heading text-2xl font-semibold mb-3 text-center">
+                    {item.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed text-center">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 bg-secondary/30">
+        <div ref={statsRef} className="container mx-auto px-4">
+          <div className={`transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
+              Nos chiffres parlent d'eux-mêmes
+            </h2>
+            <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
+              La confiance de milliers de clients à travers la Côte d'Ivoire
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className={`text-center transition-all duration-700 ${
+                  statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: statsVisible ? `${index * 100}ms` : '0ms' }}
+              >
+                <div className="bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all hover:scale-105">
+                  <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
+                    {stat.number}
+                  </div>
+                  <div className="text-muted-foreground font-medium">
+                    {stat.label}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Partners Section */}
+      <section className="py-20">
+        <div ref={partnersRef} className="container mx-auto px-4">
+          <div className={`transition-all duration-700 ${partnersVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
+              Nos marques partenaires
+            </h2>
+            <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
+              Nous travaillons avec les plus grandes marques automobiles
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+            {partners.map((partner, index) => (
+              <div
+                key={partner}
+                className={`flex items-center justify-center transition-all duration-700 ${
+                  partnersVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: partnersVisible ? `${index * 100}ms` : '0ms' }}
+              >
+                <div className="bg-card p-6 rounded-xl shadow-card hover:shadow-hover transition-all hover:scale-110 w-full h-24 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-muted-foreground/60 hover:text-primary transition-colors">
+                    {partner}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -143,7 +289,7 @@ const Landing = () => {
           <Button
             variant="secondary"
             size="lg"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/vehicles")}
             className="text-lg font-semibold hover:scale-105 transition-smooth"
           >
             Commencer maintenant

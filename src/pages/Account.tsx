@@ -15,20 +15,10 @@ const Account = () => {
     avatar: "/placeholder.svg",
     memberSince: "Janvier 2024",
     stats: {
-      likes: 45,
-      comments: 23,
-      views: 1250,
       rentals: 8,
       sales: 3,
     },
   });
-
-  const recentActivity = [
-    { id: 1, type: "like", car: "Toyota Camry 2023", date: "Il y a 2 heures" },
-    { id: 2, type: "comment", car: "Honda Civic 2024", date: "Il y a 5 heures", text: "Belle voiture!" },
-    { id: 3, type: "like", car: "BMW X5 2023", date: "Hier" },
-    { id: 4, type: "comment", car: "Mercedes Classe E", date: "Il y a 2 jours", text: "Disponible pour essai?" },
-  ];
 
   const rentals = [
     { id: 1, car: "Toyota Camry 2023", startDate: "01/03/2024", endDate: "05/03/2024", price: "150 000 FCFA", status: "Terminée" },
@@ -71,10 +61,6 @@ const Account = () => {
                     <Edit className="h-4 w-4 mr-2" />
                     Modifier le profil
                   </Button>
-                  <Button variant="outline" size="sm">
-                    <Settings className="h-4 w-4 mr-2" />
-                    Paramètres
-                  </Button>
                 </div>
               </div>
             </div>
@@ -82,43 +68,7 @@ const Account = () => {
         </Card>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <Heart className="h-4 w-4" />
-                J'aime
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{user.stats.likes}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <MessageCircle className="h-4 w-4" />
-                Commentaires
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{user.stats.comments}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <Eye className="h-4 w-4" />
-                Vues
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{user.stats.views}</div>
-            </CardContent>
-          </Card>
-
+        <div className="flex justify-around md:grid-cols-5 gap-4">
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
@@ -151,34 +101,10 @@ const Account = () => {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="activity" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="activity">Réactions</TabsTrigger>
+              <TabsList className="flex justify-around w-full grid-cols-3">
                 <TabsTrigger value="rentals">Locations</TabsTrigger>
                 <TabsTrigger value="sales">Ventes</TabsTrigger>
               </TabsList>
-
-              <TabsContent value="activity" className="space-y-4 mt-4">
-                {recentActivity.map((activity) => (
-                  <div key={activity.id} className="flex items-start gap-4 p-4 rounded-lg border bg-card hover:bg-accent/50 transition-smooth">
-                    <div className="mt-1">
-                      {activity.type === "like" ? (
-                        <Heart className="h-5 w-5 text-primary fill-primary" />
-                      ) : (
-                        <MessageCircle className="h-5 w-5 text-primary" />
-                      )}
-                    </div>
-                    <div className="flex-1 space-y-1">
-                      <p className="text-sm font-medium">
-                        {activity.type === "like" ? "A aimé" : "A commenté"} <span className="text-primary">{activity.car}</span>
-                      </p>
-                      {activity.type === "comment" && (
-                        <p className="text-sm text-muted-foreground italic">"{activity.text}"</p>
-                      )}
-                      <p className="text-xs text-muted-foreground">{activity.date}</p>
-                    </div>
-                  </div>
-                ))}
-              </TabsContent>
 
               <TabsContent value="rentals" className="space-y-4 mt-4">
                 {rentals.map((rental) => (

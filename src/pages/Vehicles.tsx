@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -87,11 +87,33 @@ const Vehicles = () => {
 
   const [filter, setFilter] = useState<"tous" | "vente" | "location">("tous");
   const [selectedCar, setSelectedCar] = useState<CarData | null>(null);
+  const [favorite, setFavorite] = useState<Set<String>>(()=>{
+    //
+    const saved = localStorage.getItem('carFavorites')
+    console.log(saved)
+    return saved ? new Set(JSON.parse(saved)) : new Set()
+  });
+
+  // Ajoutez cet effet pour sauvegarder à chaque changement
+  useEffect(() => {
+    localStorage.setItem('carFavorites', JSON.stringify(Array.from(favorite)));
+  }, [favorite]);
+  
 
   const handleFavorite = (carName: string) => {
-    toast.success(`⭐ ${carName} ajouté aux favoris`, {
-      description: "Retrouvez-le dans votre liste de favoris",
-    });
+    setFavorite(prev => {
+      const newFavorite = new Set(prev);
+      if (newFavorite.has(carName)) {
+        newFavorite.delete(carName);
+        toast.info(`💔 ${carName} retiré des favoris`)
+      } else {
+        newFavorite.add(carName);
+        toast.success(`⭐ ${carName} ajouté aux favoris`, {
+          description: "Retrouvez-le dans votre liste de favoris",
+        });
+      }
+      return newFavorite
+    })
   };
 
   const handleViewDetails = (car: CarData) => {
@@ -193,7 +215,12 @@ const Vehicles = () => {
                   className="absolute top-4 right-4 rounded-full"
                   onClick={() => handleFavorite(car.name)}
                 >
-                  <Heart className="h-5 w-5" />
+                  <Heart
+                    className={`h-5 w-5 transition-colors ${favorite.has(car.name)
+                      ? 'fill-red-500 text-red-500'
+                      : ''
+                      }`}
+                  />
                 </Button>
               </div>
 
