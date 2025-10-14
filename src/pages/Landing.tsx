@@ -1,17 +1,25 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Car, Shield, Zap, ArrowRight, Search, FileCheck, Key } from "lucide-react";
+import { Car, Shield, Zap, ArrowRight, Search, FileCheck, Key, ChevronDown, UserPlus, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-car.jpg";
 import { useScrollAnimation } from "@/hooks/useAnimation";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Landing = () => {
   const [isVisible, setIsVisible] = useState(false);
+  // const [currentPartnerIndex, setCurrentPartnerIndex] = useState(0);
   const navigate = useNavigate();
   const { elementRef: featuresRef, isVisible: featuresVisible } = useScrollAnimation();
   const { elementRef: howItWorksRef, isVisible: howItWorksVisible } = useScrollAnimation();
   const { elementRef: statsRef, isVisible: statsVisible } = useScrollAnimation();
   const { elementRef: partnersRef, isVisible: partnersVisible } = useScrollAnimation();
+  const { elementRef: faqRef, isVisible: faqVisible } = useScrollAnimation();
   const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation();
 
   useEffect(() => {
@@ -19,21 +27,40 @@ const Landing = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Auto-slide pour les partenaires
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentPartnerIndex((prev) => (prev + 1) % partners.length);
+  //   }, 3000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
+  // const nextPartner = () => {
+  //   setCurrentPartnerIndex((prev) => (prev + 1) % partners.length);
+  // };
+
+  // const prevPartner = () => {
+  //   setCurrentPartnerIndex((prev) => (prev - 1 + partners.length) % partners.length);
+  // };
+
   const features = [
     {
       icon: Car,
       title: "Large Sélection",
-      description: "Plus de 500 véhicules de toutes marques disponibles à la vente et à la location. Du citadin compact au SUV familial, trouvez le véhicule parfait pour vos besoins.",
+      description: "Plus de 10 véhicules de toutes marques disponibles à la vente et à la location. Du citadin compact au SUV familial, trouvez le véhicule parfait pour vos besoins.",
+      highlight: "Faites-vous livrer en un clic"
     },
     {
       icon: Shield,
       title: "Sécurité Garantie",
       description: "Tous nos véhicules sont rigoureusement inspectés par des experts certifiés. Garantie complète et assistance 24/7 pour votre tranquillité d'esprit.",
+      highlight: "Assistance disponible 24/7"
     },
     {
       icon: Zap,
       title: "Réservation Rapide",
       description: "Réservez votre véhicule en moins de 5 minutes grâce à notre système de réservation instantané. Paiement sécurisé et confirmation immédiate.",
+      highlight: "Confirmation en moins de 5 min"
     },
   ];
 
@@ -59,14 +86,64 @@ const Landing = () => {
   ];
 
   const stats = [
-    { number: "500+", label: "Véhicules disponibles" },
-    { number: "2,500+", label: "Clients satisfaits" },
-    { number: "15+", label: "Années d'expérience" },
+    { number: "8+", label: "Véhicules disponibles" },
+    { number: "2+", label: "Clients satisfaits" },
+    { number: "2+", label: "mois d'expérience" },
     { number: "98%", label: "Taux de satisfaction" }
   ];
 
-  const partners = [
-    "Toyota", "Mercedes", "BMW", "Audi", "Peugeot", "Renault"
+  // const partners = [
+  //   { 
+  //     name: "Toyota", 
+  //     logo: "https://cdn.freebiesupply.com/logos/large/2x/toyota-6-logo-png-transparent.png"
+  //   },
+  //   { 
+  //     name: "Mercedes", 
+  //     logo: "https://www.carlogos.org/logo/Mercedes-Benz-logo-2011-1920x1080.png"
+  //   },
+  //   { 
+  //     name: "BMW", 
+  //     logo: "https://www.carlogos.org/logo/BMW-logo-2020-grey.png"
+  //   },
+  //   { 
+  //     name: "Audi", 
+  //     logo: "https://www.carlogos.org/logo/Audi-logo-2009-1920x1080.png"
+  //   },
+  //   { 
+  //     name: "Peugeot", 
+  //     logo: "https://www.carlogos.org/logo/Peugeot-logo-2010-640x550.png"
+  //   },
+  //   { 
+  //     name: "Renault", 
+  //     logo: "https://www.carlogos.org/logo/Renault-logo-2015-2048x2048.png"
+  //   }
+  // ];
+
+  const faqs = [
+    {
+      question: "Comment puis-je réserver un véhicule ?",
+      answer: "C'est très simple ! Parcourez notre catalogue, sélectionnez le véhicule qui vous intéresse, cliquez sur 'Réserver' et suivez les étapes. Vous recevrez une confirmation instantanée par email et SMS."
+    },
+    {
+      question: "Quels sont les documents nécessaires pour louer une voiture ?",
+      answer: "Vous aurez besoin d'une pièce d'identité valide (CNI ou passeport), un permis de conduire en cours de validité, et une preuve de domicile. Pour certains véhicules haut de gamme, un justificatif de revenus peut être demandé."
+    },
+    {
+      question: "Puis-je annuler ma réservation ?",
+      answer: "Oui, vous pouvez annuler votre réservation jusqu'à 24h avant la date prévue sans frais. Pour les annulations tardives, des frais peuvent s'appliquer selon nos conditions générales."
+    },
+    {
+      question: "Les véhicules sont-ils assurés ?",
+      answer: "Absolument ! Tous nos véhicules sont couverts par une assurance tous risques. Vous pouvez également souscrire à des options d'assurance complémentaires lors de la réservation."
+    },
+    {
+      question: "Proposez-vous la livraison du véhicule ?",
+      answer: "Oui, nous offrons un service de livraison à domicile ou à l'aéroport dans toute la région d'Abidjan. Des frais de livraison peuvent s'appliquer selon la distance."
+    },
+    {
+      question: "Comment fonctionne l'achat d'un véhicule ?",
+      answer: "Pour acheter un véhicule, sélectionnez l'option 'Acheter', prenez rendez-vous pour un essai, puis finalisez l'achat. Nous nous occupons de toute la paperasse et vous accompagnons dans les démarches administratives."
+    }
   ];
 
   return (
@@ -101,14 +178,6 @@ const Landing = () => {
               >
                 Explorer les véhicules
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() => navigate("/vehicles")}
-                className="text-lg border-primary text-primary hover:bg-primary/10"
-              >
-                En savoir plus
               </Button>
             </div>
           </div>
@@ -152,9 +221,13 @@ const Landing = () => {
                 <h3 className="font-heading text-2xl font-semibold mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed mb-4">
                   {feature.description}
                 </p>
+                <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">
+                  <Zap className="h-4 w-4" />
+                  {feature.highlight}
+                </div>
               </div>
             ))}
           </div>
@@ -240,34 +313,37 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Partners Section */}
-      <section className="py-20">
-        <div ref={partnersRef} className="container mx-auto px-4">
-          <div className={`transition-all duration-700 ${partnersVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+      {/* FAQ Section */}
+      <section className="py-20 bg-secondary/30">
+        <div ref={faqRef} className="container mx-auto px-4">
+          <div className={`transition-all duration-700 ${faqVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
-              Nos marques partenaires
+              Questions fréquentes
             </h2>
             <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
-              Nous travaillons avec les plus grandes marques automobiles
+              Retrouvez les réponses aux questions les plus posées par nos clients
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            {partners.map((partner, index) => (
-              <div
-                key={partner}
-                className={`flex items-center justify-center transition-all duration-700 ${
-                  partnersVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-                }`}
-                style={{ transitionDelay: partnersVisible ? `${index * 100}ms` : '0ms' }}
-              >
-                <div className="bg-card p-6 rounded-xl shadow-card hover:shadow-hover transition-all hover:scale-110 w-full h-24 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-muted-foreground/60 hover:text-primary transition-colors">
-                    {partner}
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className={`max-w-3xl mx-auto transition-all duration-700 ${
+            faqVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          }`}>
+            <Accordion type="single" collapsible className="space-y-4">
+              {faqs.map((faq, index) => (
+                <AccordionItem 
+                  key={index} 
+                  value={`item-${index}`}
+                  className="bg-card rounded-xl shadow-card hover:shadow-hover transition-all px-6 border-none"
+                >
+                  <AccordionTrigger className="text-left hover:no-underline py-6">
+                    <span className="font-semibold text-lg pr-4">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground pb-6 leading-relaxed">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </div>
       </section>
@@ -286,15 +362,26 @@ const Landing = () => {
           <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
             Rejoignez des milliers d'utilisateurs satisfaits et découvrez notre sélection exceptionnelle
           </p>
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={() => navigate("/vehicles")}
-            className="text-lg font-semibold hover:scale-105 transition-smooth"
-          >
-            Commencer maintenant
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button
+              variant="secondary"
+              size="lg"
+              onClick={() => navigate("/vehicles")}
+              className="text-lg font-semibold hover:scale-105 transition-smooth"
+            >
+              Commencer maintenant
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => navigate("/signup")}
+              className="text-lg font-semibold hover:scale-105 transition-smooth bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground/10"
+            >
+              <UserPlus className="mr-2 h-5 w-5" />
+              Créer un compte
+            </Button>
+          </div>
         </div>
       </section>
     </div>

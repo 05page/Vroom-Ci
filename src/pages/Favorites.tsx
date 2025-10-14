@@ -59,14 +59,12 @@ const Favorites = () => {
   ]);
 
   const [selectedCar, setSelectedCar] = useState<CarData | null>(null);
-  const [showComments, setShowComments] = useState<string | null>(null);
-  const [newComment, setNewComment] = useState("");
 
   const handleRemoveFavorite = (carId: string, carName: string) => {
     setFavoriteCars(favoriteCars.filter(car => car.id !== carId));
     toast.success(`${carName} retiré des favoris`);
   };
-  
+
   const handleViewDetails = (car: CarData) => {
     setSelectedCar(car);
   };
@@ -113,8 +111,8 @@ const Favorites = () => {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 animate-fade-in">
             {favoriteCars.map((car, index) => (
-              <Card 
-                key={car.id} 
+              <Card
+                key={car.id}
                 className="overflow-hidden shadow-card hover:shadow-hover transition-smooth group"
                 style={{ animationDelay: `${index * 150}ms` }}
               >
@@ -172,13 +170,40 @@ const Favorites = () => {
                     </div>
                   </div>
 
-                  <Button 
-                    variant="default" 
-                    className="w-full mt-4"
-                    onClick={() => handleViewDetails(car)}
-                  >
-                    Voir les détails
-                  </Button>
+                  <div className="flex gap-5 justify-around border-t">
+                    <div className="flex-1">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" className="w-full mt-4">
+                            Actions
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="bg-background w-56">
+                          <DropdownMenuItem onClick={handleContactSeller}>
+                            <Send className="mr-2 h-4 w-4" />
+                            Discuter avec le vendeur
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={handleReport}>
+                            <AlertCircle className="mr-2 h-4 w-4" />
+                            Signaler un problème
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleShare(car.name)}>
+                            <Share2 className="mr-2 h-4 w-4" />
+                            Partager
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+
+                    <Button
+                      variant="default"
+                      className="flex-1 mt-4"
+                      onClick={() => handleViewDetails(car)}
+                    >
+                      Voir les détails
+                    </Button>
+                  </div>
+
                 </CardContent>
               </Card>
             ))}

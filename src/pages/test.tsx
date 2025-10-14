@@ -1,465 +1,493 @@
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
-import { ArrowLeft, Upload, CreditCard, Calendar, MapPin, ClipboardCheck } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Car, Shield, Zap, ArrowRight, Search, FileCheck, Key, ChevronDown, UserPlus, ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import heroImage from "@/assets/hero-car.jpg";
+import { useScrollAnimation } from "@/hooks/useAnimation";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-const BookingForm = () => {
-  const location = useLocation();
+const Landing = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentPartnerIndex, setCurrentPartnerIndex] = useState(0);
   const navigate = useNavigate();
-  const car = location.state?.car;
+  const { elementRef: featuresRef, isVisible: featuresVisible } = useScrollAnimation();
+  const { elementRef: howItWorksRef, isVisible: howItWorksVisible } = useScrollAnimation();
+  const { elementRef: statsRef, isVisible: statsVisible } = useScrollAnimation();
+  const { elementRef: partnersRef, isVisible: partnersVisible } = useScrollAnimation();
+  const { elementRef: faqRef, isVisible: faqVisible } = useScrollAnimation();
+  const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation();
 
-  const [currentStep, setCurrentStep] = useState(1);
-  
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    address: "",
-    rentalDuration: "",
-    deliveryOption: "agency",
-    technicalVisit: false,
-    paymentMethod: "mobile_money",
-  });
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
-  const [idFront, setIdFront] = useState<File | null>(null);
-  const [idBack, setIdBack] = useState<File | null>(null);
-  const [drivingLicense, setDrivingLicense] = useState<File | null>(null);
+  // Auto-slide pour les partenaires
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPartnerIndex((prev) => (prev + 1) % partners.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const nextPartner = () => {
+    setCurrentPartnerIndex((prev) => (prev + 1) % partners.length);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: "front" | "back" | "license") => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (type === "front") {
-        setIdFront(file);
-      } else if (type === "back") {
-        setIdBack(file);
-      } else {
-        setDrivingLicense(file);
-      }
+  const prevPartner = () => {
+    setCurrentPartnerIndex((prev) => (prev - 1 + partners.length) % partners.length);
+  };
+
+  const features = [
+    {
+      icon: Car,
+      title: "Large Sélection",
+      description: "Plus de 500 véhicules de toutes marques disponibles à la vente et à la location. Du citadin compact au SUV familial, trouvez le véhicule parfait pour vos besoins.",
+      highlight: "Faites-vous livrer en un clic"
+    },
+    {
+      icon: Shield,
+      title: "Sécurité Garantie",
+      description: "Tous nos véhicules sont rigoureusement inspectés par des experts certifiés. Garantie complète et assistance 24/7 pour votre tranquillité d'esprit.",
+      highlight: "Assistance disponible 24/7"
+    },
+    {
+      icon: Zap,
+      title: "Réservation Rapide",
+      description: "Réservez votre véhicule en moins de 5 minutes grâce à notre système de réservation instantané. Paiement sécurisé et confirmation immédiate.",
+      highlight: "Confirmation en moins de 5 min"
+    },
+  ];
+
+  const howItWorks = [
+    {
+      step: "1",
+      icon: Search,
+      title: "Recherchez",
+      description: "Parcourez notre catalogue et utilisez nos filtres avancés pour trouver le véhicule idéal selon vos critères."
+    },
+    {
+      step: "2",
+      icon: FileCheck,
+      title: "Vérifiez",
+      description: "Consultez les détails complets, photos HD, historique et rapport de vérification de chaque véhicule."
+    },
+    {
+      step: "3",
+      icon: Key,
+      title: "Réservez",
+      description: "Finalisez votre réservation en ligne de manière sécurisée et recevez une confirmation instantanée."
     }
-  };
+  ];
 
-  const handleNext = () => {
-    if (currentStep === 1) {
-      if (!formData.fullName || !formData.email || !formData.phone || !formData.address) {
-        toast.error("Veuillez remplir tous les champs obligatoires");
-        return;
-      }
-    } else if (currentStep === 2 && car.type === "location") {
-      if (!formData.rentalDuration) {
-        toast.error("Veuillez sélectionner une durée de location");
-        return;
-      }
+  const stats = [
+    { number: "500+", label: "Véhicules disponibles" },
+    { number: "2,500+", label: "Clients satisfaits" },
+    { number: "15+", label: "Années d'expérience" },
+    { number: "98%", label: "Taux de satisfaction" }
+  ];
+
+  const partners = [
+    { 
+      name: "Toyota", 
+      logo: "https://cdn.freebiesupply.com/logos/large/2x/toyota-6-logo-png-transparent.png"
+    },
+    { 
+      name: "Mercedes", 
+      logo: "https://www.carlogos.org/logo/Mercedes-Benz-logo-2011-1920x1080.png"
+    },
+    { 
+      name: "BMW", 
+      logo: "https://www.carlogos.org/logo/BMW-logo-2020-grey.png"
+    },
+    { 
+      name: "Audi", 
+      logo: "https://www.carlogos.org/logo/Audi-logo-2009-1920x1080.png"
+    },
+    { 
+      name: "Peugeot", 
+      logo: "https://www.carlogos.org/logo/Peugeot-logo-2010-640x550.png"
+    },
+    { 
+      name: "Renault", 
+      logo: "https://www.carlogos.org/logo/Renault-logo-2015-2048x2048.png"
     }
-    setCurrentStep(currentStep + 1);
-  };
+  ];
 
-  const handlePrevious = () => {
-    setCurrentStep(currentStep - 1);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!idFront || !idBack || !drivingLicense) {
-      toast.error("Veuillez télécharger toutes les pièces justificatives");
-      return;
+  const faqs = [
+    {
+      question: "Comment puis-je réserver un véhicule ?",
+      answer: "C'est très simple ! Parcourez notre catalogue, sélectionnez le véhicule qui vous intéresse, cliquez sur 'Réserver' et suivez les étapes. Vous recevrez une confirmation instantanée par email et SMS."
+    },
+    {
+      question: "Quels sont les documents nécessaires pour louer une voiture ?",
+      answer: "Vous aurez besoin d'une pièce d'identité valide (CNI ou passeport), un permis de conduire en cours de validité, et une preuve de domicile. Pour certains véhicules haut de gamme, un justificatif de revenus peut être demandé."
+    },
+    {
+      question: "Puis-je annuler ma réservation ?",
+      answer: "Oui, vous pouvez annuler votre réservation jusqu'à 24h avant la date prévue sans frais. Pour les annulations tardives, des frais peuvent s'appliquer selon nos conditions générales."
+    },
+    {
+      question: "Les véhicules sont-ils assurés ?",
+      answer: "Absolument ! Tous nos véhicules sont couverts par une assurance tous risques. Vous pouvez également souscrire à des options d'assurance complémentaires lors de la réservation."
+    },
+    {
+      question: "Proposez-vous la livraison du véhicule ?",
+      answer: "Oui, nous offrons un service de livraison à domicile ou à l'aéroport dans toute la région d'Abidjan. Des frais de livraison peuvent s'appliquer selon la distance."
+    },
+    {
+      question: "Comment fonctionne l'achat d'un véhicule ?",
+      answer: "Pour acheter un véhicule, sélectionnez l'option 'Acheter', prenez rendez-vous pour un essai, puis finalisez l'achat. Nous nous occupons de toute la paperasse et vous accompagnons dans les démarches administratives."
     }
-
-    toast.success("Votre demande a été envoyée avec succès !");
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 2000);
-  };
-
-  if (!car) {
-    return (
-      <div className="min-h-screen bg-secondary/20 flex items-center justify-center">
-        <Card className="p-8 text-center">
-          <p className="text-muted-foreground mb-4">Aucun véhicule sélectionné</p>
-          <Button onClick={() => navigate("/vehicles")}>Voir les véhicules</Button>
-        </Card>
-      </div>
-    );
-  }
+  ];
 
   return (
-    <div className="min-h-screen bg-secondary/20">
-      <div className="container mx-auto px-4 py-8">
-        <Button
-          variant="ghost"
-          onClick={() => navigate(-1)}
-          className="mb-6"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Retour
-        </Button>
-
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Car Summary */}
-          <Card className="lg:col-span-1 h-fit lg:sticky lg:top-4">
-            <CardHeader>
-              <CardTitle className="font-heading">Récapitulatif</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <img
-                src={car.image}
-                alt={car.name}
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-              <h3 className="font-heading text-xl font-semibold mb-2">{car.name}</h3>
-              <p className="text-2xl font-bold text-primary mb-4">{car.price}</p>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Année</span>
-                  <span className="font-medium">{car.year}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Carburant</span>
-                  <span className="font-medium">{car.fuel}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Type</span>
-                  <span className="font-medium">{car.type === "vente" ? "Achat" : "Location"}</span>
-                </div>
-              </div>
-
-              {/* Progress Indicator */}
-              <div className="mt-6 pt-6 border-t">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium">Étape {currentStep}/3</span>
-                  <span className="text-sm text-muted-foreground">{Math.round((currentStep / 3) * 100)}%</span>
-                </div>
-                <div className="w-full bg-secondary rounded-full h-2">
-                  <div 
-                    className="bg-primary h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(currentStep / 3) * 100}%` }}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Booking Form */}
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle className="font-heading text-2xl">
-                {currentStep === 1 && "Informations personnelles"}
-                {currentStep === 2 && "Détails de la réservation"}
-                {currentStep === 3 && "Documents et paiement"}
-              </CardTitle>
-              <p className="text-sm text-muted-foreground mt-2">
-                {currentStep === 1 && "Veuillez renseigner vos coordonnées"}
-                {currentStep === 2 && "Options de location et livraison"}
-                {currentStep === 3 && "Pièces justificatives et mode de paiement"}
-              </p>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit}>
-                {/* Step 1: Personal Information */}
-                {currentStep === 1 && (
-                  <div className="space-y-6 animate-fade-in">
-                    <div className="grid gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="fullName">Nom complet *</Label>
-                        <Input
-                          id="fullName"
-                          name="fullName"
-                          value={formData.fullName}
-                          onChange={handleInputChange}
-                          required
-                          placeholder="Jean Dupont"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email *</Label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          placeholder="jean.dupont@example.com"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="phone">Téléphone *</Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          required
-                          placeholder="+33 6 12 34 56 78"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="address">Adresse complète *</Label>
-                        <Input
-                          id="address"
-                          name="address"
-                          value={formData.address}
-                          onChange={handleInputChange}
-                          required
-                          placeholder="123 Rue de la Paix, Paris"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Step 2: Rental Details */}
-                {currentStep === 2 && (
-                  <div className="space-y-6 animate-fade-in">
-                    {car.type === "location" && (
-                      <div className="space-y-2">
-                        <Label htmlFor="rentalDuration" className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4" />
-                          Durée de location *
-                        </Label>
-                        <Select
-                          value={formData.rentalDuration}
-                          onValueChange={(value) => setFormData({ ...formData, rentalDuration: value })}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Sélectionner une durée" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="1-jour">1 jour</SelectItem>
-                            <SelectItem value="3-jours">3 jours</SelectItem>
-                            <SelectItem value="1-semaine">1 semaine</SelectItem>
-                            <SelectItem value="2-semaines">2 semaines</SelectItem>
-                            <SelectItem value="1-mois">1 mois</SelectItem>
-                            <SelectItem value="3-mois">3 mois</SelectItem>
-                            <SelectItem value="6-mois">6 mois</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    )}
-
-                    <div className="space-y-4">
-                      <Label className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4" />
-                        Options de livraison *
-                      </Label>
-                      <RadioGroup
-                        value={formData.deliveryOption}
-                        onValueChange={(value) => setFormData({ ...formData, deliveryOption: value })}
-                      >
-                        <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-smooth cursor-pointer">
-                          <RadioGroupItem value="agency" id="agency" />
-                          <Label htmlFor="agency" className="cursor-pointer flex-1">
-                            <div className="font-medium">Récupération en agence</div>
-                            <div className="text-sm text-muted-foreground">Gratuit - Venez récupérer le véhicule à notre agence</div>
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-smooth cursor-pointer">
-                          <RadioGroupItem value="home" id="home" />
-                          <Label htmlFor="home" className="cursor-pointer flex-1">
-                            <div className="font-medium">Livraison à domicile</div>
-                            <div className="text-sm text-muted-foreground">+50€ - Le véhicule est livré à votre adresse</div>
-                          </Label>
-                        </div>
-                      </RadioGroup>
-                    </div>
-
-                    <div className="space-y-4">
-                      <Label className="flex items-center gap-2">
-                        <ClipboardCheck className="h-4 w-4" />
-                        Options supplémentaires
-                      </Label>
-                      <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-smooth">
-                        <Checkbox
-                          id="technicalVisit"
-                          checked={formData.technicalVisit}
-                          onCheckedChange={(checked) => 
-                            setFormData({ ...formData, technicalVisit: checked as boolean })
-                          }
-                        />
-                        <Label htmlFor="technicalVisit" className="cursor-pointer flex-1">
-                          <div className="font-medium">Demander une visite technique</div>
-                          <div className="text-sm text-muted-foreground">
-                            Un expert inspectera le véhicule avant la remise
-                          </div>
-                        </Label>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Step 3: Documents & Payment */}
-                {currentStep === 3 && (
-                  <div className="space-y-6 animate-fade-in">
-                    <div className="space-y-4">
-                      <h3 className="font-heading text-lg font-semibold flex items-center gap-2">
-                        <Upload className="h-5 w-5" />
-                        Pièces justificatives *
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        Veuillez télécharger les documents suivants (formats acceptés: JPG, PNG, PDF)
-                      </p>
-
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="idFront">Pièce d'identité (Recto) *</Label>
-                          <div className="relative">
-                            <Input
-                              id="idFront"
-                              type="file"
-                              accept="image/*,.pdf"
-                              onChange={(e) => handleFileChange(e, "front")}
-                              className="cursor-pointer"
-                              required
-                            />
-                            {idFront && (
-                              <p className="text-sm text-[hsl(var(--success))] mt-2 flex items-center gap-2">
-                                <Upload className="h-4 w-4" />
-                                {idFront.name}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label htmlFor="idBack">Pièce d'identité (Verso) *</Label>
-                          <div className="relative">
-                            <Input
-                              id="idBack"
-                              type="file"
-                              accept="image/*,.pdf"
-                              onChange={(e) => handleFileChange(e, "back")}
-                              className="cursor-pointer"
-                              required
-                            />
-                            {idBack && (
-                              <p className="text-sm text-[hsl(var(--success))] mt-2 flex items-center gap-2">
-                                <Upload className="h-4 w-4" />
-                                {idBack.name}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="drivingLicense">Permis de conduire *</Label>
-                        <div className="relative">
-                          <Input
-                            id="drivingLicense"
-                            type="file"
-                            accept="image/*,.pdf"
-                            onChange={(e) => handleFileChange(e, "license")}
-                            className="cursor-pointer"
-                            required
-                          />
-                          {drivingLicense && (
-                            <p className="text-sm text-[hsl(var(--success))] mt-2 flex items-center gap-2">
-                              <Upload className="h-4 w-4" />
-                              {drivingLicense.name}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-4 pt-4 border-t">
-                      <Label className="flex items-center gap-2 text-lg font-semibold">
-                        <CreditCard className="h-5 w-5" />
-                        Modalité de paiement *
-                      </Label>
-                      <RadioGroup
-                        value={formData.paymentMethod}
-                        onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}
-                      >
-                        <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-smooth cursor-pointer">
-                          <RadioGroupItem value="mobile_money" id="mobile_money" />
-                          <Label htmlFor="mobile_money" className="cursor-pointer flex-1">
-                            <div className="font-medium">Mobile Money</div>
-                            <div className="text-sm text-muted-foreground">Orange Money, MTN Money, Moov Money</div>
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-smooth cursor-pointer">
-                          <RadioGroupItem value="card" id="card" />
-                          <Label htmlFor="card" className="cursor-pointer flex-1">
-                            <div className="font-medium">Carte bancaire</div>
-                            <div className="text-sm text-muted-foreground">Visa, Mastercard, American Express</div>
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-smooth cursor-pointer">
-                          <RadioGroupItem value="bank_transfer" id="bank_transfer" />
-                          <Label htmlFor="bank_transfer" className="cursor-pointer flex-1">
-                            <div className="font-medium">Virement bancaire</div>
-                            <div className="text-sm text-muted-foreground">Paiement par virement (délai de 2-3 jours)</div>
-                          </Label>
-                        </div>
-                      </RadioGroup>
-                    </div>
-                  </div>
-                )}
-
-                {/* Navigation Buttons */}
-                <div className="flex gap-4 pt-6 mt-6 border-t">
-                  {currentStep > 1 && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="lg"
-                      onClick={handlePrevious}
-                      className="flex-1"
-                    >
-                      Précédent
-                    </Button>
-                  )}
-                  {currentStep < 3 ? (
-                    <Button
-                      type="button"
-                      size="lg"
-                      onClick={handleNext}
-                      className="flex-1"
-                    >
-                      Suivant
-                    </Button>
-                  ) : (
-                    <Button type="submit" size="lg" className="flex-1">
-                      Envoyer la demande
-                    </Button>
-                  )}
-                  {currentStep === 1 && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="lg"
-                      onClick={() => navigate(-1)}
-                    >
-                      Annuler
-                    </Button>
-                  )}
-                </div>
-              </form>
-            </CardContent>
-          </Card>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center gradient-hero overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={heroImage}
+            alt="Luxury car"
+            className="w-full h-full object-cover opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
         </div>
-      </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className={`max-w-2xl transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <h1 className="font-heading text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
+              Trouvez votre
+              <span className="text-primary block mt-2">voiture idéale</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in-slow">
+              Revendez, achetez ou louez la voiture de vos rêves avec Vroom Ci.
+              Des centaines de véhicules vérifiés vous attendent.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-slow">
+              <Button
+                variant="hero"
+                size="lg"
+                onClick={() => navigate("/vehicles")}
+                className="text-lg"
+              >
+                Explorer les véhicules
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => navigate("/signup")}
+                className="text-lg border-primary text-primary hover:bg-primary/10"
+              >
+                <UserPlus className="mr-2 h-5 w-5" />
+                Créer un compte
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse-slow">
+          <div className="w-6 h-10 border-2 border-primary rounded-full flex items-start justify-center p-2">
+            <div className="w-1.5 h-3 bg-primary rounded-full animate-bounce" />
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 bg-secondary/30">
+        <div
+          ref={featuresRef}
+          className="container mx-auto px-4">
+          <div className={`transition-all duration-700 ${featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
+              Pourquoi choisir Vroom Ci ?
+            </h2>
+            <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
+              Une plateforme innovante qui révolutionne l'achat et la location de véhicules en Côte d'Ivoire
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <div
+                key={feature.title}
+                className={`bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all duration-700 hover:scale-105 ${
+                  featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: featuresVisible ? `${index * 150}ms` : '0ms' }}
+              >
+                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                  <feature.icon className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="font-heading text-2xl font-semibold mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed mb-4">
+                  {feature.description}
+                </p>
+                <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">
+                  <Zap className="h-4 w-4" />
+                  {feature.highlight}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20">
+        <div ref={howItWorksRef} className="container mx-auto px-4">
+          <div className={`transition-all duration-700 ${howItWorksVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
+              Comment ça marche ?
+            </h2>
+            <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
+              Un processus simple et transparent en 3 étapes
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 relative">
+            {/* Connecting lines */}
+            <div className="hidden md:block absolute top-20 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+            
+            {howItWorks.map((item, index) => (
+              <div
+                key={item.step}
+                className={`relative transition-all duration-700 ${
+                  howItWorksVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: howItWorksVisible ? `${index * 200}ms` : '0ms' }}
+              >
+                <div className="bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all hover:scale-105">
+                  <div className="relative w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <item.icon className="h-8 w-8 text-primary-foreground" />
+                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-secondary rounded-full flex items-center justify-center border-2 border-background">
+                      <span className="text-sm font-bold">{item.step}</span>
+                    </div>
+                  </div>
+                  <h3 className="font-heading text-2xl font-semibold mb-3 text-center">
+                    {item.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed text-center">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 bg-secondary/30">
+        <div ref={statsRef} className="container mx-auto px-4">
+          <div className={`transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
+              Nos chiffres parlent d'eux-mêmes
+            </h2>
+            <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
+              La confiance de milliers de clients à travers la Côte d'Ivoire
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className={`text-center transition-all duration-700 ${
+                  statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: statsVisible ? `${index * 100}ms` : '0ms' }}
+              >
+                <div className="bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all hover:scale-105">
+                  <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
+                    {stat.number}
+                  </div>
+                  <div className="text-muted-foreground font-medium">
+                    {stat.label}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Partners Section */}
+      <section className="py-20 bg-secondary/30">
+        <div ref={partnersRef} className="container mx-auto px-4">
+          <div className={`transition-all duration-700 ${partnersVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
+              Nos marques partenaires
+            </h2>
+            <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
+              Nous travaillons avec les plus grandes marques automobiles
+            </p>
+          </div>
+
+          <div className={`max-w-4xl mx-auto transition-all duration-700 ${
+            partnersVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          }`}>
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              {/* Image du partenaire */}
+              <div className="bg-card rounded-2xl shadow-card p-12 aspect-video grid place-items-center overflow-hidden">
+                <div className="relative w-full h-full">
+                  {partners.map((partner, index) => (
+                    <div
+                      key={partner.name}
+                      className={`absolute inset-0 grid place-items-center transition-all duration-500 ${
+                        index === currentPartnerIndex
+                          ? 'opacity-100 scale-100'
+                          : 'opacity-0 scale-95'
+                      }`}
+                    >
+                      <img 
+                        src={partner.logo} 
+                        alt={`${partner.name} logo`}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Informations */}
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-heading text-3xl font-bold mb-2">
+                    {partners[currentPartnerIndex].name}
+                  </h3>
+                  <div className="h-1 w-20 bg-primary rounded-full mb-4"></div>
+                  <p className="text-muted-foreground text-sm mb-2">PARTENAIRE OFFICIEL</p>
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="font-semibold">{currentPartnerIndex + 1}</span>
+                    <span className="text-muted-foreground">/</span>
+                    <span className="text-muted-foreground">{partners.length}</span>
+                  </div>
+                </div>
+
+                {/* Navigation */}
+                <div className="flex gap-3">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={prevPartner}
+                    className="rounded-full border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={nextPartner}
+                    className="rounded-full border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </Button>
+                </div>
+
+                {/* Indicateurs */}
+                <div className="flex gap-2">
+                  {partners.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentPartnerIndex(index)}
+                      className={`h-1 rounded-full transition-all ${
+                        index === currentPartnerIndex
+                          ? 'w-8 bg-primary'
+                          : 'w-6 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-secondary/30">
+        <div ref={faqRef} className="container mx-auto px-4">
+          <div className={`transition-all duration-700 ${faqVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-center mb-4">
+              Questions fréquentes
+            </h2>
+            <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
+              Retrouvez les réponses aux questions les plus posées par nos clients
+            </p>
+          </div>
+
+          <div className={`max-w-3xl mx-auto transition-all duration-700 ${
+            faqVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          }`}>
+            <Accordion type="single" collapsible className="space-y-4">
+              {faqs.map((faq, index) => (
+                <AccordionItem 
+                  key={index} 
+                  value={`item-${index}`}
+                  className="bg-card rounded-xl shadow-card hover:shadow-hover transition-all px-6 border-none"
+                >
+                  <AccordionTrigger className="text-left hover:no-underline py-6">
+                    <span className="font-semibold text-lg pr-4">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground pb-6 leading-relaxed">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 gradient-primary">
+        <div 
+        ref={ctaRef}
+        className={`container mx-auto px-4 text-center transition-all duration-700 ${
+            ctaVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}>
+            
+          <h2 className="font-heading text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
+            Prêt à trouver votre voiture ?
+          </h2>
+          <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
+            Rejoignez des milliers d'utilisateurs satisfaits et découvrez notre sélection exceptionnelle
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button
+              variant="secondary"
+              size="lg"
+              onClick={() => navigate("/vehicles")}
+              className="text-lg font-semibold hover:scale-105 transition-smooth"
+            >
+              Commencer maintenant
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => navigate("/signup")}
+              className="text-lg font-semibold hover:scale-105 transition-smooth bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground/10"
+            >
+              <UserPlus className="mr-2 h-5 w-5" />
+              Créer un compte
+            </Button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
 
-export default BookingForm;
+export default Landing;

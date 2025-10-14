@@ -5,10 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { ArrowLeft, Upload, CreditCard, Calendar, MapPin, ClipboardCheck, Lock } from "lucide-react";
+import { ArrowLeft, Upload, CreditCard, Calendar, MapPin, ClipboardCheck, Smartphone, Banknote, Lock, X } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 
 const BookingForm = () => {
   const location = useLocation();
@@ -35,16 +36,15 @@ const BookingForm = () => {
     cardExpiry: "",
     cardCVV: "",
     secretCode: ""
-  })
+  });
 
   const [idFront, setIdFront] = useState<File | null>(null);
   const [idBack, setIdBack] = useState<File | null>(null);
-  const [driveLicence, setDriveLicence] = useState<File | null>(null)
+  const [driveLicence, setDriveLicence] = useState<File | null>(null);
 
-  //Affichage des images sélectionner par les utilisateurs
-  const [idFrontPreview, setIdFrontPreview] = useState<String | null>(null)
-  const [idBackPreview, setIdBackPreview] = useState<String | null>(null)
-  const [idDriveLicencePreview, setIdDriveLicencePreview] = useState<String | null>(null)
+  const [idFrontPreview, setIdFrontPreview] = useState<string | null>(null);
+  const [idBackPreview, setIdBackPreview] = useState<string | null>(null);
+  const [driveLicencePreview, setDriveLicencePreview] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -55,36 +55,37 @@ const BookingForm = () => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: "front" | "back" | "license") => {
     const file = e.target.files?.[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const preview = reader.result as string;
-      if (type === "front") {
-        setIdFront(file);
-        setIdFrontPreview(preview)
-      } else if (type === "back") {
-        setIdBack(file);
-        setIdBackPreview(preview)
-      } else {
-        setDriveLicence(file)
-        setIdDriveLicencePreview(preview)
-      }
-      reader.readAsDataURL(file)
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const preview = reader.result as string;
+        if (type === "front") {
+          setIdFront(file);
+          setIdFrontPreview(preview);
+        } else if (type === "back") {
+          setIdBack(file);
+          setIdBackPreview(preview);
+        } else {
+          setDriveLicence(file);
+          setDriveLicencePreview(preview);
+        }
+      };
+      reader.readAsDataURL(file);
     }
-
   };
 
-  const handleRemove = (type: "front" | "back" | "license") => {
+  const removeFile = (type: "front" | "back" | "license") => {
     if (type === "front") {
       setIdFront(null);
-      setIdFrontPreview(null)
+      setIdFrontPreview(null);
     } else if (type === "back") {
       setIdBack(null);
-      setIdBackPreview(null)
+      setIdBackPreview(null);
     } else {
-      setDriveLicence(null)
-      setIdDriveLicencePreview(null)
+      setDriveLicence(null);
+      setDriveLicencePreview(null);
     }
-  }
+  };
 
   const handleNext = () => {
     if (currentStep === 1) {
@@ -107,19 +108,15 @@ const BookingForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!idFront || !idBack) {
-      toast.error("Veuillez télécharger les deux photos de votre pièce d'identité");
+    if (!idFront || !idBack || !driveLicence) {
+      toast.error("Veuillez télécharger tous les documents requis");
       return;
     }
 
-    //Validation des informations de paiement
+    // Validation des informations de paiement
     if (formData.paymentMethod === "mobile_money") {
       if (!paymentData.mobileProvider || !paymentData.mobileNumber) {
         toast.error("Veuillez remplir les informations Mobile Money");
-        return;
-      }
-      if (!paymentData.secretCode || paymentData.secretCode.length < 4) {
-        toast.error("Veuillez entrer votre code secret de confirmation");
         return;
       }
     } else if (formData.paymentMethod === "card") {
@@ -128,18 +125,25 @@ const BookingForm = () => {
         return;
       }
     }
-    toast.success("Votre demande a été envoyée avec succès !");
+
+    if (!paymentData.secretCode || paymentData.secretCode.length < 4) {
+      toast.error("Veuillez entrer votre code secret de confirmation");
+      return;
+    }
+
+    toast.success("Votre demande a été envoyée avec succès ! Vous recevrez une confirmation par email.");
     setTimeout(() => {
       navigate("/vehicles");
     }, 2000);
   };
 
-  const calculeTotal = () => {
-    const basePrice = parseInt(car?.price.replace(/[^\d]/g, '') || "o")
+  // Calcul du total
+  const calculateTotal = () => {
+    const basePrice = parseInt(car?.price.replace(/[^\d]/g, '') || '0');
     const deliveryFee = formData.deliveryOption === "home" ? 15000 : 0;
     const technicalVisitFee = formData.technicalVisit ? 10000 : 0;
     return basePrice + deliveryFee + technicalVisitFee;
-  }
+  };
 
   if (!car) {
     return (
@@ -206,6 +210,7 @@ const BookingForm = () => {
                   />
                 </div>
               </div>
+
               {/* Facture */}
               <div className="mt-6 pt-6 border-t space-y-3">
                 <h4 className="font-semibold text-lg mb-3">Facture</h4>
@@ -228,7 +233,7 @@ const BookingForm = () => {
                   )}
                   <div className="flex justify-between pt-2 border-t font-bold text-lg">
                     <span>Total</span>
-                    <span className="text-primary">{calculeTotal().toLocaleString()} FCFA</span>
+                    <span className="text-primary">{calculateTotal().toLocaleString()} FCFA</span>
                   </div>
                 </div>
               </div>
@@ -386,45 +391,61 @@ const BookingForm = () => {
                       </p>
 
                       <div className="grid md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="idFront">Pièce d'identité (Recto) *</Label>
-                          <div className="relative">
-                            <Input
-                              id="idFront"
-                              type="file"
-                              accept="image/*,.pdf"
-                              onChange={(e) => handleFileChange(e, "front")}
-                              className="cursor-pointer"
-                              required
-                            />
-                            {idFront && (
-                              <p className="text-sm text-[hsl(var(--success))] mt-2 flex items-center gap-2">
-                                <Upload className="h-4 w-4" />
-                                {idFront.name}
-                              </p>
-                            )}
-                          </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="idFront">Pièce d'identité (Recto) *</Label>
+                        <div className="relative">
+                          <Input
+                            id="idFront"
+                            type="file"
+                            accept="image/*,.pdf"
+                            onChange={(e) => handleFileChange(e, "front")}
+                            className="cursor-pointer"
+                            required
+                          />
+                          {idFrontPreview && (
+                            <div className="mt-3 relative">
+                              <img src={idFrontPreview} alt="ID Front" className="w-full h-32 object-cover rounded-lg border" />
+                              <Button
+                                type="button"
+                                variant="destructive"
+                                size="sm"
+                                className="absolute top-2 right-2"
+                                onClick={() => removeFile("front")}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          )}
                         </div>
+                      </div>
 
-                        <div className="space-y-2">
-                          <Label htmlFor="idBack">Pièce d'identité (Verso) *</Label>
-                          <div className="relative">
-                            <Input
-                              id="idBack"
-                              type="file"
-                              accept="image/*,.pdf"
-                              onChange={(e) => handleFileChange(e, "back")}
-                              className="cursor-pointer"
-                              required
-                            />
-                            {idBack && (
-                              <p className="text-sm text-[hsl(var(--success))] mt-2 flex items-center gap-2">
-                                <Upload className="h-4 w-4" />
-                                {idBack.name}
-                              </p>
-                            )}
-                          </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="idBack">Pièce d'identité (Verso) *</Label>
+                        <div className="relative">
+                          <Input
+                            id="idBack"
+                            type="file"
+                            accept="image/*,.pdf"
+                            onChange={(e) => handleFileChange(e, "back")}
+                            className="cursor-pointer"
+                            required
+                          />
+                          {idBackPreview && (
+                            <div className="mt-3 relative">
+                              <img src={idBackPreview} alt="ID Back" className="w-full h-32 object-cover rounded-lg border" />
+                              <Button
+                                type="button"
+                                variant="destructive"
+                                size="sm"
+                                className="absolute top-2 right-2"
+                                onClick={() => removeFile("back")}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          )}
                         </div>
+                      </div>
                       </div>
 
                       <div className="space-y-2">
@@ -438,11 +459,19 @@ const BookingForm = () => {
                             className="cursor-pointer"
                             required
                           />
-                          {driveLicence && (
-                            <p className="text-sm text-[hsl(var(--success))] mt-2 flex items-center gap-2">
-                              <Upload className="h-4 w-4" />
-                              {driveLicence.name}
-                            </p>
+                          {driveLicencePreview && (
+                            <div className="mt-3 relative">
+                              <img src={driveLicencePreview} alt="Driver License" className="w-full h-32 object-cover rounded-lg border" />
+                              <Button
+                                type="button"
+                                variant="destructive"
+                                size="sm"
+                                className="absolute top-2 right-2"
+                                onClick={() => removeFile("license")}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -459,27 +488,37 @@ const BookingForm = () => {
                       >
                         <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-smooth cursor-pointer">
                           <RadioGroupItem value="mobile_money" id="mobile_money" />
-                          <Label htmlFor="mobile_money" className="cursor-pointer flex-1">
-                            <div className="font-medium">Mobile Money</div>
-                            <div className="text-sm text-muted-foreground">Orange Money, MTN Money, Moov Money</div>
+                          <Label htmlFor="mobile_money" className="cursor-pointer flex-1 flex items-center gap-3">
+                            <Smartphone className="h-5 w-5 text-primary" />
+                            <div>
+                              <div className="font-medium">Mobile Money</div>
+                              <div className="text-sm text-muted-foreground">Orange Money, MTN Money, Moov Money</div>
+                            </div>
                           </Label>
                         </div>
                         <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-smooth cursor-pointer">
                           <RadioGroupItem value="card" id="card" />
-                          <Label htmlFor="card" className="cursor-pointer flex-1">
-                            <div className="font-medium">Carte bancaire</div>
-                            <div className="text-sm text-muted-foreground">Visa, Mastercard, American Express</div>
+                          <Label htmlFor="card" className="cursor-pointer flex-1 flex items-center gap-3">
+                            <CreditCard className="h-5 w-5 text-primary" />
+                            <div>
+                              <div className="font-medium">Carte bancaire</div>
+                              <div className="text-sm text-muted-foreground">Visa, Mastercard, American Express</div>
+                            </div>
                           </Label>
                         </div>
                         <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-smooth cursor-pointer">
                           <RadioGroupItem value="bank_transfer" id="bank_transfer" />
-                          <Label htmlFor="bank_transfer" className="cursor-pointer flex-1">
-                            <div className="font-medium">Virement bancaire</div>
-                            <div className="text-sm text-muted-foreground">Paiement par virement (délai de 2-3 jours)</div>
+                          <Label htmlFor="bank_transfer" className="cursor-pointer flex-1 flex items-center gap-3">
+                            <Banknote className="h-5 w-5 text-primary" />
+                            <div>
+                              <div className="font-medium">Virement bancaire</div>
+                              <div className="text-sm text-muted-foreground">Paiement par virement (délai de 2-3 jours)</div>
+                            </div>
                           </Label>
                         </div>
                       </RadioGroup>
                     </div>
+
                     {/* Formulaire Mobile Money */}
                     {formData.paymentMethod === "mobile_money" && (
                       <div className="space-y-4 pt-4 animate-fade-in">
@@ -509,28 +548,6 @@ const BookingForm = () => {
                             onChange={(e) => setPaymentData({ ...paymentData, mobileNumber: e.target.value })}
                             required
                           />
-                        </div>
-
-                        <div className="space-y-4 pt-6 border-t animate-fade-in">
-                          <Label className="flex items-center gap-2 text-lg font-semibold">
-                            <Lock className="h-5 w-5" />
-                            Code secret de confirmation *
-                          </Label>
-                          <p className="text-sm text-muted-foreground">
-                            Entrez votre code secret à 4 chiffres pour confirmer la transaction
-                          </p>
-                          <div className="space-y-2">
-                            <Input
-                              id="secretCode"
-                              type="password"
-                              placeholder="••••"
-                              maxLength={4}
-                              value={paymentData.secretCode}
-                              onChange={(e) => setPaymentData({ ...paymentData, secretCode: e.target.value.replace(/\D/g, '') })}
-                              className="text-center text-2xl tracking-widest"
-                              required
-                            />
-                          </div>
                         </div>
                       </div>
                     )}
@@ -599,6 +616,29 @@ const BookingForm = () => {
                         </div>
                       </div>
                     )}
+
+                    {/* Code secret de confirmation */}
+                    <div className="space-y-4 pt-6 border-t animate-fade-in">
+                      <Label className="flex items-center gap-2 text-lg font-semibold">
+                        <Lock className="h-5 w-5" />
+                        Code secret de confirmation *
+                      </Label>
+                      <p className="text-sm text-muted-foreground">
+                        Entrez votre code secret à 4 chiffres pour confirmer la transaction
+                      </p>
+                      <div className="space-y-2">
+                        <Input
+                          id="secretCode"
+                          type="password"
+                          placeholder="••••"
+                          maxLength={4}
+                          value={paymentData.secretCode}
+                          onChange={(e) => setPaymentData({ ...paymentData, secretCode: e.target.value.replace(/\D/g, '') })}
+                          className="text-center text-2xl tracking-widest"
+                          required
+                        />
+                      </div>
+                    </div>
                   </div>
                 )}
 

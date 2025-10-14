@@ -87,7 +87,7 @@ const Vehicles = () => {
 
   const [filter, setFilter] = useState<"tous" | "vente" | "location">("tous");
   const [selectedCar, setSelectedCar] = useState<CarData | null>(null);
-  const [favorite, setFavorite] = useState<Set<String>>(()=>{
+  const [favorite, setFavorite] = useState<Set<String>>(() => {
     //
     const saved = localStorage.getItem('carFavorites')
     console.log(saved)
@@ -98,7 +98,7 @@ const Vehicles = () => {
   useEffect(() => {
     localStorage.setItem('carFavorites', JSON.stringify(Array.from(favorite)));
   }, [favorite]);
-  
+
 
   const handleFavorite = (carName: string) => {
     setFavorite(prev => {
@@ -252,37 +252,40 @@ const Vehicles = () => {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="w-full">
-                        <MoreVertical className="mr-2 h-4 w-4" />
-                        Actions
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="bg-background w-56">
-                      <DropdownMenuItem onClick={handleContactSeller}>
-                        <Send className="mr-2 h-4 w-4" />
-                        Discuter avec le vendeur
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={handleReport}>
-                        <AlertCircle className="mr-2 h-4 w-4" />
-                        Signaler un problème
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleShare(car.name)}>
-                        <Share2 className="mr-2 h-4 w-4" />
-                        Partager
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                <div className="flex gap-5 justify-around border-t">
+                  <div className="flex-1">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="w-full mt-4">
+                          Actions
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="bg-background w-56">
+                        <DropdownMenuItem onClick={handleContactSeller}>
+                          <Send className="mr-2 h-4 w-4" />
+                          Discuter avec le vendeur
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={handleReport}>
+                          <AlertCircle className="mr-2 h-4 w-4" />
+                          Signaler un problème
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleShare(car.name)}>
+                          <Share2 className="mr-2 h-4 w-4" />
+                          Partager
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+
+                  <Button
+                    variant="default"
+                    className="flex-1 mt-4"
+                    onClick={() => handleViewDetails(car)}
+                  >
+                    Voir les détails
+                  </Button>
                 </div>
-                <Button
-                  variant="default"
-                  className="w-full mt-4"
-                  onClick={() => handleViewDetails(car)}
-                >
-                  Voir les détails
-                </Button>
+
               </CardContent>
             </Card>
           ))}
