@@ -18,7 +18,7 @@ const Landing = () => {
   const { elementRef: featuresRef, isVisible: featuresVisible } = useScrollAnimation();
   const { elementRef: howItWorksRef, isVisible: howItWorksVisible } = useScrollAnimation();
   const { elementRef: statsRef, isVisible: statsVisible } = useScrollAnimation();
-  const { elementRef: partnersRef, isVisible: partnersVisible } = useScrollAnimation();
+  // const { elementRef: partnersRef, isVisible: partnersVisible } = useScrollAnimation();
   const { elementRef: faqRef, isVisible: faqVisible } = useScrollAnimation();
   const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation();
 
@@ -83,6 +83,7 @@ const Landing = () => {
       title: "Réservez",
       description: "Finalisez votre réservation en ligne de manière sécurisée et recevez une confirmation instantanée."
     }
+
   ];
 
   const stats = [
@@ -210,9 +211,8 @@ const Landing = () => {
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className={`bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all duration-700 hover:scale-105 ${
-                  featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-                }`}
+                className={`bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all duration-700 hover:scale-105 ${featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                  }`}
                 style={{ transitionDelay: featuresVisible ? `${index * 150}ms` : '0ms' }}
               >
                 <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
@@ -249,13 +249,12 @@ const Landing = () => {
           <div className="grid md:grid-cols-3 gap-8 relative">
             {/* Connecting lines */}
             <div className="hidden md:block absolute top-20 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-            
+
             {howItWorks.map((item, index) => (
               <div
                 key={item.step}
-                className={`relative transition-all duration-700 ${
-                  howItWorksVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-                }`}
+                className={`relative transition-all duration-700 ${howItWorksVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                  }`}
                 style={{ transitionDelay: howItWorksVisible ? `${index * 200}ms` : '0ms' }}
               >
                 <div className="bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all hover:scale-105">
@@ -294,9 +293,8 @@ const Landing = () => {
             {stats.map((stat, index) => (
               <div
                 key={stat.label}
-                className={`text-center transition-all duration-700 ${
-                  statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-                }`}
+                className={`text-center transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                  }`}
                 style={{ transitionDelay: statsVisible ? `${index * 100}ms` : '0ms' }}
               >
                 <div className="bg-card p-8 rounded-2xl shadow-card hover:shadow-hover transition-all hover:scale-105">
@@ -325,13 +323,12 @@ const Landing = () => {
             </p>
           </div>
 
-          <div className={`max-w-3xl mx-auto transition-all duration-700 ${
-            faqVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-          }`}>
+          <div className={`max-w-3xl mx-auto transition-all duration-700 ${faqVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}>
             <Accordion type="single" collapsible className="space-y-4">
               {faqs.map((faq, index) => (
-                <AccordionItem 
-                  key={index} 
+                <AccordionItem
+                  key={index}
                   value={`item-${index}`}
                   className="bg-card rounded-xl shadow-card hover:shadow-hover transition-all px-6 border-none"
                 >
@@ -350,12 +347,11 @@ const Landing = () => {
 
       {/* CTA Section */}
       <section className="py-20 gradient-primary">
-        <div 
-        ref={ctaRef}
-        className={`container mx-auto px-4 text-center transition-all duration-700 ${
-            ctaVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}>
-            
+        <div
+          ref={ctaRef}
+          className={`container mx-auto px-4 text-center transition-all duration-700 ${ctaVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+
           <h2 className="font-heading text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
             Prêt à trouver votre voiture ?
           </h2>
