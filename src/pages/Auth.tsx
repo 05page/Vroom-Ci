@@ -375,7 +375,7 @@ const Auth = () => {
               type="button"
               variant="outline"
               size="lg"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/auth")}
               className="flex-1 text-lg"
             >
               J'ai déjà un compte
