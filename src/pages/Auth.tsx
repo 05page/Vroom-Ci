@@ -21,7 +21,7 @@ type FormData = {
 const Auth = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("login");
-  
+
   // Formulaire d'inscription
   const [signupData, setSignupData] = useState<FormData>({
     fullName: "",
@@ -139,8 +139,8 @@ const Auth = () => {
             )}
           </h1>
           <p className="text-muted-foreground text-lg">
-            {activeTab === "login" 
-              ? "Connectez-vous pour accéder à votre compte" 
+            {activeTab === "login"
+              ? "Connectez-vous pour accéder à votre compte"
               : "Rejoignez Vroom Ci et accédez à des centaines de véhicules"
             }
           </p>
@@ -148,7 +148,7 @@ const Auth = () => {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8">
-            <TabsTrigger value="login" className="text-lg">
+            <TabsTrigger value="login" className="text-lg md:text-xl">
               Connexion
             </TabsTrigger>
             <TabsTrigger value="signup" className="text-lg">
@@ -158,10 +158,10 @@ const Auth = () => {
 
           {/* Onglet Connexion */}
           <TabsContent value="login">
-            <Card className="shadow-card">
+            <Card className="lg:col-span-2">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <User className="h-5 w-5 text-primary" />
+                <CardTitle className="flex items-center gap-2 text-base md:text-sm">
+                  <User className="h-5 w-5 text-primary md:h-9 md:w-9"/>
                   Connexion à votre compte
                 </CardTitle>
                 <CardDescription>
@@ -169,8 +169,8 @@ const Auth = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleLoginSubmit} className="space-y-6">
-                  <div className="space-y-4">
+                <form onSubmit={handleLoginSubmit}>
+                  <div className="grid gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="login-email">Email *</Label>
                       <div className="relative">
