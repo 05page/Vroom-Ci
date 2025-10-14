@@ -371,7 +371,7 @@ const Landing = () => {
             <Button
               variant="outline"
               size="lg"
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/auth")}
               className="text-lg font-semibold hover:scale-105 transition-smooth bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground/10"
             >
               <UserPlus className="mr-2 h-5 w-5" />
