@@ -29,7 +29,7 @@ const Notifications = () => {
       title: "Votre favori a reçu des likes",
       message: "La Porsche 911 Carrera que vous suivez a reçu 45 nouveaux likes",
       time: "Il y a 1 heure",
-      read: false,
+      read: true,
     },
     {
       id: "3",
@@ -81,6 +81,9 @@ const Notifications = () => {
   };
 
   const markAllAsRead = () => {
+    notifications.forEach((notif) => {
+      notif.read = true
+    })
     toast.success("Toutes les notifications ont été marquées comme lues");
   };
 
@@ -88,79 +91,83 @@ const Notifications = () => {
 
   return (
     <div className="min-h-screen bg-secondary/20">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 max-w-4xl">
         {/* Header */}
-        <div className="mb-8 animate-fade-in">
-          <div className="flex items-center justify-between mb-4">
+        <div className="mb-6 sm:mb-8 animate-fade-in">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3 sm:gap-0">
             <div>
-              <h1 className="font-heading text-4xl md:text-5xl font-bold mb-2">
+              <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2">
                 Notifications
               </h1>
-              <p className="text-muted-foreground text-lg">
+              <p className="text-muted-foreground text-sm sm:text-base md:text-lg">
                 Restez informé des dernières actualités
               </p>
             </div>
+
             {unreadCount > 0 && (
-              <Badge className="bg-primary text-primary-foreground text-lg px-4 py-2">
+              <Badge className="bg-primary text-primary-foreground text-xs sm:text-sm md:text-base px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full self-start sm:self-auto">
                 {unreadCount} nouvelles
               </Badge>
             )}
           </div>
-          
+
           {unreadCount > 0 && (
             <Button
               variant="outline"
               onClick={markAllAsRead}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 text-xs sm:text-sm md:text-base px-3 sm:px-4 py-1.5 sm:py-2"
             >
-              <CheckCheck className="h-4 w-4" />
+              <CheckCheck className="h-3 w-3 sm:h-4 sm:w-4" />
               Tout marquer comme lu
             </Button>
           )}
         </div>
 
         {/* Notifications List */}
-        <div className="space-y-4 animate-fade-in">
+        <div className="space-y-3 sm:space-y-4 animate-fade-in">
           {notifications.map((notification, index) => (
             <Card
               key={notification.id}
-              className={`shadow-card hover:shadow-hover transition-smooth ${
-                !notification.read ? "border-l-4 border-l-primary" : ""
-              }`}
+              className={`shadow-card hover:shadow-hover transition-smooth ${!notification.read ? "border-l-4 border-l-primary" : ""
+                }`}
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <CardContent className="p-6">
-                <div className="flex gap-4">
-                  <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${
-                    !notification.read ? "bg-primary/10" : "bg-secondary"
-                  }`}>
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex gap-3 sm:gap-4">
+                  <div
+                    className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${!notification.read ? "bg-primary/10" : "bg-secondary"
+                      }`}
+                  >
                     {getIcon(notification.type)}
                   </div>
-                  
+
                   <div className="flex-1">
-                    <div className="flex items-start justify-between gap-4 mb-1">
-                      <h3 className={`font-semibold text-lg ${
-                        !notification.read ? "text-foreground" : "text-muted-foreground"
-                      }`}>
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-4 mb-1">
+                      <h3
+                        className={`font-semibold text-sm sm:text-base md:text-lg ${!notification.read
+                            ? "text-foreground"
+                            : "text-muted-foreground"
+                          }`}
+                      >
                         {notification.title}
                       </h3>
                       {!notification.read && (
-                        <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2" />
+                        <div className="w-2 h-2 rounded-full bg-primary sm:mt-2 flex-shrink-0 self-start sm:self-center" />
                       )}
                     </div>
-                    
-                    <p className="text-muted-foreground mb-2">
+
+                    <p className="text-muted-foreground text-xs sm:text-sm mb-2">
                       {notification.message}
                     </p>
-                    
+
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-[11px] sm:text-sm text-muted-foreground">
                         {notification.time}
                       </span>
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="text-primary hover:text-primary hover:bg-primary/10"
+                        className="text-primary hover:text-primary hover:bg-primary/10 text-xs sm:text-sm px-2 sm:px-3"
                       >
                         Voir détails
                       </Button>
@@ -172,15 +179,15 @@ const Notifications = () => {
           ))}
         </div>
 
-        {/* Empty state message (si aucune notification) */}
+        {/* Empty state */}
         {notifications.length === 0 && (
-          <Card className="shadow-card text-center py-16">
+          <Card className="shadow-card text-center py-12 sm:py-16">
             <CardContent>
-              <Bell className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="font-heading text-2xl font-semibold mb-2">
+              <Bell className="h-12 w-12 sm:h-16 sm:w-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="font-heading text-xl sm:text-2xl font-semibold mb-2">
                 Aucune notification
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-sm sm:text-base">
                 Vous êtes à jour ! Revenez plus tard pour voir les nouvelles notifications.
               </p>
             </CardContent>

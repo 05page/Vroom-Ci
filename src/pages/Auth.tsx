@@ -170,7 +170,7 @@ const Auth = () => {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleLoginSubmit}>
-                  <div className="grid gap-4">
+                  <div className="space-y-6">
                     <div className="space-y-2">
                       <Label htmlFor="login-email">Email *</Label>
                       <div className="relative">
@@ -366,7 +366,7 @@ const Auth = () => {
                           onChange={(e) => handleFileChange(e, "front")}
                           className="hidden"
                         />
-                        <label
+                        <Label
                           htmlFor="cniFront"
                           className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-muted-foreground/25 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
                         >
@@ -384,7 +384,7 @@ const Auth = () => {
                               </span>
                             </>
                           )}
-                        </label>
+                        </Label>
                       </div>
                       {cniFront && (
                         <p className="text-xs text-primary flex items-center gap-1">
