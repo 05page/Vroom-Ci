@@ -1,4 +1,4 @@
-import { Home, LayoutDashboard, Bell, Car, Heart, Settings, MessageCircle, User } from "lucide-react";
+import { Home, LayoutDashboard, Bell, Car, Heart, Settings, MessageCircle, User, Building2, Crown, BarChart3 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import {
   Sidebar,
@@ -20,6 +20,12 @@ const menuItems = [
   { title: "Notifications", url: "/notifications", icon: Bell },
   { title: "Mon compte", url: "/account", icon: User },
   { title: "Paramètres", url: "/settings", icon: Settings },
+];
+
+const partnerMenuItems = [
+  { title: "Devenir partenaire", url: "/partnership", icon: Building2 },
+  { title: "Dashboard partenaire", url: "/partner-dashboard", icon: BarChart3 },
+  { title: "Abonnements", url: "/subscription-plans", icon: Crown },
 ];
 
 export function AppSidebar() {
@@ -52,6 +58,35 @@ export function AppSidebar() {
                      <NavLink
                       to={item.url}
                       end
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 rounded-lg px-4 py-3 transition-smooth ${
+                          isActive
+                            ? "bg-primary/10 text-primary font-semibold"
+                            : "text-foreground/80 hover:bg-accent hover:text-foreground"
+                        }`
+                      }
+                    >
+                      <item.icon className="h-5 w-5" />
+                      {!isCollapsed && <span className="text-base leading-none">{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className={isCollapsed ? "sr-only" : "text-sm font-medium"}>
+            Collaboration
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {partnerMenuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.url}
                       className={({ isActive }) =>
                         `flex items-center gap-3 rounded-lg px-4 py-3 transition-smooth ${
                           isActive

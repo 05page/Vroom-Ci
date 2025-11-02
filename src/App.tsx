@@ -15,6 +15,9 @@ import NotFound from "./pages/NotFound";
 import SplashScreen from "./components/SplashScreen";
 import BookingForm from "./pages/BookingForm";
 import Account from "./pages/Account";
+import Partnership from "./pages/Partnership";
+import PartnerDashboard from "./pages/PartnerDashboard";
+import SubscriptionPlans from "./pages/SubscriptionPlans";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +43,9 @@ const App = () => {
             <Route path="/notifications" element={<Layout><Notifications /></Layout>} />
             <Route path="/account" element={<Layout><Account /></Layout>} />
             <Route path="/booking/:id" element={<Layout><BookingForm /></Layout>} />
+            <Route path="/partnership" element={<Layout><Partnership /></Layout>} />
+            <Route path="/partner-dashboard" element={<Layout><PartnerDashboard /></Layout>} />
+            <Route path="/subscription-plans" element={<Layout><SubscriptionPlans /></Layout>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
