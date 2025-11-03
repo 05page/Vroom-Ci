@@ -7,9 +7,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Building2, CheckCircle2, TrendingUp, BarChart3, Users, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const Partnership = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyName: "",
     contactName: "",
@@ -21,19 +23,17 @@ const Partnership = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simuler l'envoi du formulaire
+    // Simuler l'authentification du partenaire
+    localStorage.setItem("partnerAuth", "true");
+    localStorage.setItem("partnerName", formData.contactName);
+    localStorage.setItem("partnerCompany", formData.companyName);
+    
     toast({
-      title: "Demande envoyée !",
-      description: "Notre équipe vous contactera dans les 48h.",
+      title: "Bienvenue dans votre espace partenaire !",
+      description: "Votre compte a été créé avec succès.",
     });
-    setFormData({
-      companyName: "",
-      contactName: "",
-      email: "",
-      phone: "",
-      companyType: "",
-      message: "",
-    });
+    
+    navigate("/partner/dashboard");
   };
 
   const benefits = [

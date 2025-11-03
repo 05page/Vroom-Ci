@@ -24,8 +24,7 @@ const menuItems = [
 
 const partnerMenuItems = [
   { title: "Devenir partenaire", url: "/partnership", icon: Building2 },
-  { title: "Dashboard partenaire", url: "/partner-dashboard", icon: BarChart3 },
-  { title: "Abonnements", url: "/subscription-plans", icon: Crown },
+  { title: "Abonnements", url: "/partner/subscription", icon: Crown },
 ];
 
 export function AppSidebar() {

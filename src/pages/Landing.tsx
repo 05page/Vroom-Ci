@@ -180,6 +180,14 @@ const Landing = () => {
                 Explorer les véhicules
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => navigate("/partnership")}
+                className="text-lg border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+              >
+                Devenir partenaire
+              </Button>
             </div>
           </div>
         </div>
