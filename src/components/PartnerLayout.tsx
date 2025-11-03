@@ -1,9 +1,9 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Menu } from "lucide-react";
+import { LogOut, Menu, LayoutDashboard, Car, MessageCircle, BarChart3, TrendingUp, Crown, Settings } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 interface PartnerLayoutProps {
@@ -62,14 +62,16 @@ const PartnerLayout = ({ children }: PartnerLayoutProps) => {
 // Sidebar spécifique aux partenaires
 const PartnerSidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const menuItems = [
-    { label: "Dashboard", path: "/partner/dashboard", icon: "📊" },
-    { label: "Mes véhicules", path: "/partner/vehicles", icon: "🚗" },
-    { label: "Statistiques", path: "/partner/analytics", icon: "📈" },
-    { label: "Tendances marché", path: "/partner/trends", icon: "🔥" },
-    { label: "Abonnements", path: "/partner/subscription", icon: "👑" },
-    { label: "Paramètres", path: "/partner/settings", icon: "⚙️" },
+    { label: "Dashboard", path: "/partner/dashboard", icon: LayoutDashboard },
+    { label: "Mes véhicules", path: "/partner/vehicles", icon: Car },
+    { label: "Messages", path: "/partner/messages", icon: MessageCircle },
+    { label: "Statistiques", path: "/partner/analytics", icon: BarChart3 },
+    { label: "Tendances marché", path: "/partner/trends", icon: TrendingUp },
+    { label: "Abonnements", path: "/partner/subscription", icon: Crown },
+    { label: "Paramètres", path: "/partner/settings", icon: Settings },
   ];
 
   const handleNavigation = (path: string) => {
@@ -77,19 +79,29 @@ const PartnerSidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
     onNavigate?.();
   };
 
+  const isActive = (path: string) => location.pathname === path;
+
   return (
-    <nav className="flex flex-col gap-2 p-4 w-full">
-      {menuItems.map((item) => (
-        <Button
-          key={item.path}
-          variant="ghost"
-          className="justify-start"
-          onClick={() => handleNavigation(item.path)}
-        >
-          <span className="mr-2">{item.icon}</span>
-          {item.label}
-        </Button>
-      ))}
+    <nav className="flex flex-col gap-1 p-4 w-full">
+      {menuItems.map((item) => {
+        const Icon = item.icon;
+        const active = isActive(item.path);
+        return (
+          <Button
+            key={item.path}
+            variant="ghost"
+            className={`justify-start w-full h-12 transition-smooth ${
+              active 
+                ? "bg-primary/10 text-primary font-semibold" 
+                : "text-[hsl(var(--nav-default))] hover:bg-primary/5 hover:text-primary"
+            }`}
+            onClick={() => handleNavigation(item.path)}
+          >
+            <Icon className="mr-3 h-5 w-5" />
+            {item.label}
+          </Button>
+        );
+      })}
     </nav>
   );
 };

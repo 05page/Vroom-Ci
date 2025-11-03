@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, Mail, Phone, MapPin, Lock, Upload, FileCheck, ArrowLeft } from "lucide-react";
@@ -119,384 +119,337 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-background py-12 px-4">
-      <div className="container mx-auto max-w-4xl">
-        {/* Header */}
-        <div className="mb-8">
-          <Button
-            variant="ghost"
-            onClick={() => navigate("/")}
-            className="mb-4 hover:bg-primary/10"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour à l'accueil
-          </Button>
-          <h1 className="font-heading text-4xl md:text-5xl font-bold mb-2">
-            {activeTab === "login" ? (
-              <>Connexion</>
-            ) : (
-              <>Créer un <span className="text-primary">compte</span></>
-            )}
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            {activeTab === "login"
-              ? "Connectez-vous pour accéder à votre compte"
-              : "Rejoignez Vroom Ci et accédez à des centaines de véhicules"
-            }
-          </p>
-        </div>
-
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
-            <TabsTrigger value="login" className="text-lg md:text-xl">
-              Connexion
-            </TabsTrigger>
-            <TabsTrigger value="signup" className="text-lg">
-              Inscription
-            </TabsTrigger>
-          </TabsList>
-
-          {/* Onglet Connexion */}
-          <TabsContent value="login">
-            <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base md:text-sm">
-                  <User className="h-5 w-5 text-primary md:h-9 md:w-9"/>
-                  Connexion à votre compte
-                </CardTitle>
-                <CardDescription>
-                  Entrez vos identifiants pour vous connecter
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleLoginSubmit}>
-                  <div className="space-y-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="login-email">Email *</Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="login-email"
-                          name="email"
-                          type="email"
-                          placeholder="jean.dupont@example.com"
-                          value={loginData.email}
-                          onChange={handleLoginChange}
-                          className="pl-10"
-                          required
-                        />
-                      </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center py-12 px-4">
+      <div className="container mx-auto max-w-5xl">
+        <Card className="shadow-2xl border-0 overflow-hidden">
+          <div className="grid lg:grid-cols-2">
+            {/* Panneau gauche - Branding */}
+            <div className="hidden lg:flex flex-col justify-center p-12 bg-gradient-to-br from-primary to-primary-glow text-primary-foreground">
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <h1 className="text-4xl font-bold">Bienvenue sur</h1>
+                  <h2 className="text-5xl font-bold">Vroom CI</h2>
+                </div>
+                <p className="text-lg text-primary-foreground/90">
+                  {activeTab === "login"
+                    ? "Connectez-vous pour accéder à votre compte et gérer vos locations"
+                    : "Créez votre compte et accédez à des centaines de véhicules de qualité"
+                  }
+                </p>
+                <div className="pt-8 space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="bg-primary-foreground/20 p-2 rounded-lg">
+                      <User className="h-5 w-5" />
                     </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="login-password">Mot de passe *</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="login-password"
-                          name="password"
-                          type="password"
-                          placeholder="••••••••"
-                          value={loginData.password}
-                          onChange={handleLoginChange}
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <a href="#" className="text-sm text-primary hover:underline">
-                        Mot de passe oublié ?
-                      </a>
-                    </div>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full text-lg hover:scale-105 transition-all"
-                  >
-                    Se connecter
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Onglet Inscription */}
-          <TabsContent value="signup">
-            <form onSubmit={handleSignupSubmit} className="space-y-6">
-              {/* Informations personnelles */}
-              <Card className="shadow-card hover:shadow-hover transition-all">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <User className="h-5 w-5 text-primary" />
-                    Informations personnelles
-                  </CardTitle>
-                  <CardDescription>
-                    Renseignez vos informations de base
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="fullName">Nom complet *</Label>
-                      <div className="relative">
-                        <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="fullName"
-                          name="fullName"
-                          placeholder="Jean Dupont"
-                          value={signupData.fullName}
-                          onChange={handleSignupChange}
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="role">Type de compte *</Label>
-                      <Select onValueChange={handleRoleChange} value={signupData.role}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Sélectionnez un type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="client">Client</SelectItem>
-                          <SelectItem value="vendeur">Vendeur</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email *</Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          placeholder="jean.dupont@example.com"
-                          value={signupData.email}
-                          onChange={handleSignupChange}
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="contact">Téléphone *</Label>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="contact"
-                          name="contact"
-                          type="tel"
-                          placeholder="+225 XX XX XX XX XX"
-                          value={signupData.contact}
-                          onChange={handleSignupChange}
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2 md:col-span-2">
-                      <Label htmlFor="address">Adresse *</Label>
-                      <div className="relative">
-                        <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="address"
-                          name="address"
-                          placeholder="Cocody, Abidjan"
-                          value={signupData.address}
-                          onChange={handleSignupChange}
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2 md:col-span-2">
-                      <Label htmlFor="password">Mot de passe *</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="password"
-                          name="password"
-                          type="password"
-                          placeholder="••••••••"
-                          value={signupData.password}
-                          onChange={handleSignupChange}
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Minimum 8 caractères
+                    <div>
+                      <h3 className="font-semibold mb-1">Profil personnalisé</h3>
+                      <p className="text-sm text-primary-foreground/80">
+                        Gérez vos informations et préférences
                       </p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-
-              {/* Documents */}
-              <Card className="shadow-card hover:shadow-hover transition-all">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileCheck className="h-5 w-5 text-primary" />
-                    Documents requis
-                  </CardTitle>
-                  <CardDescription>
-                    Téléchargez vos documents d'identification (optionnel)
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {/* CNI Recto */}
-                    <div className="space-y-2">
-                      <Label htmlFor="cniFront">CNI - Recto</Label>
-                      <div className="relative">
-                        <Input
-                          id="cniFront"
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleFileChange(e, "front")}
-                          className="hidden"
-                        />
-                        <Label
-                          htmlFor="cniFront"
-                          className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-muted-foreground/25 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
-                        >
-                          {cniFrontPreview ? (
-                            <img
-                              src={cniFrontPreview}
-                              alt="CNI Recto"
-                              className="h-full w-full object-cover rounded-lg"
-                            />
-                          ) : (
-                            <>
-                              <Upload className="h-8 w-8 text-muted-foreground mb-2" />
-                              <span className="text-sm text-muted-foreground">
-                                Cliquez pour télécharger
-                              </span>
-                            </>
-                          )}
-                        </Label>
-                      </div>
-                      {cniFront && (
-                        <p className="text-xs text-primary flex items-center gap-1">
-                          <FileCheck className="h-3 w-3" />
-                          {cniFront.name}
-                        </p>
-                      )}
+                  <div className="flex items-start gap-3">
+                    <div className="bg-primary-foreground/20 p-2 rounded-lg">
+                      <Lock className="h-5 w-5" />
                     </div>
-
-                    {/* CNI Verso */}
-                    <div className="space-y-2">
-                      <Label htmlFor="cniBack">CNI - Verso</Label>
-                      <div className="relative">
-                        <Input
-                          id="cniBack"
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleFileChange(e, "back")}
-                          className="hidden"
-                        />
-                        <label
-                          htmlFor="cniBack"
-                          className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-muted-foreground/25 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
-                        >
-                          {cniBackPreview ? (
-                            <img
-                              src={cniBackPreview}
-                              alt="CNI Verso"
-                              className="h-full w-full object-cover rounded-lg"
-                            />
-                          ) : (
-                            <>
-                              <Upload className="h-8 w-8 text-muted-foreground mb-2" />
-                              <span className="text-sm text-muted-foreground">
-                                Cliquez pour télécharger
-                              </span>
-                            </>
-                          )}
-                        </label>
-                      </div>
-                      {cniBack && (
-                        <p className="text-xs text-primary flex items-center gap-1">
-                          <FileCheck className="h-3 w-3" />
-                          {cniBack.name}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Permis de conduire */}
-                    <div className="space-y-2 md:col-span-2">
-                      <Label htmlFor="permisConduire">Permis de conduire</Label>
-                      <div className="relative">
-                        <Input
-                          id="permisConduire"
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleFileChange(e, "permis")}
-                          className="hidden"
-                        />
-                        <label
-                          htmlFor="permisConduire"
-                          className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-muted-foreground/25 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
-                        >
-                          {permisPreview ? (
-                            <img
-                              src={permisPreview}
-                              alt="Permis de conduire"
-                              className="h-full w-full object-cover rounded-lg"
-                            />
-                          ) : (
-                            <>
-                              <Upload className="h-8 w-8 text-muted-foreground mb-2" />
-                              <span className="text-sm text-muted-foreground">
-                                Cliquez pour télécharger
-                              </span>
-                            </>
-                          )}
-                        </label>
-                      </div>
-                      {permisConduire && (
-                        <p className="text-xs text-primary flex items-center gap-1">
-                          <FileCheck className="h-3 w-3" />
-                          {permisConduire.name}
-                        </p>
-                      )}
+                    <div>
+                      <h3 className="font-semibold mb-1">Sécurisé</h3>
+                      <p className="text-sm text-primary-foreground/80">
+                        Vos données sont protégées
+                      </p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
+            </div>
 
-              {/* Submit Button */}
+            {/* Panneau droit - Formulaire */}
+            <div className="p-8 lg:p-12">
               <Button
-                type="submit"
-                size="lg"
-                className="w-full text-lg hover:scale-105 transition-all"
+                variant="ghost"
+                onClick={() => navigate("/")}
+                className="mb-6 hover:bg-primary/10 -ml-2"
               >
-                Créer mon compte
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Retour
               </Button>
 
-              <p className="text-center text-sm text-muted-foreground">
-                En créant un compte, vous acceptez nos{" "}
-                <a href="#" className="text-primary hover:underline">
-                  Conditions d'utilisation
-                </a>{" "}
-                et notre{" "}
-                <a href="#" className="text-primary hover:underline">
-                  Politique de confidentialité
-                </a>
-              </p>
-            </form>
-          </TabsContent>
-        </Tabs>
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="grid w-full grid-cols-2 mb-8 h-12">
+                  <TabsTrigger value="login" className="text-base">
+                    Connexion
+                  </TabsTrigger>
+                  <TabsTrigger value="signup" className="text-base">
+                    Inscription
+                  </TabsTrigger>
+                </TabsList>
+
+                {/* Onglet Connexion */}
+                <TabsContent value="login">
+                  <div className="space-y-6">
+                    <form onSubmit={handleLoginSubmit} className="space-y-5">
+                      <div className="space-y-2">
+                        <Label htmlFor="login-email">Adresse email</Label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="login-email"
+                            name="email"
+                            type="email"
+                            placeholder="votre@email.com"
+                            value={loginData.email}
+                            onChange={handleLoginChange}
+                            className="pl-10 h-11"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="login-password">Mot de passe</Label>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="login-password"
+                            name="password"
+                            type="password"
+                            placeholder="••••••••"
+                            value={loginData.password}
+                            onChange={handleLoginChange}
+                            className="pl-10 h-11"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-end">
+                        <a href="#" className="text-sm text-primary hover:underline font-medium">
+                          Mot de passe oublié ?
+                        </a>
+                      </div>
+
+                      <Button
+                        type="submit"
+                        size="lg"
+                        className="w-full h-12 text-base font-semibold hover:scale-[1.02] transition-all shadow-lg"
+                      >
+                        Se connecter
+                      </Button>
+                    </form>
+                  </div>
+                </TabsContent>
+
+                {/* Onglet Inscription */}
+                <TabsContent value="signup">
+                  <form onSubmit={handleSignupSubmit} className="space-y-5 max-h-[600px] overflow-y-auto pr-2">
+                    {/* Informations personnelles */}
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="fullName">Nom complet</Label>
+                          <div className="relative">
+                            <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="fullName"
+                              name="fullName"
+                              placeholder="Jean Dupont"
+                              value={signupData.fullName}
+                              onChange={handleSignupChange}
+                              className="pl-10 h-11"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="role">Type de compte</Label>
+                          <Select onValueChange={handleRoleChange} value={signupData.role}>
+                            <SelectTrigger className="h-11">
+                              <SelectValue placeholder="Sélectionner" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="client">Client</SelectItem>
+                              <SelectItem value="vendeur">Vendeur</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="email">Email</Label>
+                          <div className="relative">
+                            <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="email"
+                              name="email"
+                              type="email"
+                              placeholder="votre@email.com"
+                              value={signupData.email}
+                              onChange={handleSignupChange}
+                              className="pl-10 h-11"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="contact">Téléphone</Label>
+                          <div className="relative">
+                            <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="contact"
+                              name="contact"
+                              type="tel"
+                              placeholder="+225 XX XX XX XX XX"
+                              value={signupData.contact}
+                              onChange={handleSignupChange}
+                              className="pl-10 h-11"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2 col-span-2">
+                          <Label htmlFor="address">Adresse</Label>
+                          <div className="relative">
+                            <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="address"
+                              name="address"
+                              placeholder="Cocody, Abidjan"
+                              value={signupData.address}
+                              onChange={handleSignupChange}
+                              className="pl-10 h-11"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2 col-span-2">
+                          <Label htmlFor="password">Mot de passe</Label>
+                          <div className="relative">
+                            <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="password"
+                              name="password"
+                              type="password"
+                              placeholder="••••••••"
+                              value={signupData.password}
+                              onChange={handleSignupChange}
+                              className="pl-10 h-11"
+                              required
+                            />
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            Minimum 8 caractères
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Documents - Section simplifiée */}
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 mb-3">
+                        <FileCheck className="h-4 w-4 text-primary" />
+                        <Label className="text-sm font-semibold">Documents (optionnel)</Label>
+                      </div>
+                      
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="space-y-1.5">
+                          <Label htmlFor="cniFront" className="text-xs">CNI Recto</Label>
+                          <div className="relative">
+                            <Input
+                              id="cniFront"
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handleFileChange(e, "front")}
+                              className="hidden"
+                            />
+                            <Label
+                              htmlFor="cniFront"
+                              className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-muted-foreground/25 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
+                            >
+                              {cniFrontPreview ? (
+                                <img
+                                  src={cniFrontPreview}
+                                  alt="CNI Recto"
+                                  className="h-full w-full object-cover rounded-lg"
+                                />
+                              ) : (
+                                <Upload className="h-6 w-6 text-muted-foreground" />
+                              )}
+                            </Label>
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <Label htmlFor="cniBack" className="text-xs">CNI Verso</Label>
+                          <div className="relative">
+                            <Input
+                              id="cniBack"
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handleFileChange(e, "back")}
+                              className="hidden"
+                            />
+                            <Label
+                              htmlFor="cniBack"
+                              className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-muted-foreground/25 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
+                            >
+                              {cniBackPreview ? (
+                                <img
+                                  src={cniBackPreview}
+                                  alt="CNI Verso"
+                                  className="h-full w-full object-cover rounded-lg"
+                                />
+                              ) : (
+                                <Upload className="h-6 w-6 text-muted-foreground" />
+                              )}
+                            </Label>
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <Label htmlFor="permisConduire" className="text-xs">Permis</Label>
+                          <div className="relative">
+                            <Input
+                              id="permisConduire"
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handleFileChange(e, "permis")}
+                              className="hidden"
+                            />
+                            <Label
+                              htmlFor="permisConduire"
+                              className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-muted-foreground/25 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
+                            >
+                              {permisPreview ? (
+                                <img
+                                  src={permisPreview}
+                                  alt="Permis"
+                                  className="h-full w-full object-cover rounded-lg"
+                                />
+                              ) : (
+                                <Upload className="h-6 w-6 text-muted-foreground" />
+                              )}
+                            </Label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="w-full h-12 text-base font-semibold hover:scale-[1.02] transition-all shadow-lg"
+                    >
+                      Créer mon compte
+                    </Button>
+                  </form>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </div>
+        </Card>
       </div>
     </div>
   );

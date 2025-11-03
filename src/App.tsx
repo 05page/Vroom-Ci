@@ -20,6 +20,7 @@ import Partnership from "./pages/Partnership";
 import PartnerAuth from "./pages/partner/PartnerAuth";
 import PartnerDashboard from "./pages/partner/PartnerDashboard";
 import PartnerVehicles from "./pages/partner/PartnerVehicles";
+import PartnerMessages from "./pages/partner/PartnerMessages";
 import PartnerAnalytics from "./pages/partner/PartnerAnalytics";
 import PartnerTrends from "./pages/partner/PartnerTrends";
 import PartnerSubscription from "./pages/partner/PartnerSubscription";
@@ -57,6 +58,7 @@ const App = () => {
             <Route path="/partner/auth" element={<PartnerAuth />} />
             <Route path="/partner/dashboard" element={<PartnerLayout><PartnerDashboard /></PartnerLayout>} />
             <Route path="/partner/vehicles" element={<PartnerLayout><PartnerVehicles /></PartnerLayout>} />
+            <Route path="/partner/messages" element={<PartnerLayout><PartnerMessages /></PartnerLayout>} />
             <Route path="/partner/analytics" element={<PartnerLayout><PartnerAnalytics /></PartnerLayout>} />
             <Route path="/partner/trends" element={<PartnerLayout><PartnerTrends /></PartnerLayout>} />
             <Route path="/partner/subscription" element={<PartnerLayout><PartnerSubscription /></PartnerLayout>} />

@@ -58,10 +58,10 @@ export function AppSidebar() {
                       to={item.url}
                       end
                       className={({ isActive }) =>
-                        `flex items-center gap-3 rounded-lg px-4 py-3 transition-smooth ${
+                        `flex items-center gap-3 rounded-lg px-4 py-3.5 transition-smooth ${
                           isActive
                             ? "bg-primary/10 text-primary font-semibold"
-                            : "text-foreground/80 hover:bg-accent hover:text-foreground"
+                            : "text-[hsl(var(--nav-default))] hover:bg-primary/5 hover:text-primary"
                         }`
                       }
                     >
@@ -87,10 +87,10 @@ export function AppSidebar() {
                     <NavLink
                       to={item.url}
                       className={({ isActive }) =>
-                        `flex items-center gap-3 rounded-lg px-4 py-3 transition-smooth ${
+                        `flex items-center gap-3 rounded-lg px-4 py-3.5 transition-smooth ${
                           isActive
                             ? "bg-primary/10 text-primary font-semibold"
-                            : "text-foreground/80 hover:bg-accent hover:text-foreground"
+                            : "text-[hsl(var(--nav-default))] hover:bg-primary/5 hover:text-primary"
                         }`
                       }
                     >
