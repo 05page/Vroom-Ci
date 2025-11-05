@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Heart, MessageCircle, MoreVertical, Send, AlertCircle, Share2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Heart, MessageCircle, MoreVertical, Send, AlertCircle, Share2, Search } from "lucide-react";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -86,11 +87,10 @@ const Vehicles = () => {
   ]);
 
   const [filter, setFilter] = useState<"tous" | "vente" | "location">("tous");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCar, setSelectedCar] = useState<CarData | null>(null);
   const [favorite, setFavorite] = useState<Set<String>>(() => {
-    //
     const saved = localStorage.getItem('carFavorites')
-    console.log(saved)
     return saved ? new Set(JSON.parse(saved)) : new Set()
   });
 
@@ -138,9 +138,14 @@ const Vehicles = () => {
     });
   };
 
-  const filteredCars = filter === "tous"
-    ? cars
-    : cars.filter(car => car.type === filter);
+  const filteredCars = cars
+    .filter(car => filter === "tous" ? true : car.type === filter)
+    .filter(car => 
+      searchQuery === "" ? true : 
+      car.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      car.fuel.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      car.transmission.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   return (
     <div className="min-h-screen bg-secondary/20">
@@ -155,33 +160,47 @@ const Vehicles = () => {
           </p>
         </div>
 
-        {/* Filters */}
-        <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <h2 className="font-heading text-2xl font-semibold">
-            {filteredCars.length} véhicule{filteredCars.length > 1 ? 's' : ''} disponible{filteredCars.length > 1 ? 's' : ''}
-          </h2>
-          <div className="flex gap-2 flex-wrap">
-            <Button
-              variant={filter === "tous" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setFilter("tous")}
-            >
-              Tous ({cars.length})
-            </Button>
-            <Button
-              variant={filter === "vente" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setFilter("vente")}
-            >
-              Vente ({cars.filter(c => c.type === "vente").length})
-            </Button>
-            <Button
-              variant={filter === "location" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setFilter("location")}
-            >
-              Location ({cars.filter(c => c.type === "location").length})
-            </Button>
+        {/* Search and Filters */}
+        <div className="mb-6 flex flex-col gap-4">
+          {/* Search Bar */}
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Rechercher un véhicule..."
+              className="pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          {/* Filter Buttons */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <h2 className="font-heading text-2xl font-semibold">
+              {filteredCars.length} véhicule{filteredCars.length > 1 ? 's' : ''} disponible{filteredCars.length > 1 ? 's' : ''}
+            </h2>
+            <div className="flex gap-2 flex-wrap">
+              <Button
+                variant={filter === "tous" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setFilter("tous")}
+              >
+                Tous ({cars.length})
+              </Button>
+              <Button
+                variant={filter === "vente" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setFilter("vente")}
+              >
+                Vente ({cars.filter(c => c.type === "vente").length})
+              </Button>
+              <Button
+                variant={filter === "location" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setFilter("location")}
+              >
+                Location ({cars.filter(c => c.type === "location").length})
+              </Button>
+            </div>
           </div>
         </div>
 

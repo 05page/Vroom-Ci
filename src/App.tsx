@@ -24,6 +24,7 @@ import PartnerMessages from "./pages/partner/PartnerMessages";
 import PartnerAnalytics from "./pages/partner/PartnerAnalytics";
 import PartnerTrends from "./pages/partner/PartnerTrends";
 import PartnerSubscription from "./pages/partner/PartnerSubscription";
+import AddVehicleForm from "./pages/partner/AddVehicleForm";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +59,7 @@ const App = () => {
             <Route path="/partner/auth" element={<PartnerAuth />} />
             <Route path="/partner/dashboard" element={<PartnerLayout><PartnerDashboard /></PartnerLayout>} />
             <Route path="/partner/vehicles" element={<PartnerLayout><PartnerVehicles /></PartnerLayout>} />
+            <Route path="/partner/vehicles/add" element={<PartnerLayout><AddVehicleForm /></PartnerLayout>} />
             <Route path="/partner/messages" element={<PartnerLayout><PartnerMessages /></PartnerLayout>} />
             <Route path="/partner/analytics" element={<PartnerLayout><PartnerAnalytics /></PartnerLayout>} />
             <Route path="/partner/trends" element={<PartnerLayout><PartnerTrends /></PartnerLayout>} />
