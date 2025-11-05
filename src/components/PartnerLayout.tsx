@@ -1,4 +1,4 @@
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
 import { LogOut, Menu, LayoutDashboard, Car, MessageCircle, BarChart3, TrendingUp, Crown, Settings } from "lucide-react";
@@ -77,12 +77,20 @@ const PartnerSidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
   const handleNavigation = (path: string) => {
     navigate(path);
     onNavigate?.();
-  };
+  };  
 
   const isActive = (path: string) => location.pathname === path;
 
   return (
     <nav className="flex flex-col gap-1 p-4 w-full">
+      <div className="px-5 py-6">
+        <div className={`flex items-center gap-3`}>
+          <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
+            <Car className="h-7 w-7 text-primary-foreground" />
+          </div>
+              <span className="font-heading text-2xl font-bold text-primary">Vroom CI</span>
+        </div>
+      </div>
       {menuItems.map((item) => {
         const Icon = item.icon;
         const active = isActive(item.path);
@@ -90,11 +98,10 @@ const PartnerSidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
           <Button
             key={item.path}
             variant="ghost"
-            className={`justify-start w-full h-12 transition-smooth ${
-              active 
-                ? "bg-primary/10 text-primary font-semibold" 
+            className={`justify-start w-full h-12 transition-smooth ${active
+                ? "bg-primary/10 text-primary font-semibold"
                 : "text-[hsl(var(--nav-default))] hover:bg-primary/5 hover:text-primary"
-            }`}
+              }`}
             onClick={() => handleNavigation(item.path)}
           >
             <Icon className="mr-3 h-5 w-5" />

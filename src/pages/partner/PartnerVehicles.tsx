@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Search, Filter } from "lucide-react";
+import { Plus, Search, Filter, Car } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 const PartnerVehicles = () => {
@@ -41,7 +41,7 @@ const PartnerVehicles = () => {
       <Card>
         <CardContent className="flex flex-col items-center justify-center py-16">
           <div className="text-center space-y-4">
-            <div className="text-6xl mb-4">🚗</div>
+            <div className="text-6xl mb-4 items-center justify-center flex text-muted-foreground"><Car className="h-36 w-36 mb-4"/></div>
             <CardTitle>Aucun véhicule pour le moment</CardTitle>
             <CardDescription className="max-w-md">
               Commencez par ajouter votre premier véhicule à votre catalogue pour attirer des clients
