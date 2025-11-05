@@ -46,12 +46,12 @@ const PartnerLayout = ({ children }: PartnerLayoutProps) => {
 
       <div className="flex">
         {/* Sidebar desktop */}
-        <aside className="hidden lg:flex w-[280px] border-r min-h-[calc(100vh-4rem)]">
+        <aside className="hidden lg:flex w-[280px] border-r min-h-[calc(100vh-4rem)] sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
           <PartnerSidebar />
         </aside>
 
         {/* Contenu principal */}
-        <main className="flex-1">
+        <main className="flex-1 overflow-x-hidden">
           {children}
         </main>
       </div>

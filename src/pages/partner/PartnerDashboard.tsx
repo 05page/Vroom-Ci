@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Eye, Users, Car, DollarSign, TrendingUp, Crown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +16,7 @@ interface PartnerStats {
 
 const PartnerDashboard = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const [stats, setStats] = useState<PartnerStats>({
     totalViews: 15420,
     totalLeads: 87,
@@ -28,6 +30,12 @@ const PartnerDashboard = () => {
     if (savedStats) {
       setStats(JSON.parse(savedStats));
     }
+    
+    // Simulate loading
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   const isSubscribed = stats.subscriptionType !== "free";
@@ -59,87 +67,121 @@ const PartnerDashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Vues totales</CardTitle>
-            <Eye className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totalViews.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground mt-1">+20.1% ce mois</p>
-          </CardContent>
-        </Card>
+        {isLoading ? (
+          <>
+            {[...Array(4)].map((_, i) => (
+              <Card key={i}>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-4 w-4 rounded" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-8 w-20 mb-2" />
+                  <Skeleton className="h-3 w-32" />
+                </CardContent>
+              </Card>
+            ))}
+          </>
+        ) : (
+          <>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Vues totales</CardTitle>
+                <Eye className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.totalViews.toLocaleString()}</div>
+                <p className="text-xs text-muted-foreground mt-1">+20.1% ce mois</p>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Demandes de contact</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totalLeads}</div>
-            <p className="text-xs text-muted-foreground mt-1">+12.5% ce mois</p>
-          </CardContent>
-        </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Demandes de contact</CardTitle>
+                <Users className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.totalLeads}</div>
+                <p className="text-xs text-muted-foreground mt-1">+12.5% ce mois</p>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Véhicules actifs</CardTitle>
-            <Car className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.activeCars}</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              {isSubscribed ? "Illimité" : "Max 5 véhicules"}
-            </p>
-          </CardContent>
-        </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Véhicules actifs</CardTitle>
+                <Car className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.activeCars}</div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {isSubscribed ? "Illimité" : "Max 5 véhicules"}
+                </p>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Revenus générés</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.revenue.toLocaleString()} FCFA</div>
-            <p className="text-xs text-muted-foreground mt-1">+15.3% ce mois</p>
-          </CardContent>
-        </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Revenus générés</CardTitle>
+                <DollarSign className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.revenue.toLocaleString()} FCFA</div>
+                <p className="text-xs text-muted-foreground mt-1">+15.3% ce mois</p>
+              </CardContent>
+            </Card>
+          </>
+        )}
       </div>
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate("/partner/vehicles")}>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Car className="h-5 w-5" />
-              Gérer mes véhicules
-            </CardTitle>
-            <CardDescription>Ajouter ou modifier vos annonces</CardDescription>
-          </CardHeader>
-        </Card>
+        {isLoading ? (
+          <>
+            {[...Array(3)].map((_, i) => (
+              <Card key={i}>
+                <CardHeader>
+                  <Skeleton className="h-6 w-48 mb-2" />
+                  <Skeleton className="h-4 w-full" />
+                </CardHeader>
+              </Card>
+            ))}
+          </>
+        ) : (
+          <>
+            <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate("/partner/vehicles")}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Car className="h-5 w-5" />
+                  Gérer mes véhicules
+                </CardTitle>
+                <CardDescription>Ajouter ou modifier vos annonces</CardDescription>
+              </CardHeader>
+            </Card>
 
-        <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate("/partner/analytics")}>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
-              Voir les statistiques
-            </CardTitle>
-            <CardDescription>Analysez vos performances détaillées</CardDescription>
-          </CardHeader>
-        </Card>
+            <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate("/partner/analytics")}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <TrendingUp className="h-5 w-5" />
+                  Voir les statistiques
+                </CardTitle>
+                <CardDescription>Analysez vos performances détaillées</CardDescription>
+              </CardHeader>
+            </Card>
 
-        <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate("/partner/trends")}>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Crown className="h-5 w-5" />
-              Tendances du marché
-              {!isSubscribed && " 🔒"}
-            </CardTitle>
-            <CardDescription>
-              {isSubscribed ? "Découvrez les modèles populaires" : "Fonctionnalité Premium"}
-            </CardDescription>
-          </CardHeader>
-        </Card>
+            <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate("/partner/trends")}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Crown className="h-5 w-5" />
+                  Tendances du marché
+                  {!isSubscribed && " 🔒"}
+                </CardTitle>
+                <CardDescription>
+                  {isSubscribed ? "Découvrez les modèles populaires" : "Fonctionnalité Premium"}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </>
+        )}
       </div>
     </div>
   );

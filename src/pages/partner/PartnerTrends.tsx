@@ -1,13 +1,25 @@
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Crown, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const PartnerTrends = () => {
   const navigate = useNavigate();
-  const subscriptionType = localStorage.getItem("subscriptionType") || "free";
+  const [isLoading, setIsLoading] = useState(true);
+  const subscriptionType = localStorage.getItem("partnerSubscription") || "free";
   const isSubscribed = subscriptionType !== "free";
+
+  useEffect(() => {
+    if (isSubscribed) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [isSubscribed]);
 
   const trendingData = [
     { model: "Toyota Corolla", views: 2340, leads: 23, trend: "+12%", avgPrice: "8500000" },
@@ -43,6 +55,24 @@ const PartnerTrends = () => {
             </Button>
           </CardContent>
         </Card>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="p-4 md:p-8 space-y-8">
+        <div>
+          <Skeleton className="h-9 w-64 mb-2" />
+          <Skeleton className="h-5 w-96" />
+        </div>
+        <div className="space-y-4">
+          <Skeleton className="h-[300px] w-full rounded-lg" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Skeleton className="h-[250px] w-full rounded-lg" />
+            <Skeleton className="h-[250px] w-full rounded-lg" />
+          </div>
+        </div>
       </div>
     );
   }
