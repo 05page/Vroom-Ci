@@ -8,10 +8,12 @@ import Auth from "./pages/Auth";
 import Layout from "./components/Layout";
 import PartnerLayout from "./components/PartnerLayout";
 import Landing from "./pages/Landing";
+import Dashboard from "./pages/Dashboard";
 import Vehicles from "./pages/Vehicles";
 import Favorites from "./pages/Favorites";
 import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
+import Locations from "./pages/Locations";
 import NotFound from "./pages/NotFound";
 import SplashScreen from "./components/SplashScreen";
 import BookingForm from "./pages/BookingForm";
@@ -48,10 +50,12 @@ const App = () => {
             <Route path="/partnership" element={<Layout><Partnership /></Layout>} />
             
             {/* Routes utilisateurs (particuliers) */}
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/vehicles" element={<Layout><Vehicles /></Layout>} />
             <Route path="/favorites" element={<Layout><Favorites /></Layout>} />
             <Route path="/messages" element={<Layout><Messages /></Layout>} />
             <Route path="/notifications" element={<Layout><Notifications /></Layout>} />
+            <Route path="/locations" element={<Layout><Locations /></Layout>} />
             <Route path="/account" element={<Layout><Account /></Layout>} />
             <Route path="/booking/:id" element={<Layout><BookingForm /></Layout>} />
             

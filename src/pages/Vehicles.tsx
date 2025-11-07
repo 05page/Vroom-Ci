@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Heart, MessageCircle, MoreVertical, Send, AlertCircle, Share2, Search } from "lucide-react";
+import { Heart, MessageCircle, MoreVertical, Send, AlertCircle, Share2, Search, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -33,6 +34,8 @@ interface CarData {
 }
 
 const Vehicles = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [cars, setCars] = useState<CarData[]>([
     {
       id: "1",
@@ -94,6 +97,14 @@ const Vehicles = () => {
     return saved ? new Set(JSON.parse(saved)) : new Set()
   });
 
+  // Get filter from URL params
+  useEffect(() => {
+    const filterParam = searchParams.get("filter");
+    if (filterParam === "vente" || filterParam === "location") {
+      setFilter(filterParam);
+    }
+  }, [searchParams]);
+
   // Ajoutez cet effet pour sauvegarder à chaque changement
   useEffect(() => {
     localStorage.setItem('carFavorites', JSON.stringify(Array.from(favorite)));
@@ -150,6 +161,15 @@ const Vehicles = () => {
   return (
     <div className="min-h-screen bg-secondary/20">
       <div className="container mx-auto px-4 py-8">
+        <Button
+          variant="ghost"
+          onClick={() => navigate("/dashboard")}
+          className="mb-6"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Retour au tableau de bord
+        </Button>
+
         {/* Header */}
         <div className="mb-8 animate-fade-in">
           <h1 className="font-heading text-4xl md:text-5xl font-bold mb-2">

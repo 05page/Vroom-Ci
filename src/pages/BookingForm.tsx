@@ -211,7 +211,7 @@ const BookingForm = () => {
                 <h4 className="font-semibold text-lg mb-3">Facture</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Prix de base</span>
+                    <span className="text-muted-foreground">Prix total du véhicule</span>
                     <span className="font-medium">{car.price}</span>
                   </div>
                   {formData.deliveryOption === "home" && (
@@ -226,11 +226,22 @@ const BookingForm = () => {
                       <span className="font-medium">10 000 FCFA</span>
                     </div>
                   )}
-                  <div className="flex justify-between pt-2 border-t font-bold text-lg">
-                    <span>Total</span>
-                    <span className="text-primary">{calculeTotal().toLocaleString()} FCFA</span>
+                  <div className="flex justify-between pt-2 border-t text-sm">
+                    <span className="font-medium">Total</span>
+                    <span className="font-medium">{calculeTotal().toLocaleString()} FCFA</span>
+                  </div>
+                  <div className="flex justify-between pt-2 border-t font-bold text-lg bg-primary/10 p-3 rounded-lg">
+                    <span>Garantie à verser {formData.deliveryOption === "agency" ? "(10%)" : "(15%)"}</span>
+                    <span className="text-primary">
+                      {(calculeTotal() * (formData.deliveryOption === "agency" ? 0.10 : 0.15)).toLocaleString()} FCFA
+                    </span>
                   </div>
                 </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  {formData.deliveryOption === "agency" 
+                    ? "Versez 10% comme garantie lors de la récupération en agence. Le reste sera payé directement à l'agence."
+                    : "Versez 15% comme garantie pour la livraison à domicile. Le reste sera payé à la livraison."}
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -451,8 +462,11 @@ const BookingForm = () => {
                     <div className="space-y-4 pt-4 border-t">
                       <Label className="flex items-center gap-2 text-lg font-semibold">
                         <CreditCard className="h-5 w-5" />
-                        Modalité de paiement *
+                        Paiement de la garantie *
                       </Label>
+                      <p className="text-sm text-muted-foreground">
+                        Versez {formData.deliveryOption === "agency" ? "10%" : "15%"} du montant total comme garantie
+                      </p>
                       <RadioGroup
                         value={formData.paymentMethod}
                         onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}

@@ -174,7 +174,7 @@ const Landing = () => {
               <Button
                 variant="hero"
                 size="lg"
-                onClick={() => navigate("/vehicles")}
+                onClick={() => navigate("/dashboard")}
                 className="text-lg"
               >
                 Explorer les véhicules
@@ -370,7 +370,7 @@ const Landing = () => {
             <Button
               variant="secondary"
               size="lg"
-              onClick={() => navigate("/vehicles")}
+              onClick={() => navigate("/dashboard")}
               className="text-lg font-semibold hover:scale-105 transition-smooth"
             >
               Commencer maintenant
