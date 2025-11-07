@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Heart, MessageCircle, MoreVertical, Send, AlertCircle, Share2, Search, ArrowLeft } from "lucide-react";
+import { Heart, MessageCircle, MoreVertical, Send, AlertCircle, Share2, Search, ArrowLeft, Car } from "lucide-react";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -159,17 +159,25 @@ const Vehicles = () => {
     );
 
   return (
-    <div className="min-h-screen bg-secondary/20">
-      <div className="container mx-auto px-4 py-8">
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/dashboard")}
-          className="mb-6"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Retour au tableau de bord
-        </Button>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="bg-background border-b sticky top-0 z-50">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/dashboard")}>
+            <Car className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl font-bold text-primary">VROOM</h1>
+          </div>
 
+          <nav className="flex items-center gap-4">
+            <Button variant="ghost" onClick={() => navigate("/dashboard")}>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Retour
+            </Button>
+          </nav>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8 animate-fade-in">
           <h1 className="font-heading text-4xl md:text-5xl font-bold mb-2">

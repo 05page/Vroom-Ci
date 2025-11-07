@@ -1,17 +1,19 @@
 import { useState } from "react";
-import { MapPin, Phone, Clock, Navigation } from "lucide-react";
+import { MapPin, Phone, Clock, Navigation, ArrowLeft, Car } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
 
 const Locations = () => {
+  const navigate = useNavigate();
   const [searchCity, setSearchCity] = useState("");
   const [selectedCity, setSelectedCity] = useState("all");
 
   const agencies = [
     {
-      name: "YANGO Abidjan Plateau",
+      name: "VROOM Abidjan Plateau",
       address: "Boulevard Clozel, Plateau",
       city: "Abidjan",
       phone: "+225 27 20 30 40 50",
@@ -19,7 +21,7 @@ const Locations = () => {
       coordinates: { lat: 5.3164, lng: -4.0305 },
     },
     {
-      name: "YANGO Abidjan Cocody",
+      name: "VROOM Abidjan Cocody",
       address: "Cocody Riviera 2",
       city: "Abidjan",
       phone: "+225 27 20 30 40 51",
@@ -27,7 +29,7 @@ const Locations = () => {
       coordinates: { lat: 5.3599, lng: -3.9810 },
     },
     {
-      name: "YANGO Abidjan Yopougon",
+      name: "VROOM Abidjan Yopougon",
       address: "Yopougon Sicogi",
       city: "Abidjan",
       phone: "+225 27 20 30 40 52",
@@ -35,7 +37,7 @@ const Locations = () => {
       coordinates: { lat: 5.3364, lng: -4.0886 },
     },
     {
-      name: "YANGO Bouaké Centre",
+      name: "VROOM Bouaké Centre",
       address: "Avenue Général de Gaulle",
       city: "Bouaké",
       phone: "+225 27 31 60 70 80",
@@ -43,7 +45,7 @@ const Locations = () => {
       coordinates: { lat: 7.6900, lng: -5.0300 },
     },
     {
-      name: "YANGO San Pedro",
+      name: "VROOM San Pedro",
       address: "Boulevard du Port",
       city: "San Pedro",
       phone: "+225 27 34 71 80 90",
@@ -51,7 +53,7 @@ const Locations = () => {
       coordinates: { lat: 4.7500, lng: -6.6333 },
     },
     {
-      name: "YANGO Yamoussoukro",
+      name: "VROOM Yamoussoukro",
       address: "Boulevard Houphouët-Boigny",
       city: "Yamoussoukro",
       phone: "+225 27 30 64 50 60",
@@ -75,12 +77,29 @@ const Locations = () => {
   };
 
   return (
-    <div className="min-h-screen bg-secondary/20">
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="bg-background border-b sticky top-0 z-50">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/dashboard")}>
+            <Car className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl font-bold text-primary">VROOM</h1>
+          </div>
+
+          <nav className="flex items-center gap-4">
+            <Button variant="ghost" onClick={() => navigate("/dashboard")}>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Retour
+            </Button>
+          </nav>
+        </div>
+      </header>
+
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">Nos Agences</h1>
           <p className="text-muted-foreground">
-            Trouvez l'agence YANGO la plus proche de vous
+            Trouvez l'agence VROOM la plus proche de vous
           </p>
         </div>
 

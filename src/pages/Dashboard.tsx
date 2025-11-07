@@ -78,7 +78,7 @@ const Dashboard = () => {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Car className="h-8 w-8 text-primary" />
-            <h1 className="text-2xl font-bold text-primary">YANGO</h1>
+            <h1 className="text-2xl font-bold text-primary">VROOM</h1>
           </div>
 
           {/* Desktop Navigation */}
@@ -144,7 +144,7 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">Bienvenue sur YANGO</h2>
+          <h2 className="text-3xl font-bold mb-2">Bienvenue sur VROOM</h2>
           <p className="text-muted-foreground">Que souhaitez-vous faire aujourd'hui ?</p>
         </div>
 
