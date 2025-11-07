@@ -105,10 +105,10 @@ const Vehicles = () => {
       const newFavorite = new Set(prev);
       if (newFavorite.has(carName)) {
         newFavorite.delete(carName);
-        toast.info(`💔 ${carName} retiré des favoris`)
+        toast.info(`${carName} retiré des favoris`)
       } else {
         newFavorite.add(carName);
-        toast.success(`⭐ ${carName} ajouté aux favoris`, {
+        toast.success(`${carName} ajouté aux favoris`, {
           description: "Retrouvez-le dans votre liste de favoris",
         });
       }
@@ -194,7 +194,7 @@ const Vehicles = () => {
                 Vente ({cars.filter(c => c.type === "vente").length})
               </Button>
               <Button
-                variant={filter === "location" ? "default" : "outline"}
+                variant={filter === "location" ? "green" : "greenOutline"}
                 size="sm"
                 onClick={() => setFilter("location")}
               >
