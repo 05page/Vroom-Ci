@@ -1,7 +1,9 @@
+import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
-import { useNavigate, useLocation } from "react-router-dom";
 import { LogOut, Menu, LayoutDashboard, Car, MessageCircle, BarChart3, TrendingUp, Crown, Settings } from "lucide-react";
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 interface PartnerLayoutProps {
@@ -18,35 +20,24 @@ const PartnerLayout = ({ children }: PartnerLayoutProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl shadow-sm">
+    <div className="min-h-screen bg-background">
+      {/* Header pour partenaires */}
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-4">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild className="lg:hidden">
-                <Button variant="ghost" size="icon" className="rounded-xl">
+                <Button variant="ghost" size="icon">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[280px] p-0 border-r-2">
+              <SheetContent side="left" className="w-[280px] p-0">
                 <PartnerSidebar onNavigate={() => setOpen(false)} />
               </SheetContent>
             </Sheet>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg">
-                <Car className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <h1 className="text-xl font-black tracking-tight">
-                Espace Collaborateur
-              </h1>
-            </div>
+            <h1 className="text-xl font-bold">Espace Collaborateur</h1>
           </div>
-          <Button
-            variant="ghost"
-            onClick={handleLogout}
-            className="rounded-xl font-bold hover:bg-destructive/10 hover:text-destructive transition-all"
-          >
+          <Button variant="ghost" onClick={handleLogout}>
             <LogOut className="h-4 w-4 mr-2" />
             Déconnexion
           </Button>
@@ -55,7 +46,7 @@ const PartnerLayout = ({ children }: PartnerLayoutProps) => {
 
       <div className="flex">
         {/* Sidebar desktop */}
-        <aside className="hidden lg:flex w-[280px] border-r-2 min-h-[calc(100vh-4rem)] sticky top-16 bg-background/50 backdrop-blur-sm">
+        <aside className="hidden lg:flex w-[280px] border-r min-h-[calc(100vh-4rem)] sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
           <PartnerSidebar />
         </aside>
 
@@ -72,6 +63,7 @@ const PartnerLayout = ({ children }: PartnerLayoutProps) => {
 const PartnerSidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const menuItems = [
     { label: "Dashboard", path: "/partner/dashboard", icon: LayoutDashboard },
     { label: "Mes véhicules", path: "/partner/vehicles", icon: Car },
@@ -85,24 +77,20 @@ const PartnerSidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
   const handleNavigation = (path: string) => {
     navigate(path);
     onNavigate?.();
-  };
+  };  
+
   const isActive = (path: string) => location.pathname === path;
-  
+
   return (
-    <nav className="flex flex-col gap-2 p-4 w-full">
-      {/* Logo Section */}
-      <div className="px-3 py-6 mb-2">
-        <div className="flex items-center gap-3">
-          <div className="h-12 w-12 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
+    <nav className="flex flex-col gap-1 p-4 w-full">
+      <div className="px-5 py-6">
+        <div className={`flex items-center gap-3`}>
+          <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
             <Car className="h-7 w-7 text-primary-foreground" />
           </div>
-          <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            VROOM
-          </span>
+              <span className="font-heading text-2xl font-bold text-primary">Vroom CI</span>
         </div>
       </div>
-
-      {/* Menu Items */}
       {menuItems.map((item) => {
         const Icon = item.icon;
         const active = isActive(item.path);
@@ -110,9 +98,9 @@ const PartnerSidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
           <Button
             key={item.path}
             variant="ghost"
-            className={`justify-start w-full h-12 rounded-xl font-bold transition-all ${active
-                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
-                : "text-muted-foreground hover:bg-primary/10 hover:text-primary hover:scale-105"
+            className={`justify-start w-full h-12 transition-smooth ${active
+                ? "bg-primary/10 text-primary font-semibold"
+                : "text-[hsl(var(--nav-default))] hover:bg-primary/5 hover:text-primary"
               }`}
             onClick={() => handleNavigation(item.path)}
           >
