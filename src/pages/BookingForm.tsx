@@ -24,7 +24,10 @@ const BookingForm = () => {
     rentalDuration: "",
     deliveryOption: "agency",
     technicalVisit: false,
-    paymentMethod: "mobile_money"
+    paymentMethod: "mobile_money",
+    rdvDate: "",
+    rdvTime: "",
+    rdvAgency: ""
   });
 
   const [paymentData, setPaymentData] = useState({
@@ -94,7 +97,12 @@ const BookingForm = () => {
       }
     } else if (currentStep === 2 && car.type === "location") {
       if (!formData.rentalDuration) {
-        toast.error("Veuiilez sélectionner une durée de location");
+        toast.error("Veuillez sélectionner une durée de location");
+        return
+      }
+    } else if (currentStep === 3) {
+      if (!formData.rdvDate || !formData.rdvTime || !formData.rdvAgency) {
+        toast.error("Veuillez remplir tous les champs du rendez-vous");
         return
       }
     }
@@ -195,14 +203,14 @@ const BookingForm = () => {
 
               <div className="mt-6 pt-6 border-t">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium">Étape {currentStep}/3</span>
-                  <span className="text-sm text-muted-foreground">{Math.round((currentStep / 3) * 100)}%</span>
+                  <span className="text-sm font-medium">Étape {currentStep}/4</span>
+                  <span className="text-sm text-muted-foreground">{Math.round((currentStep / 4) * 100)}%</span>
                 </div>
 
                 <div className="w-full bg-secondary rounded-full h-2">
                   <div
                     className="bg-primary h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(currentStep / 3) * 100}%` }}
+                    style={{ width: `${(currentStep / 4) * 100}%` }}
                   />
                 </div>
               </div>
@@ -251,13 +259,15 @@ const BookingForm = () => {
             <CardHeader>
               <CardTitle className="font-heading text-2xl">
                 {currentStep === 1 && "Informations personnelles"}
-                {currentStep === 2 && "Détailes de la réservation"}
-                {currentStep === 3 && "Document et paiement"}
+                {currentStep === 2 && "Détails de la réservation"}
+                {currentStep === 3 && "Rendez-vous"}
+                {currentStep === 4 && "Documents et paiement"}
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
                 {currentStep === 1 && "Veuillez renseigner vos coordonnées"}
                 {currentStep === 2 && "Options de location et livraison"}
-                {currentStep === 3 && "Pièces justificatives et mode de paiement"}
+                {currentStep === 3 && "Prenez rendez-vous pour finaliser"}
+                {currentStep === 4 && "Pièces justificatives et mode de paiement"}
               </p>
             </CardHeader>
             <CardContent>
@@ -384,8 +394,103 @@ const BookingForm = () => {
                   </div>
                 )}
 
-                {/* Step 3: Documents & Payment */}
+                {/* Step 3: Rendez-vous */}
                 {currentStep === 3 && (
+                  <div className="space-y-6 animate-fade-in">
+                    <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                      <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                        <Calendar className="h-5 w-5 text-primary" />
+                        Planifiez votre rendez-vous
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Choisissez une date et une heure pour finaliser votre {car.type === "vente" ? "achat" : "location"} en agence
+                      </p>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="rdvAgency" className="font-semibold flex items-center gap-2">
+                          <MapPin className="h-4 w-4" />
+                          Agence *
+                        </Label>
+                        <Select
+                          value={formData.rdvAgency}
+                          onValueChange={(value) => setFormData({ ...formData, rdvAgency: value })}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Sélectionner une agence" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="cocody">VROOM Cocody</SelectItem>
+                            <SelectItem value="yopougon">VROOM Yopougon</SelectItem>
+                            <SelectItem value="plateau">VROOM Plateau</SelectItem>
+                            <SelectItem value="marcory">VROOM Marcory</SelectItem>
+                            <SelectItem value="abobo">VROOM Abobo</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="rdvDate" className="font-semibold flex items-center gap-2">
+                            <Calendar className="h-4 w-4" />
+                            Date du rendez-vous *
+                          </Label>
+                          <Input
+                            id="rdvDate"
+                            name="rdvDate"
+                            type="date"
+                            value={formData.rdvDate}
+                            onChange={handleInputChange}
+                            min={new Date().toISOString().split('T')[0]}
+                            required
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="rdvTime" className="font-semibold flex items-center gap-2">
+                            <ClipboardCheck className="h-4 w-4" />
+                            Heure *
+                          </Label>
+                          <Select
+                            value={formData.rdvTime}
+                            onValueChange={(value) => setFormData({ ...formData, rdvTime: value })}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Choisir l'heure" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="09:00">09:00</SelectItem>
+                              <SelectItem value="10:00">10:00</SelectItem>
+                              <SelectItem value="11:00">11:00</SelectItem>
+                              <SelectItem value="12:00">12:00</SelectItem>
+                              <SelectItem value="14:00">14:00</SelectItem>
+                              <SelectItem value="15:00">15:00</SelectItem>
+                              <SelectItem value="16:00">16:00</SelectItem>
+                              <SelectItem value="17:00">17:00</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+
+                      <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mt-4">
+                        <h4 className="font-bold text-sm mb-2 text-blue-900 dark:text-blue-100">
+                          📋 Que se passera-t-il lors du rendez-vous ?
+                        </h4>
+                        <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1 list-disc list-inside">
+                          <li>Visite complète du véhicule</li>
+                          <li>Vérification de vos documents</li>
+                          <li>Explication des conditions</li>
+                          <li>Signature du contrat</li>
+                          <li>Remise des clés</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 4: Documents & Payment */}
+                {currentStep === 4 && (
                   <div className="space-y-6 animate-fade-in">
                     <div className="space-y-4">
                       <h3 className="font-heading text-lg font-semibold flex items-center gap-2">

@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Car, ShoppingBag, Edit, Mail, Phone, Calendar, FileText, TrendingUp, Package, Crown } from "lucide-react";
+import { Car, ShoppingBag, Edit, Mail, Phone, Calendar, FileText, TrendingUp, Package, Crown, CreditCard } from "lucide-react";
+import Header from "@/components/Header";
 
 
 const Account = () => {
+  const navigate = useNavigate();
   const [user] = useState({
     name: "Jean Dupont",
     email: "jean.dupont@example.com",
@@ -45,6 +48,7 @@ const Account = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      <Header />
 
       <div className="p-4 md:p-8">
         <div className="max-w-7xl mx-auto space-y-8">
@@ -114,6 +118,7 @@ const Account = () => {
                     size="lg"
                     variant="secondary"
                     className="font-bold rounded-xl shadow-xl hover:scale-105 transition-all whitespace-nowrap"
+                    onClick={() => navigate("/subscription")}
                   >
                     S'abonner maintenant
                   </Button>
@@ -124,6 +129,24 @@ const Account = () => {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <Card 
+              className="rounded-3xl shadow-lg border-none hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-in fade-in slide-in-from-left duration-500 cursor-pointer"
+              onClick={() => navigate("/payments")}
+            >
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-bold text-muted-foreground flex items-center gap-2">
+                  <div className="w-10 h-10 bg-green-500/10 rounded-xl flex items-center justify-center">
+                    <CreditCard className="h-5 w-5 text-green-600" />
+                  </div>
+                  Paiements
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-4xl font-black text-green-600">12</div>
+                <p className="text-xs font-semibold text-muted-foreground mt-1">Transactions</p>
+              </CardContent>
+            </Card>
+
             <Card className="rounded-3xl shadow-lg border-none hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-in fade-in slide-in-from-left duration-500">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-bold text-muted-foreground flex items-center gap-2">

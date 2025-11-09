@@ -18,6 +18,8 @@ import NotFound from "./pages/NotFound";
 import SplashScreen from "./components/SplashScreen";
 import BookingForm from "./pages/BookingForm";
 import Account from "./pages/Account";
+import ClientSubscription from "./pages/ClientSubscription";
+import PaymentManagement from "./pages/PaymentManagement";
 import Partnership from "./pages/Partnership";
 import PartnerAuth from "./pages/partner/PartnerAuth";
 import PartnerDashboard from "./pages/partner/PartnerDashboard";
@@ -58,6 +60,8 @@ const App = () => {
             <Route path="/notifications" element={<Layout><Notifications /></Layout>} />
             <Route path="/locations" element={<Layout><Locations /></Layout>} />
             <Route path="/account" element={<Layout><Account /></Layout>} />
+            <Route path="/subscription" element={<ClientSubscription />} />
+            <Route path="/payments" element={<PaymentManagement />} />
             <Route path="/autoEcole" element={<Layout><AutoEcole /></Layout>}/>
             <Route path="/booking/:id" element={<Layout><BookingForm /></Layout>} />
             
