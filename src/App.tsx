@@ -27,6 +27,7 @@ import PartnerAnalytics from "./pages/partner/PartnerAnalytics";
 import PartnerTrends from "./pages/partner/PartnerTrends";
 import PartnerSubscription from "./pages/partner/PartnerSubscription";
 import AddVehicleForm from "./pages/partner/AddVehicleForm";
+import AutoEcole from "./pages/AutoEcole";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +58,7 @@ const App = () => {
             <Route path="/notifications" element={<Layout><Notifications /></Layout>} />
             <Route path="/locations" element={<Layout><Locations /></Layout>} />
             <Route path="/account" element={<Layout><Account /></Layout>} />
+            <Route path="/autoEcole" element={<Layout><AutoEcole /></Layout>}/>
             <Route path="/booking/:id" element={<Layout><BookingForm /></Layout>} />
             
             {/* Routes partenaires (collaborateurs) */}
