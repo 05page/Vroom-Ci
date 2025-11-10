@@ -160,7 +160,7 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: CarDetailsDialogProps
             </Badge>
           </div>
 
-          <div className="flex flex-col gap-3 pt-4">
+          <div className="flex gap-3">
             <Button
               variant="default"
               size="lg"
@@ -169,22 +169,9 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: CarDetailsDialogProps
             >
               {car.type === "vente" ? "Acheter maintenant" : "Réserver maintenant"}
             </Button>
-            <div className="flex gap-3">
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="flex-1"
-                onClick={() => {
-                  navigate('/rdv', { state: { car } });
-                  onClose();
-                }}
-              >
-                Prendre rendez-vous
-              </Button>
               <Button variant="ghost" size="lg" onClick={onClose}>
                 Fermer
               </Button>
-            </div>
           </div>
         </div>
       </DialogContent>

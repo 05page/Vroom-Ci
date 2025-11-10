@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import Header from "@/components/Header";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -73,76 +74,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       {/* Header */}
-      <header className="bg-background/80 backdrop-blur-xl border-b sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-primary rounded-xl p-2">
-              <Car className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <h1 className="text-2xl font-black tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              VROOM
-            </h1>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-2">
-            <Button variant="ghost" onClick={() => navigate("/vehicles")} className="font-semibold">
-              Véhicules
-            </Button>
-            <Button variant="ghost" onClick={() => navigate("/favorites")} className="font-semibold">
-              Favoris
-            </Button>
-            <Button variant="ghost" onClick={() => navigate("/messages")} className="font-semibold">
-              Messages
-            </Button>
-            <Button variant="ghost" onClick={() => navigate("/account")} className="font-semibold">
-              Compte
-            </Button>
-          </nav>
-
-          {/* Mobile Menu Button & Notifications */}
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative hover:bg-primary/10"
-              onClick={() => navigate("/notifications")}
-            >
-              <Bell className="h-5 w-5" />
-              <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-red-500 text-white text-xs border-2 border-background">
-                3
-              </Badge>
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              <Menu className="h-6 w-6" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        {menuOpen && (
-          <nav className="md:hidden border-t bg-background/95 backdrop-blur-xl p-4 space-y-2 animate-in slide-in-from-top duration-300">
-            <Button variant="ghost" className="w-full justify-start font-semibold" onClick={() => navigate("/vehicles")}>
-              Véhicules
-            </Button>
-            <Button variant="ghost" className="w-full justify-start font-semibold" onClick={() => navigate("/favorites")}>
-              Favoris
-            </Button>
-            <Button variant="ghost" className="w-full justify-start font-semibold" onClick={() => navigate("/messages")}>
-              Messages
-            </Button>
-            <Button variant="ghost" className="w-full justify-start font-semibold" onClick={() => navigate("/account")}>
-              Compte
-            </Button>
-          </nav>
-        )}
-      </header>
+      <Header />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 md:py-12">

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Car, ArrowLeft, LogOut } from "lucide-react";
+import { Car, ArrowLeft, LogOut, Heart, MessageCircle } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -70,11 +70,11 @@ const Header = ({ showBack = false, backUrl }: HeaderProps) => {
               <span>Mon profil</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => navigate("/favorites")} className="cursor-pointer">
-              <span className="mr-2">❤️</span>
+              <Heart className="mr-2 h-4 w-4"/>
               <span>Mes favoris</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => navigate("/messages")} className="cursor-pointer">
-              <span className="mr-2">💬</span>
+              <MessageCircle className="mr-2 h-4 w-4" />
               <span>Messages</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
