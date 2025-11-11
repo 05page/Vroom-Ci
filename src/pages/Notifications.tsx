@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Bell, Heart, MessageCircle, Car, TrendingUp, CheckCheck, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
+import Header from "@/components/Header";
 
 interface Notification {
   id: string;
@@ -95,16 +96,7 @@ const Notifications = () => {
     <div className="min-h-screen bg-secondary/20">
       <header>
         {/* Header */}
-      <header className="bg-background border-b sticky top-0 z-50">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <nav className="flex items-center gap-4">
-            <Button variant="ghost" onClick={() => navigate("/dashboard")}>
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Retour
-            </Button>
-          </nav>
-        </div>
-      </header>
+      <Header />
       </header>
       <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 max-w-4xl">
         {/* Header */}

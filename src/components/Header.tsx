@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Car, ArrowLeft, LogOut, Heart, MessageCircle } from "lucide-react";
+import { Car, ArrowLeft, LogOut, Heart, MessageCircle, Bell, Badge, User } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,7 +44,7 @@ const Header = ({ showBack = false, backUrl }: HeaderProps) => {
           <div className="bg-primary rounded-xl p-2 cursor-pointer" onClick={() => navigate("/dashboard")}>
             <Car className="h-6 w-6 text-primary-foreground" />
           </div>
-          <h1 
+          <h1
             className="text-2xl font-black tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent cursor-pointer"
             onClick={() => navigate("/dashboard")}
           >
@@ -66,16 +66,25 @@ const Header = ({ showBack = false, backUrl }: HeaderProps) => {
             <DropdownMenuLabel className="font-bold">Mon compte</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => navigate("/account")} className="cursor-pointer">
-              <Car className="mr-2 h-4 w-4" />
+              <User className="mr-2 h-4 w-4" />
               <span>Mon profil</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => navigate("/favorites")} className="cursor-pointer">
-              <Heart className="mr-2 h-4 w-4"/>
+              <Heart className="mr-2 h-4 w-4" />
               <span>Mes favoris</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => navigate("/messages")} className="cursor-pointer">
               <MessageCircle className="mr-2 h-4 w-4" />
               <span>Messages</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/notifications")} className="cursor-pointer">
+              <div className="relative inline-flex items-center mr-2">
+                <Bell className="h-4 w-4" />
+                <Badge className="absolute -top-2 -right-2 h-4 w-4 p-0 flex items-center justify-center bg-red-500 text-white text-[10px] border border-background rounded-full">
+                  3
+                </Badge>
+              </div>
+              <span>Notifications</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-600 focus:text-red-600">

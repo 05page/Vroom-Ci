@@ -92,58 +92,79 @@ const Dashboard = () => {
 
         {/* Services Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
-          {services.map((service, index) => {
-            const IconComponent = service.icon;
-            return (
-              <div
-                key={service.title}
-                onClick={() => (service.action ? service.action() : navigate(service.route!))}
-                className="group relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-700 hover:scale-[1.08] hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-2 animate-in fade-in slide-in-from-bottom"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="aspect-square relative">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-125 group-hover:rotate-2"
-                  />
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-60 mix-blend-multiply transition-all duration-700 group-hover:opacity-80`} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                  
-                  {/* Icon avec rotation */}
-                  <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md rounded-full p-3 transition-all duration-700 group-hover:scale-125 group-hover:bg-white/40 group-hover:rotate-12">
-                    <IconComponent className="h-6 w-6 text-white" />
-                  </div>
+      {services.map((service, index) => {
+        const IconComponent = service.icon;
+        return (
+          <div
+            key={service.title}
+            onClick={() => navigate(service.route)}
+            className="group relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-700 hover:scale-[1.08] hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-2"
+            style={{ 
+              animationDelay: `${index * 100}ms`,
+              opacity: 0,
+              animation: `fadeInUp 0.6s ease-out ${index * 100}ms forwards`
+            }}
+          >
+            <div className="aspect-square relative rounded-3xl overflow-hidden">
+              <img
+                src={service.image}
+                alt={service.title}
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-125 group-hover:rotate-2"
+              />
+              <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-60 mix-blend-multiply transition-all duration-700 group-hover:opacity-80`} />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+              
+              {/* Icon avec rotation */}
+              <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md rounded-full p-3 transition-all duration-700 group-hover:scale-125 group-hover:bg-white/40 group-hover:rotate-12">
+                <IconComponent />
+              </div>
 
-                  {/* Flèche indicatrice animée */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
-                    <div className="bg-white/30 backdrop-blur-md rounded-full p-4 animate-pulse">
-                      <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </div>
-                  </div>
-                  
-                  {/* Texte avec glissement */}
-                  <div className="absolute bottom-0 left-0 right-0 p-5 text-white transform transition-all duration-700 group-hover:translate-y-[-8px]">
-                    <h3 className="font-black text-xl mb-1 tracking-tight group-hover:text-2xl transition-all duration-500">{service.title}</h3>
-                    <p className="text-sm text-white/90 font-medium group-hover:text-white transition-all duration-500">{service.description}</p>
-                    
-                    {/* Badge "Cliquez ici" */}
-                    <div className="flex items-center gap-2 mt-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
-                      <span className="text-xs font-bold bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-                        Cliquez pour explorer
-                      </span>
-                      <svg className="h-4 w-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
+              {/* Flèche indicatrice animée */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
+                <div className="bg-white/30 backdrop-blur-md rounded-full p-4 animate-pulse">
+                  <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
                 </div>
               </div>
-            );
-          })}
-        </div>
+              
+              {/* Texte avec glissement */}
+              <div className="absolute bottom-0 left-0 right-0 p-5 text-white transform transition-all duration-700 group-hover:translate-y-[-8px]">
+                <h3 className="font-black text-xl mb-1 tracking-tight group-hover:text-2xl transition-all duration-500">
+                  {service.title}
+                </h3>
+                <p className="text-sm text-white/90 font-medium group-hover:text-white transition-all duration-500">
+                  {service.description}
+                </p>
+                
+                {/* Badge "Cliquez ici" */}
+                <div className="flex items-center gap-2 mt-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+                  <span className="text-xs font-bold bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+                    Cliquez pour explorer
+                  </span>
+                  <svg className="h-4 w-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <style>{`
+              @keyframes fadeInUp {
+                from {
+                  opacity: 0;
+                  transform: translateY(30px);
+                }
+                to {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
+            `}</style>
+          </div>
+        );
+      })}
+    </div>
 
         {/* Quick Info Section */}
         <div className="mt-16">

@@ -360,7 +360,10 @@ const Landing = () => {
         <div className="container mx-auto px-4">
           <div className={`transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="text-4xl md:text-6xl font-black text-center mb-4 tracking-tight">
-              VROOM en chiffres
+              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                Vroom
+              </span> 
+              en chiffres
             </h2>
             <p className="text-center text-muted-foreground text-lg md:text-xl mb-20 max-w-3xl mx-auto font-medium">
               La confiance de milliers de clients à travers la Côte d'Ivoire

@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Send, Search, ArrowLeft, MoreVertical, Phone, Video } from "lucide-react";
 import { toast } from "sonner";
+import Header from "@/components/Header";
 
 interface Message {
   id: string;
@@ -102,6 +103,7 @@ const Messages = () => {
 
   return (
     <div className="h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      {/* <Header /> */}
       <div className="h-full flex flex-col md:flex-row max-w-7xl mx-auto">
         {/* Conversations List */}
         <div className={`${selectedConversation ? 'hidden md:flex' : 'flex'} w-full md:w-96 border-r bg-background/80 backdrop-blur-xl flex-col`}>
@@ -205,29 +207,6 @@ const Messages = () => {
                         {selectedConv.status === "online" ? "En ligne" : "Hors ligne"}
                       </p>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="rounded-xl hover:bg-primary/10 hidden md:flex"
-                    >
-                      <Phone className="h-5 w-5" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="rounded-xl hover:bg-primary/10 hidden md:flex"
-                    >
-                      <Video className="h-5 w-5" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="rounded-xl hover:bg-primary/10"
-                    >
-                      <MoreVertical className="h-5 w-5" />
-                    </Button>
                   </div>
                 </div>
               </div>

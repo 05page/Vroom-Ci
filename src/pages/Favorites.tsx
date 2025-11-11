@@ -14,6 +14,7 @@ import {
 import { CarDetailsDialog } from "@/components/CarDetailsDialog";
 import car1 from "@/assets/car-1.jpg";
 import car3 from "@/assets/car-3.jpg";
+import Header from "@/components/Header";
 
 interface CarData {
   id: string;
@@ -85,27 +86,7 @@ const Favorites = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       {/* Header */}
-      <header className="bg-background/80 backdrop-blur-xl border-b sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/dashboard")}>
-            <div className="bg-primary rounded-xl p-2">
-              <Car className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <h1 className="text-2xl font-black tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              VROOM
-            </h1>
-          </div>
-
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate("/dashboard")}
-            className="font-bold rounded-xl hover:bg-primary/10"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour
-          </Button>
-        </div>
-      </header>
+      <Header/>
 
       <div className="p-4 md:p-8">
         <div className="max-w-7xl mx-auto space-y-8">
