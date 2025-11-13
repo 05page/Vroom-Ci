@@ -6,7 +6,6 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Send, Search, ArrowLeft, MoreVertical, Phone, Video } from "lucide-react";
 import { toast } from "sonner";
-import Header from "@/components/Header";
 
 interface Message {
   id: string;

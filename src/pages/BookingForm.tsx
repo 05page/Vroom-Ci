@@ -58,22 +58,28 @@ const BookingForm = () => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: "front" | "back" | "license") => {
     const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (type === "front") {
+      setIdFront(file);
+    } else if (type === "back") {
+      setIdBack(file);
+    } else {
+      setDriveLicence(file);
+    }
+
     const reader = new FileReader();
     reader.onloadend = () => {
       const preview = reader.result as string;
       if (type === "front") {
-        setIdFront(file);
-        setIdFrontPreview(preview)
+        setIdFrontPreview(preview);
       } else if (type === "back") {
-        setIdBack(file);
-        setIdBackPreview(preview)
+        setIdBackPreview(preview);
       } else {
-        setDriveLicence(file)
-        setIdDriveLicencePreview(preview)
+        setIdDriveLicencePreview(preview);
       }
-      reader.readAsDataURL(file)
-    }
-
+    };
+    reader.readAsDataURL(file); // Déplacer ici !
   };
 
   const handleRemove = (type: "front" | "back" | "license") => {
@@ -246,7 +252,7 @@ const BookingForm = () => {
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  {formData.deliveryOption === "agency" 
+                  {formData.deliveryOption === "agency"
                     ? "Versez 10% comme garantie lors de la récupération en agence. Le reste sera payé directement à l'agence."
                     : "Versez 15% comme garantie pour la livraison à domicile. Le reste sera payé à la livraison."}
                 </p>
@@ -734,7 +740,7 @@ const BookingForm = () => {
                       Précédent
                     </Button>
                   )}
-                  {currentStep < 3 ? (
+                  {currentStep < 4 ? (
                     <Button
                       type="button"
                       size="lg"

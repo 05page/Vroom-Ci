@@ -1,20 +1,19 @@
 import { Button } from "@/components/ui/button";
-import { useNavigate, useLocation } from "react-router-dom";
 import { LogOut, Menu, LayoutDashboard, Car, MessageCircle, BarChart3, TrendingUp, Crown, Settings } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface PartnerLayoutProps {
   children: React.ReactNode;
 }
 
 const PartnerLayout = ({ children }: PartnerLayoutProps) => {
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("partnerAuth");
-    navigate("/partner/auth");
+    console.log("Déconnexion");
   };
 
   return (
@@ -29,7 +28,7 @@ const PartnerLayout = ({ children }: PartnerLayoutProps) => {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[280px] p-0 border-r-2">
+              <SheetContent side="left" className="w-[280px] p-0 border-r-2 bg-background">
                 <PartnerSidebar onNavigate={() => setOpen(false)} />
               </SheetContent>
             </Sheet>
@@ -54,13 +53,13 @@ const PartnerLayout = ({ children }: PartnerLayoutProps) => {
       </header>
 
       <div className="flex">
-        {/* Sidebar desktop */}
-        <aside className="hidden lg:flex w-[280px] border-r-2 min-h-[calc(100vh-4rem)] sticky top-16 bg-background/50 backdrop-blur-sm">
+        {/* Sidebar desktop - STICKY ET SCROLLABLE */}
+        <aside className="hidden lg:block w-[280px] border-r-2 bg-background/50 backdrop-blur-sm sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
           <PartnerSidebar />
         </aside>
 
-        {/* Contenu principal */}
-        <main className="flex-1 overflow-x-hidden">
+        {/* Contenu principal - SCROLLABLE INDÉPENDAMMENT */}
+        <main className="flex-1 overflow-y-auto">
           {children}
         </main>
       </div>
@@ -87,7 +86,7 @@ const PartnerSidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
     onNavigate?.();
   };
   const isActive = (path: string) => location.pathname === path;
-  
+
   return (
     <nav className="flex flex-col gap-2 p-4 w-full">
       {/* Logo Section */}

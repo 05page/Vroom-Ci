@@ -38,15 +38,6 @@ const PartnerVehicles = () => {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex flex-col gap-6">
-          <Button
-            variant="ghost"
-            className="w-fit font-bold hover:bg-primary/10"
-            onClick={() => window.history.back()}
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Retour
-          </Button>
-          
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="space-y-2">
               <h1 className="text-4xl md:text-5xl font-black tracking-tight">

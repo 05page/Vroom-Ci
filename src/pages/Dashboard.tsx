@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Car, ShoppingBag, MapPin, Wallet, Bell, Menu, Shield, Star, Building2, Upload, FileCheck } from "lucide-react";
+import { Car, ShoppingBag, MapPin, Wallet, Bell, Menu, Shield, Star, Building2, Upload, FileCheck, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
@@ -69,6 +69,15 @@ const Dashboard = () => {
       image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80",
       action: () => setOpenDialog(true),
     },
+
+    {
+      title: "Entretien",
+      description: "En quelques clics",
+      icon: Wrench,
+      gradient: "from-green-500 to-emerald-500",
+      image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80",
+      route: "/entretien",
+    },
   ];
 
   return (
@@ -90,116 +99,63 @@ const Dashboard = () => {
           </p>
         </div>
 
-        {/* Services Grid */}
+        {/* Services Grid - Style Yango */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
-      {services.map((service, index) => {
-        const IconComponent = service.icon;
-        return (
-          <div
-            key={service.title}
-            onClick={() => navigate(service.route)}
-            className="group relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-700 hover:scale-[1.08] hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-2"
-            style={{ 
-              animationDelay: `${index * 100}ms`,
-              opacity: 0,
-              animation: `fadeInUp 0.6s ease-out ${index * 100}ms forwards`
-            }}
-          >
-            <div className="aspect-square relative rounded-3xl overflow-hidden">
-              <img
-                src={service.image}
-                alt={service.title}
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-125 group-hover:rotate-2"
-              />
-              <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-60 mix-blend-multiply transition-all duration-700 group-hover:opacity-80`} />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-              
-              {/* Icon avec rotation */}
-              <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md rounded-full p-3 transition-all duration-700 group-hover:scale-125 group-hover:bg-white/40 group-hover:rotate-12">
-                <IconComponent />
-              </div>
-
-              {/* Flèche indicatrice animée */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
-                <div className="bg-white/30 backdrop-blur-md rounded-full p-4 animate-pulse">
-                  <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          {services.map((service, index) => {
+            const IconComponent = service.icon;
+            return (
+              <div
+                key={service.title}
+                onClick={() => service.action ? service.action() : navigate(service.route)}
+                className="group relative bg-card rounded-3xl p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-border"
+                style={{
+                  animationDelay: `${index * 100}ms`,
+                  opacity: 0,
+                  animation: `fadeInUp 0.6s ease-out ${index * 100}ms forwards`
+                }}
+              >
+                {/* Titre et flèche */}
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="font-black text-xl tracking-tight">
+                    {service.title}
+                  </h3>
+                  <svg
+                    className="h-5 w-5 text-foreground transition-transform duration-300 group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                   </svg>
                 </div>
-              </div>
-              
-              {/* Texte avec glissement */}
-              <div className="absolute bottom-0 left-0 right-0 p-5 text-white transform transition-all duration-700 group-hover:translate-y-[-8px]">
-                <h3 className="font-black text-xl mb-1 tracking-tight group-hover:text-2xl transition-all duration-500">
-                  {service.title}
-                </h3>
-                <p className="text-sm text-white/90 font-medium group-hover:text-white transition-all duration-500">
+
+                {/* Description */}
+                <p className="text-muted-foreground text-sm font-medium mb-6">
                   {service.description}
                 </p>
-                
-                {/* Badge "Cliquez ici" */}
-                <div className="flex items-center gap-2 mt-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
-                  <span className="text-xs font-bold bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-                    Cliquez pour explorer
-                  </span>
-                  <svg className="h-4 w-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+
+                {/* Icon en bas à droite */}
+                <div className="flex justify-end">
+                  <div className={`bg-gradient-to-br ${service.gradient} rounded-2xl p-3 transition-transform duration-300 group-hover:scale-110`}>
+                    <IconComponent className="h-8 w-8 text-white" />
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <style>{`
-              @keyframes fadeInUp {
-                from {
-                  opacity: 0;
-                  transform: translateY(30px);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateY(0);
-                }
-              }
-            `}</style>
-          </div>
-        );
-      })}
-    </div>
-
-        {/* Quick Info Section */}
-        <div className="mt-16">
-          <h3 className="text-2xl md:text-3xl font-black mb-8 tracking-tight">Pourquoi nous choisir ?</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="group p-8 bg-gradient-to-br from-card to-card/50 rounded-3xl border border-primary/10 hover:border-primary/30 transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
-              <div className="bg-gradient-to-br from-blue-500 to-cyan-500 w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
-                <Car className="h-7 w-7 text-white" />
+                <style>{`
+                  @keyframes fadeInUp {
+                    from {
+                      opacity: 0;
+                      transform: translateY(30px);
+                    }
+                    to {
+                      opacity: 1;
+                      transform: translateY(0);
+                    }
+                  }
+                `}</style>
               </div>
-              <h3 className="font-black text-xl mb-3 tracking-tight">Large choix</h3>
-              <p className="text-muted-foreground font-medium leading-relaxed">
-                Plus de 500 véhicules disponibles à la vente et à la location
-              </p>
-            </div>
-            
-            <div className="group p-8 bg-gradient-to-br from-card to-card/50 rounded-3xl border border-primary/10 hover:border-primary/30 transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
-              <div className="bg-gradient-to-br from-green-500 to-emerald-500 w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
-                <Shield className="h-7 w-7 text-white" />
-              </div>
-              <h3 className="font-black text-xl mb-3 tracking-tight">Garantie qualité</h3>
-              <p className="text-muted-foreground font-medium leading-relaxed">
-                Tous nos véhicules sont vérifiés et certifiés
-              </p>
-            </div>
-            
-            <div className="group p-8 bg-gradient-to-br from-card to-card/50 rounded-3xl border border-primary/10 hover:border-primary/30 transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
-              <div className="bg-gradient-to-br from-orange-500 to-red-500 w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
-                <Building2 className="h-7 w-7 text-white" />
-              </div>
-              <h3 className="font-black text-xl mb-3 tracking-tight">Agences partout</h3>
-              <p className="text-muted-foreground font-medium leading-relaxed">
-                Retrouvez-nous dans toutes les grandes villes
-              </p>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </main>
 

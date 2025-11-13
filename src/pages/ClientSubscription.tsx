@@ -8,8 +8,6 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Check, Crown, Sparkles, ArrowRight, CreditCard, Lock } from "lucide-react";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-import Header from "@/components/Header";
 
 const plans = [
   {
@@ -57,9 +55,43 @@ const plans = [
   },
 ];
 
+// SVG Icons pour Mobile Money
+const OrangeMoneyIcon = () => (
+  <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-xs">
+    OM
+  </div>
+);
+
+const MTNMoneyIcon = () => (
+  <div className="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center text-black font-black text-xs">
+    MTN
+  </div>
+);
+
+const MoovMoneyIcon = () => (
+  <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black text-xs">
+    MV
+  </div>
+);
+
+// SVG Icons pour Cartes bancaires
+const VisaIcon = () => (
+  <div className="w-12 h-8 bg-blue-600 rounded flex items-center justify-center text-white font-bold text-xs">
+    VISA
+  </div>
+);
+
+const MastercardIcon = () => (
+  <div className="w-12 h-8 bg-gradient-to-r from-red-500 to-orange-500 rounded flex items-center justify-center">
+    <div className="flex gap-0.5">
+      <div className="w-2.5 h-2.5 bg-red-600 rounded-full" />
+      <div className="w-2.5 h-2.5 bg-orange-500 rounded-full" />
+    </div>
+  </div>
+);
+
 const ClientSubscription = () => {
-  const navigate = useNavigate();
-  const currentPlan = localStorage.getItem("clientSubscription") || "free";
+  const currentPlan = "free";
   const [selectedPlan, setSelectedPlan] = useState(currentPlan);
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("mobile_money");
@@ -85,7 +117,6 @@ const ClientSubscription = () => {
   };
 
   const handleSubscribe = (planId: string) => {
-    localStorage.setItem("clientSubscription", planId);
     setSelectedPlan(planId);
     setShowPaymentDialog(false);
     toast.success(`Abonnement ${plans.find(p => p.id === planId)?.name} activé !`);
@@ -106,7 +137,6 @@ const ClientSubscription = () => {
       }
     }
 
-    // Simulation du paiement
     toast.success("Paiement en cours...");
     setTimeout(() => {
       handleSubscribe(selectedPlan);
@@ -116,11 +146,9 @@ const ClientSubscription = () => {
   const selectedPlanDetails = plans.find(p => p.id === selectedPlan);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <Header showBack />
-
-      <div className="container mx-auto px-4 py-8 space-y-8">
-        <div className="text-center space-y-2 animate-in fade-in slide-in-from-bottom duration-700">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-4 md:p-8">
+      <div className="container mx-auto space-y-8">
+        <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-2 mb-2">
             <Sparkles className="h-8 w-8 text-primary" />
             <h1 className="text-4xl font-black tracking-tight">Choisissez votre formule</h1>
@@ -134,10 +162,9 @@ const ClientSubscription = () => {
           {plans.map((plan, index) => (
             <Card
               key={plan.id}
-              className={`relative transition-all duration-500 hover:shadow-2xl hover:scale-105 animate-in fade-in slide-in-from-bottom ${
+              className={`relative rounded-3xl transition-all duration-500 hover:shadow-2xl hover:scale-105 ${
                 plan.popular ? "border-primary shadow-lg ring-2 ring-primary/20" : ""
               } ${currentPlan === plan.id ? "ring-2 ring-primary" : ""}`}
-              style={{ animationDelay: `${index * 100}ms` }}
             >
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
@@ -186,7 +213,7 @@ const ClientSubscription = () => {
                 </ul>
 
                 <Button
-                  className="w-full group transition-all duration-300"
+                  className="w-full group transition-all duration-300 rounded-xl font-bold"
                   variant={currentPlan === plan.id ? "secondary" : "default"}
                   onClick={() => handleSelectPlan(plan.id)}
                   disabled={currentPlan === plan.id}
@@ -204,75 +231,79 @@ const ClientSubscription = () => {
             </Card>
           ))}
         </div>
-
-        <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-          <CardContent className="p-8">
-            <div className="text-center space-y-3">
-              <h3 className="text-2xl font-black">Besoin d'aide pour choisir ?</h3>
-              <p className="text-muted-foreground font-medium">
-                Notre équipe est là pour vous accompagner dans le choix de la formule idéale
-              </p>
-              <Button variant="outline" className="mt-4 font-semibold">
-                Contacter un conseiller
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Payment Dialog */}
       <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto rounded-3xl">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black">Finaliser l'abonnement</DialogTitle>
-            <DialogDescription>
-              Vous avez choisi le plan <span className="font-bold text-foreground">{selectedPlanDetails?.name}</span> 
+            <DialogDescription className="font-medium">
+              Plan <span className="font-bold text-foreground">{selectedPlanDetails?.name}</span>
               {" "}à <span className="font-bold text-primary">{selectedPlanDetails?.price} FCFA/mois</span>
             </DialogDescription>
           </DialogHeader>
 
-          <form onSubmit={handlePayment} className="space-y-6">
+          <div className="space-y-6">
             <div className="space-y-4">
               <Label className="text-base font-semibold flex items-center gap-2">
                 <CreditCard className="h-4 w-4" />
                 Mode de paiement
               </Label>
               <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
-                <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-all cursor-pointer">
+                <div className="flex items-center space-x-2 p-4 border-2 rounded-xl hover:bg-secondary/50 transition-all cursor-pointer">
                   <RadioGroupItem value="mobile_money" id="mobile" />
                   <Label htmlFor="mobile" className="cursor-pointer flex-1 font-medium">
-                    Mobile Money (Orange, MTN, Moov)
+                    Mobile Money
                   </Label>
+                  <div className="flex gap-1">
+                    <OrangeMoneyIcon />
+                    <MTNMoneyIcon />
+                    <MoovMoneyIcon />
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-secondary/50 transition-all cursor-pointer">
+                <div className="flex items-center space-x-2 p-4 border-2 rounded-xl hover:bg-secondary/50 transition-all cursor-pointer">
                   <RadioGroupItem value="card" id="card" />
                   <Label htmlFor="card" className="cursor-pointer flex-1 font-medium">
                     Carte bancaire
                   </Label>
+                  <div className="flex gap-2">
+                    <VisaIcon />
+                    <MastercardIcon />
+                  </div>
                 </div>
               </RadioGroup>
             </div>
 
             {paymentMethod === "mobile_money" && (
-              <div className="space-y-4 animate-in fade-in slide-in-from-bottom duration-300">
+              <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="provider" className="font-semibold">Opérateur *</Label>
+                  <Label className="font-semibold">Choisissez votre opérateur *</Label>
                   <RadioGroup 
                     value={paymentData.mobileProvider} 
                     onValueChange={(value) => setPaymentData({...paymentData, mobileProvider: value})}
                   >
-                    <div className="flex gap-2">
-                      <div className="flex items-center space-x-2 p-3 border rounded-lg flex-1 hover:bg-secondary/50 cursor-pointer">
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-3 p-4 border-2 rounded-xl hover:bg-secondary/50 cursor-pointer transition-all">
                         <RadioGroupItem value="orange" id="orange" />
-                        <Label htmlFor="orange" className="cursor-pointer font-medium">Orange Money</Label>
+                        <OrangeMoneyIcon />
+                        <Label htmlFor="orange" className="cursor-pointer font-bold flex-1">
+                          Orange Money
+                        </Label>
                       </div>
-                      <div className="flex items-center space-x-2 p-3 border rounded-lg flex-1 hover:bg-secondary/50 cursor-pointer">
+                      <div className="flex items-center space-x-3 p-4 border-2 rounded-xl hover:bg-secondary/50 cursor-pointer transition-all">
                         <RadioGroupItem value="mtn" id="mtn" />
-                        <Label htmlFor="mtn" className="cursor-pointer font-medium">MTN</Label>
+                        <MTNMoneyIcon />
+                        <Label htmlFor="mtn" className="cursor-pointer font-bold flex-1">
+                          MTN Mobile Money
+                        </Label>
                       </div>
-                      <div className="flex items-center space-x-2 p-3 border rounded-lg flex-1 hover:bg-secondary/50 cursor-pointer">
+                      <div className="flex items-center space-x-3 p-4 border-2 rounded-xl hover:bg-secondary/50 cursor-pointer transition-all">
                         <RadioGroupItem value="moov" id="moov" />
-                        <Label htmlFor="moov" className="cursor-pointer font-medium">Moov</Label>
+                        <MoovMoneyIcon />
+                        <Label htmlFor="moov" className="cursor-pointer font-bold flex-1">
+                          Moov Money
+                        </Label>
                       </div>
                     </div>
                   </RadioGroup>
@@ -284,7 +315,7 @@ const ClientSubscription = () => {
                     placeholder="+225 07 00 00 00 00"
                     value={paymentData.mobileNumber}
                     onChange={(e) => setPaymentData({...paymentData, mobileNumber: e.target.value})}
-                    required
+                    className="h-12 rounded-xl border-2 font-medium"
                   />
                 </div>
                 <div className="space-y-2">
@@ -299,9 +330,9 @@ const ClientSubscription = () => {
                     maxLength={4}
                     value={paymentData.secretCode}
                     onChange={(e) => setPaymentData({...paymentData, secretCode: e.target.value})}
-                    required
+                    className="h-12 rounded-xl border-2 font-medium text-center text-2xl tracking-widest"
                   />
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-muted-foreground font-medium">
                     Code de confirmation de votre opérateur mobile
                   </p>
                 </div>
@@ -309,7 +340,11 @@ const ClientSubscription = () => {
             )}
 
             {paymentMethod === "card" && (
-              <div className="space-y-4 animate-in fade-in slide-in-from-bottom duration-300">
+              <div className="space-y-4">
+                <div className="flex gap-2 justify-end mb-2">
+                  <VisaIcon />
+                  <MastercardIcon />
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="cardNumber" className="font-semibold">Numéro de carte *</Label>
                   <Input
@@ -317,7 +352,7 @@ const ClientSubscription = () => {
                     placeholder="1234 5678 9012 3456"
                     value={paymentData.cardNumber}
                     onChange={(e) => setPaymentData({...paymentData, cardNumber: e.target.value})}
-                    required
+                    className="h-12 rounded-xl border-2 font-medium"
                   />
                 </div>
                 <div className="space-y-2">
@@ -327,7 +362,7 @@ const ClientSubscription = () => {
                     placeholder="JEAN DUPONT"
                     value={paymentData.cardName}
                     onChange={(e) => setPaymentData({...paymentData, cardName: e.target.value})}
-                    required
+                    className="h-12 rounded-xl border-2 font-medium"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -338,7 +373,7 @@ const ClientSubscription = () => {
                       placeholder="MM/AA"
                       value={paymentData.cardExpiry}
                       onChange={(e) => setPaymentData({...paymentData, cardExpiry: e.target.value})}
-                      required
+                      className="h-12 rounded-xl border-2 font-medium"
                     />
                   </div>
                   <div className="space-y-2">
@@ -349,7 +384,7 @@ const ClientSubscription = () => {
                       maxLength={3}
                       value={paymentData.cardCVV}
                       onChange={(e) => setPaymentData({...paymentData, cardCVV: e.target.value})}
-                      required
+                      className="h-12 rounded-xl border-2 font-medium"
                     />
                   </div>
                 </div>
@@ -357,14 +392,22 @@ const ClientSubscription = () => {
             )}
 
             <DialogFooter className="gap-2">
-              <Button type="button" variant="outline" onClick={() => setShowPaymentDialog(false)}>
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => setShowPaymentDialog(false)}
+                className="rounded-xl font-bold border-2"
+              >
                 Annuler
               </Button>
-              <Button type="submit" className="flex-1">
+              <Button 
+                onClick={handlePayment} 
+                className="flex-1 rounded-xl font-bold shadow-lg shadow-primary/30"
+              >
                 Payer {selectedPlanDetails?.price} FCFA
               </Button>
             </DialogFooter>
-          </form>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

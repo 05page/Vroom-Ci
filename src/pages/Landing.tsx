@@ -153,16 +153,11 @@ const Landing = () => {
       url: "/dashboard"
     },
     {
-      title: "Assurance",
-      description: "Protection tous risques",
-      icon: Shield,
-      color: "from-indigo-500 to-blue-500"
-    },
-    {
       title: "Entretien",
       description: "Maintenance professionnelle",
       icon: Wrench,
-      color: "from-yellow-500 to-orange-500"
+      color: "from-yellow-500 to-orange-500",
+      url: "/entretien"
     },
     {
       title: "Auto-école",
@@ -361,8 +356,10 @@ const Landing = () => {
           <div className={`transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="text-4xl md:text-6xl font-black text-center mb-4 tracking-tight">
               <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                Vroom
+                Vroom {" "}
+                <span className="">Ci</span>
               </span> 
+              {" "}
               en chiffres
             </h2>
             <p className="text-center text-muted-foreground text-lg md:text-xl mb-20 max-w-3xl mx-auto font-medium">

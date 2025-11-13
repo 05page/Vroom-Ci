@@ -30,6 +30,7 @@ import PartnerTrends from "./pages/partner/PartnerTrends";
 import PartnerSubscription from "./pages/partner/PartnerSubscription";
 import AddVehicleForm from "./pages/partner/AddVehicleForm";
 import AutoEcole from "./pages/AutoEcole";
+import EntretienAgences from "./pages/Entretien";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,7 @@ const App = () => {
             <Route path="/subscription" element={<ClientSubscription />} />
             <Route path="/payments" element={<PaymentManagement />} />
             <Route path="/autoEcole" element={<Layout><AutoEcole /></Layout>}/>
+            <Route path="/entretien" element={<Layout><EntretienAgences /></Layout>}/>
             <Route path="/booking/:id" element={<Layout><BookingForm /></Layout>} />
             
             {/* Routes partenaires (collaborateurs) */}
