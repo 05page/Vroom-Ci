@@ -8,6 +8,7 @@ import { Calendar, Clock, MapPin, Navigation, Phone, Wrench, Car, Search } from 
 const EntretienAgences = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCity, setSelectedCity] = useState("all");
+    const [selectedService, setSelectedService] = useState("all");
 
     const agencies = [
         {
@@ -73,13 +74,14 @@ const EntretienAgences = () => {
     ];
 
     const cities = ["all", ...new Set(agencies.map((a) => a.city))];
-
+    const services = ["all", ...new Set(agencies.flatMap((s)=> s.services))]
     const filteredAgencies = agencies.filter((agency) => {
         const matchesCity = selectedCity === "all" || agency.city === selectedCity;
+        const matchesService = selectedService === "all" || agency.services.includes(selectedService);
         const matchesSearch = agency.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             agency.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
             agency.city.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCity && matchesSearch;
+        return matchesCity && matchesSearch && matchesService;
     });
 
     const openGoogleMaps = (lat: number, lng: number) => {
@@ -125,7 +127,7 @@ const EntretienAgences = () => {
                 </div>
 
                 {/* Filters */}
-                <div className="grid md:grid-cols-2 gap-4 mb-12 max-w-4xl mx-auto">
+                <div className="grid md:grid-cols-3 gap-4 mb-12 max-w-4xl mx-auto">
                     <div className="relative">
                         <Input
                             value={searchQuery}
@@ -145,6 +147,21 @@ const EntretienAgences = () => {
                             {cities.filter(c => c !== "all").map((city) => (
                                 <SelectItem key={city} value={city} className="font-medium">
                                     {city}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+
+                    <Select value={selectedService} onValueChange={setSelectedService}>
+                        <SelectTrigger className="h-14 rounded-2xl border-2 font-medium">
+                            <MapPin className="h-5 w-5 mr-2 text-primary" />
+                            <SelectValue placeholder="Sélectionnez une ville" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">Tous les services</SelectItem>
+                            {services.filter(s => s !== "all").map((services) => (
+                                <SelectItem key={services} value={services} className="font-medium">
+                                    {services}
                                 </SelectItem>
                             ))}
                         </SelectContent>

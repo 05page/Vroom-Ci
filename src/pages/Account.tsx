@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Car, ShoppingBag, Edit, Mail, Phone, Calendar, FileText, TrendingUp, Package, Crown, CreditCard } from "lucide-react";
+import { Car, ShoppingBag, Edit, Mail, Phone, Calendar, FileText, TrendingUp, Package, Crown, CreditCard, ArrowLeftRight, ShieldX } from "lucide-react";
 import Header from "@/components/Header";
 
 
@@ -45,6 +45,20 @@ const Account = () => {
     { id: 2, car: "Honda Accord 2021", type: "Location", price: "250 000 FCFA/jour", views: 189, date: "Il y a 5 jours", status: "Actif" },
     { id: 3, car: "Nissan Patrol 2020", type: "Vente", price: "22 000 000 FCFA", views: 456, date: "Il y a 1 semaine", status: "Vendu" },
   ];
+
+  const abonnements = [
+    {
+      id: 1, abonnement: "Premium", price: "5000 Fcfa", dateAbonnement: "13/11/2025", finAbonnement: "13/12/2025", statut: "En cours"
+    },
+
+    {
+      id: 2, abonnement: "Premium", price: "5000 Fcfa", dateAbonnement: "13/10/2025", finAbonnement: "13/11/2025", statut: "Expiré"
+    },
+
+    {
+      id: 3, abonnement: "Premium", price: "5000 Fcfa", dateAbonnement: "13/08/2025", finAbonnement: "13/09/2025", statut: "Expiré"
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
@@ -87,7 +101,7 @@ const Account = () => {
                   </div>
 
                   <div className="flex gap-3 justify-center md:justify-start pt-2">
-                    <Button 
+                    <Button
                       size="lg"
                       className="rounded-xl font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all"
                     >
@@ -114,7 +128,7 @@ const Account = () => {
                       Publiez vos annonces, accédez aux posts tendances et boostez votre visibilité
                     </p>
                   </div>
-                  <Button 
+                  <Button
                     size="lg"
                     variant="secondary"
                     className="font-bold rounded-xl shadow-xl hover:scale-105 transition-all whitespace-nowrap"
@@ -129,7 +143,7 @@ const Account = () => {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <Card 
+            <Card
               className="rounded-3xl shadow-lg border-none hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-in fade-in slide-in-from-left duration-500 cursor-pointer"
               onClick={() => navigate("/payments")}
             >
@@ -215,34 +229,40 @@ const Account = () => {
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="rentals" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 h-12 p-1 bg-secondary rounded-2xl">
-                  <TabsTrigger 
-                    value="rentals" 
+                <TabsList className="grid w-full grid-cols-4 h-12 p-1 bg-secondary rounded-2xl">
+                  <TabsTrigger
+                    value="rentals"
                     className="rounded-xl font-bold data-[state=active]:bg-background data-[state=active]:shadow-md"
                   >
                     <Car className="h-4 w-4 mr-2" />
                     Locations
                   </TabsTrigger>
-                  <TabsTrigger 
+                  <TabsTrigger
                     value="sales"
                     className="rounded-xl font-bold data-[state=active]:bg-background data-[state=active]:shadow-md"
                   >
                     <ShoppingBag className="h-4 w-4 mr-2" />
                     Ventes
                   </TabsTrigger>
-                  <TabsTrigger 
+                  <TabsTrigger
                     value="posts"
                     className="rounded-xl font-bold data-[state=active]:bg-background data-[state=active]:shadow-md"
                   >
                     <Package className="h-4 w-4 mr-2" />
                     Mes Posts
                   </TabsTrigger>
+                  <TabsTrigger
+                    className="rounded-xl font-bold data-[state=active]:bg-background data-[state=active]:shadow-md"
+                    value="abonnements">
+                    <CreditCard className="h-4 w-4 mr-2" />
+                    Mes abonnements
+                  </TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="rentals" className="space-y-4 mt-6">
                   {rentals.map((rental, index) => (
-                    <Card 
-                      key={rental.id} 
+                    <Card
+                      key={rental.id}
                       className="rounded-2xl border-2 hover:border-primary/30 hover:shadow-lg transition-all duration-300 animate-in fade-in slide-in-from-bottom"
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
@@ -254,7 +274,7 @@ const Account = () => {
                                 <Car className="h-5 w-5 text-primary" />
                               </div>
                               <h3 className="font-black text-lg tracking-tight">{rental.car}</h3>
-                              <Badge 
+                              <Badge
                                 variant={rental.status === "En cours" ? "default" : "secondary"}
                                 className="font-bold rounded-full"
                               >
@@ -268,8 +288,8 @@ const Account = () => {
                               <p className="text-xl font-black text-primary">{rental.price}</p>
                             </div>
                           </div>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             className="rounded-xl font-bold border-2 hover:scale-105 transition-all"
                           >
                             <FileText className="h-4 w-4 mr-2" />
@@ -283,8 +303,8 @@ const Account = () => {
 
                 <TabsContent value="sales" className="space-y-4 mt-6">
                   {sales.map((sale, index) => (
-                    <Card 
-                      key={sale.id} 
+                    <Card
+                      key={sale.id}
                       className="rounded-2xl border-2 hover:border-primary/30 hover:shadow-lg transition-all duration-300 animate-in fade-in slide-in-from-bottom"
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
@@ -307,7 +327,7 @@ const Account = () => {
                               <p className="text-xl font-black text-primary">{sale.price}</p>
                             </div>
                           </div>
-                          <Button 
+                          <Button
                             variant="outline"
                             className="rounded-xl font-bold border-2 hover:scale-105 transition-all"
                           >
@@ -331,8 +351,8 @@ const Account = () => {
                     </Button>
                   </div>
                   {posts.map((post, index) => (
-                    <Card 
-                      key={post.id} 
+                    <Card
+                      key={post.id}
                       className="rounded-2xl border-2 hover:border-primary/30 hover:shadow-lg transition-all duration-300 animate-in fade-in slide-in-from-bottom"
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
@@ -344,13 +364,13 @@ const Account = () => {
                                 <Package className="h-5 w-5 text-primary" />
                               </div>
                               <h3 className="font-black text-lg tracking-tight">{post.car}</h3>
-                              <Badge 
+                              <Badge
                                 variant={post.type === "Vente" ? "default" : "secondary"}
                                 className="font-bold rounded-full"
                               >
                                 {post.type}
                               </Badge>
-                              <Badge 
+                              <Badge
                                 variant={post.status === "Actif" ? "default" : "secondary"}
                                 className="font-bold rounded-full"
                               >
@@ -369,16 +389,16 @@ const Account = () => {
                             </div>
                           </div>
                           <div className="flex flex-col gap-2">
-                            <Button 
-                              variant="outline" 
+                            <Button
+                              variant="outline"
                               size="sm"
                               className="rounded-xl font-bold border-2 hover:scale-105 transition-all"
                             >
                               <Edit className="h-4 w-4 mr-2" />
                               Modifier
                             </Button>
-                            <Button 
-                              variant="ghost" 
+                            <Button
+                              variant="ghost"
                               size="sm"
                               className="rounded-xl font-bold hover:bg-destructive/10 hover:text-destructive"
                             >
@@ -390,12 +410,60 @@ const Account = () => {
                     </Card>
                   ))}
                 </TabsContent>
+
+                <TabsContent value="abonnements" className="space-y-4 mt-6">
+                  <div className="flex justify-end">
+                    <Button className="font-bold rounded-xl shadow-lg shadow-primary/30">
+                      <ArrowLeftRight className="h-4 w-4 mr-2" />
+                      Changer d'abonnement
+                    </Button>
+                  </div>
+
+                  {abonnements.map((abn, index) => (
+                    <Card
+                      key={abn.id}
+                      className="rounded-2xl border-2 hover:border-primary/30 hover:shadow-lg transition-all duration-300 animate-in fade-in slide-in-from-bottom"
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                      <CardContent className="p-5">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 space-y-3">
+                            <div className="flex items-center gap-3 flex-wrap">
+                              <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                <CreditCard className="w-5 h-5 text-primary" />
+                              </div>
+                              <h3 className="font-black text-lg tracking-tight">{abn.abonnement}</h3>
+                              <Badge className="font-bold rounded-full"
+                                variant={abn.statut === "En cours" ? "default" : "secondary"}>
+                                {abn.statut}
+                              </Badge>
+                            </div>
+                            <div className="space-y-1 pl-13">
+                              <p className="text-sm font-semibold text-muted-foreground">Du {abn.dateAbonnement} Au {abn.finAbonnement}</p>
+                              <p className="text-xl font-black text-primary">{abn.price}</p>
+                            </div>
+                          </div>
+                          {abn.statut === "En cours" && (
+                            < Button
+                              variant="outline"
+                              className="rounded-xl font-bold border-2 hover:scale-105 transition-all"
+                            >
+                              <ShieldX className="w-4 h-4 mr-2"/>
+                              Annuler l'abonnement
+                            </Button>
+                          )
+                          }
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </TabsContent>
               </Tabs>
             </CardContent>
           </Card>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

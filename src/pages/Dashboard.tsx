@@ -7,11 +7,11 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { VendezVotreVoiture } from "@/components/Form";
 import Header from "@/components/Header";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [menuOpen, setMenuOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [carIntFile, setCarIntFile] = useState<File | null>(null);
   const [carExtFile, setCarExtFile] = useState<File | null>(null);
@@ -160,199 +160,10 @@ const Dashboard = () => {
       </main>
 
       {/* Sell Your Car Dialog */}
-      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent className="w-[95%] sm:max-w-[500px] md:max-w-[650px] max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-8 rounded-3xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-3 text-xl sm:text-2xl md:text-3xl text-center sm:text-left font-black tracking-tight">
-              <div className="bg-primary rounded-xl p-2">
-                <Car className="h-6 w-6 text-primary-foreground" />
-              </div>
-              Vendez votre voiture
-            </DialogTitle>
-          </DialogHeader>
-
-          <form className="space-y-6 py-2 sm:py-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-              <div className="space-y-2">
-                <Label htmlFor="marque" className="text-sm sm:text-base font-semibold">
-                  Marque *
-                </Label>
-                <Input
-                  id="marque"
-                  name="marque"
-                  placeholder="Ex: Toyota"
-                  required
-                  className="transition-all focus:scale-[1.02] text-sm sm:text-base rounded-xl border-2 font-medium"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="modele" className="text-sm sm:text-base font-semibold">
-                  Modèle *
-                </Label>
-                <Input
-                  id="modele"
-                  name="modele"
-                  placeholder="Ex: Corolla"
-                  required
-                  className="transition-all focus:scale-[1.02] text-sm sm:text-base rounded-xl border-2 font-medium"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="annee" className="text-sm sm:text-base font-semibold">
-                  Année *
-                </Label>
-                <Input
-                  id="annee"
-                  name="annee"
-                  type="number"
-                  placeholder="Ex: 2020"
-                  required
-                  min="1900"
-                  max={new Date().getFullYear()}
-                  className="transition-all focus:scale-[1.02] text-sm sm:text-base rounded-xl border-2 font-medium"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="carburant" className="text-sm sm:text-base font-semibold">
-                  Carburant *
-                </Label>
-                <Select required>
-                  <SelectTrigger className="transition-all focus:scale-[1.02] text-sm sm:text-base rounded-xl border-2 font-medium">
-                    <SelectValue placeholder="Sélectionnez..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="essence">Essence</SelectItem>
-                    <SelectItem value="diesel">Diesel</SelectItem>
-                    <SelectItem value="hybride">Hybride</SelectItem>
-                    <SelectItem value="electrique">Électrique</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="kilometrage" className="text-sm sm:text-base font-semibold">
-                  Kilométrage (km) *
-                </Label>
-                <Input
-                  id="kilometrage"
-                  name="kilometrage"
-                  type="number"
-                  placeholder="Ex: 50000"
-                  required
-                  min="0"
-                  className="transition-all focus:scale-[1.02] text-sm sm:text-base rounded-xl border-2 font-medium"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="delaiVente" className="text-sm sm:text-base font-semibold">
-                  Quand vendre ? *
-                </Label>
-                <Select required>
-                  <SelectTrigger className="transition-all focus:scale-[1.02] text-sm sm:text-base rounded-xl border-2 font-medium">
-                    <SelectValue placeholder="Sélectionnez..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="immediatement">Immédiatement</SelectItem>
-                    <SelectItem value="1-mois">Dans 1 mois</SelectItem>
-                    <SelectItem value="2-mois">Dans 2 mois</SelectItem>
-                    <SelectItem value="3-mois">Dans 3 mois</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="carExt" className="font-semibold">Photo extérieure</Label>
-                <div className="relative">
-                  <Input
-                    id="carExt"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange(e, "ext")}
-                    className="hidden"
-                  />
-                  <Label
-                    htmlFor="carExt"
-                    className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-muted-foreground/25 rounded-2xl cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
-                  >
-                    {carPreview ? (
-                      <img
-                        src={carPreview}
-                        alt="car photo"
-                        className="h-full w-full object-cover rounded-2xl"
-                      />
-                    ) : (
-                      <>
-                        <Upload className="h-8 w-8 text-muted-foreground mb-2" />
-                        <span className="text-sm text-muted-foreground font-medium">Cliquez pour télécharger</span>
-                      </>
-                    )}
-                  </Label>
-                </div>
-                {carExtFile && (
-                  <p className="text-xs text-primary flex items-center gap-1 font-medium">
-                    <FileCheck className="h-3 w-3" />
-                    {carExtFile.name}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="carInt" className="font-semibold">Photo intérieure</Label>
-                <div className="relative">
-                  <Input
-                    id="carInt"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange(e, "int")}
-                    className="hidden"
-                  />
-                  <label
-                    htmlFor="carInt"
-                    className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-muted-foreground/25 rounded-2xl cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
-                  >
-                    {carPreviewInt ? (
-                      <img
-                        src={carPreviewInt}
-                        alt="photos"
-                        className="h-full w-full object-cover rounded-2xl"
-                      />
-                    ) : (
-                      <>
-                        <Upload className="h-8 w-8 text-muted-foreground mb-2" />
-                        <span className="text-sm text-muted-foreground font-medium">Cliquez pour télécharger</span>
-                      </>
-                    )}
-                  </label>
-                </div>
-                {carIntFile && (
-                  <p className="text-xs text-primary flex items-center gap-1 font-medium">
-                    <FileCheck className="h-3 w-3" />
-                    {carIntFile.name}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-3 pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setOpenDialog(false)}
-                className="transition-all hover:scale-105 w-full sm:w-auto rounded-xl font-bold border-2"
-              >
-                Annuler
-              </Button>
-              <Button type="submit" className="transition-all hover:scale-105 w-full sm:w-auto rounded-xl font-bold shadow-lg shadow-primary/30">
-                Publier l'annonce
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <VendezVotreVoiture 
+        isOpen={openDialog}
+        onClose={()=> setOpenDialog(false)}
+      />
     </div>
   );
 };
