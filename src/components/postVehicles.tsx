@@ -1,103 +1,78 @@
-import { Dialog, DialogHeader, DialogTitle, DialogContent, DialogFooter } from "./ui/dialog";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Car, CheckCircle, Upload, X, FileCheck, AlertCircle } from "lucide-react";
-import { Input } from "./ui/input";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
+import { AlertCircle, Badge, Car, CheckCircle, FileCheck, ShoppingBag, Upload, X } from "lucide-react";
+import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Textarea } from "./ui/textarea";
+import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
 
 interface Props {
     isOpen: boolean;
     onClose: () => void;
 }
 
-export const VendezVotreVoiture = ({ isOpen, onClose }: Props) => {
-    const [currentStep, setCurrentStep] = useState(1);
+export const PostVehicles = ({ isOpen, onClose }: Props) => {
     const [formData, setFormData] = useState({
-        // Informations de base
-        marque: "",
-        modele: "",
-        annee: "",
-        carburant: "",
-        transmission: "",
-        kilometrage: "",
-        couleur: "",
-        nombrePortes: "",
+        type: "", marque: "", modele: "",
+        annee: "", carburant: "", transmission: "",
+        kilometrage: "", couleur: "", nombrePortes: "",
         nombrePlaces: "",
 
         // Documents et état
-        visiteTechnique: "",
-        dateVisiteTechnique: "",
-        carteGrise: "",
-        assurance: "",
-        accidentHistorique: "non",
+        visiteTechnique: "", dateVisiteTechnique: "", carteGrise: "",
+        assurance: "", accidentHistorique: "non",
 
         // Équipements et options
-        climatisation: false,
-        gps: false,
-        siegesCuir: false,
-        toitOuvrant: false,
-        regulateurVitesse: false,
-        camera: false,
-        abs: false,
-        airbags: false,
-        bluetooth: false,
-        vitresElectriques: false,
+        climatisation: false, gps: false, siegesCuir: false,
+        toitOuvrant: false, regulateurVitesse: false, camera: false,
+        abs: false, airbags: false, bluetooth: false, vitresElectriques: false,
 
         // Prix et vente
-        prixSouhaite: "",
-        prixNegociable: "oui",
-        dateVente: "",
+        prixSouhaite: "", prixNegociable: "oui", dateVente: "",
 
         // Description
         description: "",
     });
-
+    const [isSubmitted, setIsSubmitted] = useState(false);
     const [images, setImages] = useState<File[]>([]);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-    const [isSubmitted, setIsSubmitted] = useState(false);
-
-    const MAX_IMAGES = 15;
-
+    const [currentStep, setCurrentStep] = useState(1)
+    const maxImages = 15;
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
-
-        if (images.length + files.length > MAX_IMAGES) {
-            toast.error(`Vous ne pouvez télécharger que ${MAX_IMAGES} images maximum`);
+        if (images.length + files.length > maxImages) {
+            toast.error(`Vous ne pouvez télécharger que ${maxImages} images maximum`);
             return;
         }
 
+        //on utilise ...A, ...B pour fusionner les deux tableaux sans les imbriquer
         const newImages = [...images, ...files];
         setImages(newImages);
-
-        // Générer les aperçus
+        //Générer l'apperçu des images
         files.forEach(file => {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreviews(prev => [...prev, reader.result as string]);
-            };
+            }
             reader.readAsDataURL(file);
         });
-    };
+    }
 
     const removeImage = (index: number) => {
         setImages(prev => prev.filter((_, i) => i !== index));
         setImagePreviews(prev => prev.filter((_, i) => i !== index));
     };
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
         setIsSubmitted(true);
-
         setTimeout(() => {
             setIsSubmitted(false);
             setCurrentStep(1);
             setFormData({
-                marque: "", modele: "", annee: "", carburant: "", transmission: "",
+                type: "", marque: "", modele: "", annee: "", carburant: "", transmission: "",
                 kilometrage: "", couleur: "", nombrePortes: "", nombrePlaces: "",
                 visiteTechnique: "", dateVisiteTechnique: "", carteGrise: "", assurance: "",
                 accidentHistorique: "non", climatisation: false, gps: false, siegesCuir: false,
@@ -108,51 +83,50 @@ export const VendezVotreVoiture = ({ isOpen, onClose }: Props) => {
             setImages([]);
             setImagePreviews([]);
             onClose();
-        }, 2000);
+        }, 2000)
     };
-
     const handleChange = (field: string, value: string | boolean) => {
-        setFormData((prev) => ({ ...prev, [field]: value }));
-    };
-
+        setFormData((prev) => ({ ...prev, [field]: value }))
+    }
     const nextStep = () => {
-        // Validation étape 1
         if (currentStep === 1) {
+            if (!formData.type) {
+                toast.error("Veuillez sélectionner le type de post")
+            }
+        } else if (currentStep === 2) {
             if (!formData.marque || !formData.modele || !formData.annee || !formData.carburant ||
-                !formData.transmission || !formData.kilometrage) {
+                !formData.kilometrage) {
                 toast.error("Veuillez remplir tous les champs obligatoires");
                 return;
             }
-        }
-        // Validation étape 2
-        else if (currentStep === 2) {
+        } else if (currentStep === 3) {
             if (!formData.visiteTechnique || !formData.carteGrise || !formData.assurance) {
                 toast.error("Veuillez remplir tous les champs obligatoires");
                 return;
             }
-        } else if (currentStep === 4) {
-            if (!formData.prixSouhaite || !formData.dateVente) {
-                toast.error("Veuillez remplir le prix et la date de disponibilité");
-                return;
-            }
-            if (images.length === 0) {
-                toast.error("Veuillez ajouter au moins une photo de votre véhicule");
-                return;
-            }
+        }else if (currentStep === 5) {
+        if (!formData.prixSouhaite || !formData.dateVente) {
+            toast.error("Veuillez remplir le prix et la date de disponibilité");
+            return;
         }
-        // Passer à l'étape suivante si validation OK
-        if (currentStep < 4) {
-            setCurrentStep(currentStep + 1);
+        if (images.length === 0) {
+            toast.error("Veuillez ajouter au moins une photo de votre véhicule");
+            return;
         }
-    };
+        return;
+    }
+    if(currentStep < 5){
+        setCurrentStep(currentStep + 1);
+    }
 
+    }
     const prevStep = () => {
         if (currentStep > 1) setCurrentStep(currentStep - 1);
     };
 
-    // Message de confirmation
     if (isSubmitted) {
         return (
+
             <Dialog open={isOpen} onOpenChange={onClose}>
                 <DialogContent className="max-w-md rounded-3xl p-8">
                     <div className="text-center space-y-6 animate-in fade-in zoom-in duration-500">
@@ -170,38 +144,166 @@ export const VendezVotreVoiture = ({ isOpen, onClose }: Props) => {
                     </div>
                 </DialogContent>
             </Dialog>
-        );
+        )
     }
 
-    // Formulaire principal
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="w-[95%] sm:max-w-[700px] md:max-w-[900px] max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-8 rounded-3xl">
+            <DialogContent className="w-[95%] sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-8 rounded-3xl">
                 <DialogHeader>
-                    <DialogTitle className="flex items-center justify-between gap-3 text-xl sm:text-2xl md:text-3xl font-black tracking-tight">
+                    <DialogTitle className="flex items-ceter justify-between gap-3 text-xl sm:text-2xl md:text-3xl font-black tracking-tight">
                         <div className="flex items-center gap-3">
                             <div className="bg-primary rounded-xl p-2">
-                                <Car className="h-6 w-6 text-primary-foreground" />
+                                <Car className="h-6 w-6 text-sidebar-primary-foreground" />
                             </div>
-                            Vendez votre voiture
+                            Publiez votre voiture
                         </div>
                         <div className="text-sm font-semibold text-muted-foreground">
-                            Étape {currentStep}/4
+                            Etape {currentStep}/5
                         </div>
                     </DialogTitle>
-
-                    {/* Progress bar */}
+                    {/* bar de progression */}
                     <div className="w-full bg-secondary rounded-full h-2 mt-4">
-                        <div
-                            className="bg-primary h-2 rounded-full transition-all duration-300"
-                            style={{ width: `${(currentStep / 4) * 100}%` }}
-                        />
+                        <div className="bg-primary h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${(currentStep / 5) * 100}%` }} />
                     </div>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit} className="space-y-6 py-4">
-                    {/* ÉTAPE 1: Informations de base */}
+                    {/* Etape:1 Type de poste(vente ou location) */}
+                    {/* Etape 1: Type de poste (vente ou location) */}
                     {currentStep === 1 && (
+                        <div className="space-y-6 animate-in fade-in slide-in-from-right duration-300">
+                            <div className="bg-primary/5 rounded-2xl p-4 border border-primary/20">
+                                <h3 className="font-black text-lg mb-2 flex items-center gap-2">
+                                    <Car className="h-5 w-5 text-primary" />
+                                    Choisissez le type de post
+                                </h3>
+                                <p className="text-sm text-muted-foreground font-medium">
+                                    Sélectionnez si vous souhaitez vendre ou mettre en location votre véhicule
+                                </p>
+                            </div>
+
+                            {/* Options de sélection */}
+                            <div className="space-y-4">
+                                {/* Option Vente */}
+                                <div
+                                    onClick={() => handleChange("type", "vente")}
+                                    className={`relative p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 ${formData.type === "vente"
+                                        ? "border-primary bg-primary/10 shadow-lg shadow-primary/20"
+                                        : "border-border hover:border-primary/50 hover:bg-secondary/50"
+                                        }`}
+                                >
+                                    <div className="flex items-start gap-4">
+                                        {/* Radio button custom */}
+                                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1 transition-all ${formData.type === "vente"
+                                            ? "border-primary bg-primary"
+                                            : "border-muted-foreground"
+                                            }`}>
+                                            {formData.type === "vente" && (
+                                                <div className="w-3 h-3 bg-white rounded-full" />
+                                            )}
+                                        </div>
+
+                                        {/* Contenu */}
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                                                    <ShoppingBag className="h-6 w-6 text-white" />
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-black text-lg">Vente</h4>
+                                                    <p className="text-sm text-muted-foreground font-medium">
+                                                        Vendez votre véhicule
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground pl-15">
+                                                Publiez une annonce pour vendre définitivement votre voiture.
+                                                Fixez votre prix et trouvez l'acheteur idéal.
+                                            </p>
+                                        </div>
+
+                                        {/* Badge "Sélectionné" */}
+                                        {formData.type === "vente" && (
+                                            <div className="absolute top-4 right-4">
+                                                <Badge className="bg-primary text-primary-foreground font-bold">
+                                                    <CheckCircle className="h-3 w-3 mr-1" />
+                                                    Sélectionné
+                                                </Badge>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Option Location */}
+                                <div
+                                    onClick={() => handleChange("type", "location")}
+                                    className={`relative p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 ${formData.type === "location"
+                                        ? "border-green-600 bg-green-500/10 shadow-lg shadow-green-500/20"
+                                        : "border-border hover:border-green-600/50 hover:bg-secondary/50"
+                                        }`}
+                                >
+                                    <div className="flex items-start gap-4">
+                                        {/* Radio button custom */}
+                                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1 transition-all ${formData.type === "location"
+                                            ? "border-green-600 bg-green-600"
+                                            : "border-muted-foreground"
+                                            }`}>
+                                            {formData.type === "location" && (
+                                                <div className="w-3 h-3 bg-white rounded-full" />
+                                            )}
+                                        </div>
+
+                                        {/* Contenu */}
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                                                    <Car className="h-6 w-6 text-white" />
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-black text-lg">Location</h4>
+                                                    <p className="text-sm text-muted-foreground font-medium">
+                                                        Louez votre véhicule
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground pl-15">
+                                                Mettez votre voiture en location et générez des revenus réguliers.
+                                                Définissez vos tarifs et conditions de location.
+                                            </p>
+                                        </div>
+
+                                        {/* Badge "Sélectionné" */}
+                                        {formData.type === "location" && (
+                                            <div className="absolute top-4 right-4">
+                                                <Badge className="bg-green-600 text-white font-bold">
+                                                    <CheckCircle className="h-3 w-3 mr-1" />
+                                                    Sélectionné
+                                                </Badge>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Message d'information */}
+                            <div className="flex items-start gap-3 p-4 bg-blue-500/10 rounded-xl border border-blue-500/20">
+                                <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                                <div className="flex-1">
+                                    <p className="text-sm text-blue-600 font-semibold mb-1">
+                                        💡 Conseil
+                                    </p>
+                                    <p className="text-sm text-blue-600 font-medium">
+                                        Vous pourrez modifier ou supprimer votre annonce à tout moment depuis votre espace partenaire.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Etape2 */}
+                    {currentStep === 2 && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-right duration-300">
                             <div className="bg-primary/5 rounded-2xl p-4 border border-primary/20">
                                 <h3 className="font-black text-lg mb-2 flex items-center gap-2">
@@ -331,8 +433,8 @@ export const VendezVotreVoiture = ({ isOpen, onClose }: Props) => {
                         </div>
                     )}
 
-                    {/* ÉTAPE 2: Documents et État */}
-                    {currentStep === 2 && (
+                    {/* Etape3 */}
+                    {currentStep === 3 && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-right duration-300">
                             <div className="bg-primary/5 rounded-2xl p-4 border border-primary/20">
                                 <h3 className="font-black text-lg mb-2 flex items-center gap-2">
@@ -415,8 +517,8 @@ export const VendezVotreVoiture = ({ isOpen, onClose }: Props) => {
                         </div>
                     )}
 
-                    {/* ÉTAPE 3: Équipements et Options */}
-                    {currentStep === 3 && (
+                    {/* Etape4 */}
+                    {currentStep === 4 && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-right duration-300">
                             <div className="bg-primary/5 rounded-2xl p-4 border border-primary/20">
                                 <h3 className="font-black text-lg mb-2 flex items-center gap-2">
@@ -457,8 +559,8 @@ export const VendezVotreVoiture = ({ isOpen, onClose }: Props) => {
                         </div>
                     )}
 
-                    {/* ÉTAPE 4: Prix, Photos et Description */}
-                    {currentStep === 4 && (
+                    {/* ÉTAPE 5: Prix, Photos et Description */}
+                    {currentStep === 5 && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-right duration-300">
                             <div className="bg-primary/5 rounded-2xl p-4 border border-primary/20">
                                 <h3 className="font-black text-lg mb-2 flex items-center gap-2">
@@ -515,8 +617,8 @@ export const VendezVotreVoiture = ({ isOpen, onClose }: Props) => {
                             {/* Zone de téléchargement des photos */}
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
-                                    <Label className="font-semibold">Photos du véhicule * ({images.length}/{MAX_IMAGES})</Label>
-                                    {images.length < MAX_IMAGES && (
+                                    <Label className="font-semibold">Photos du véhicule * ({images.length}/{maxImages})</Label>
+                                    {images.length < maxImages && (
                                         <Button
                                             type="button"
                                             variant="outline"
@@ -571,7 +673,7 @@ export const VendezVotreVoiture = ({ isOpen, onClose }: Props) => {
                                     >
                                         <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
                                         <p className="font-semibold mb-1">Cliquez pour télécharger des photos</p>
-                                        <p className="text-sm text-muted-foreground">Jusqu'à {MAX_IMAGES} photos (JPG, PNG)</p>
+                                        <p className="text-sm text-muted-foreground">Jusqu'à {maxImages} photos (JPG, PNG)</p>
                                     </div>
                                 )}
 
@@ -610,7 +712,7 @@ export const VendezVotreVoiture = ({ isOpen, onClose }: Props) => {
                             </Button>
                         )}
 
-                        {currentStep < 4 ? (
+                        {currentStep < 5 ? (
                             <Button
                                 type="button"
                                 onClick={nextStep}
@@ -639,5 +741,5 @@ export const VendezVotreVoiture = ({ isOpen, onClose }: Props) => {
                 </form>
             </DialogContent>
         </Dialog>
-    );
-};
+    )
+}

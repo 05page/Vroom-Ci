@@ -21,11 +21,46 @@ interface CarData {
   price: string;
   image: string;
   images?: string[];
+  //Infos de bases
   year: number;
   mileage: string;
   fuel: string;
   transmission: string;
+  couleur: string;
+  nombrePortes: string;
+  nombrePlaces: string;
+  //Documents et état
+  visiteTechnique: "valide" | "expire" | "jamais";
+  dateVisiteTechnique: string;
+  carteGrise: "disponible" | "en-cours" | "perdue";
+  assurance: "valide" | "expire";
+  accidentHistorique: "non" | "mineur" | "majeur";
+  //Equipements et options
+  climatisation: boolean;
+  gps: boolean;
+  siegesCuir: boolean;
+  toitOuvrant: boolean;
+  regulateurVitesse: boolean;
+  camera: boolean;
+  abs: boolean;
+  airbags: boolean;
+  bluetooth: boolean;
+  vitresElectriques: boolean;
+  // Prix et vente
+  prixNegociable: "oui" | "non";
+  dateVente: string;
+  description: string;
+
+  // Vendeur
+  vendeur: {
+    nom: string;
+    telephone: string;
+    email: string;
+    localisation: string;
+  };
+
   trending?: boolean;
+  vues?: number;
 }
 
 const Vehicles = () => {
@@ -36,11 +71,44 @@ const Vehicles = () => {
       type: "vente",
       price: "50 000 000 Fcfa",
       image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800",
+      images: [
+        "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800",
+        "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=800",
+        "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=800",
+      ],
       year: 2023,
       mileage: "12 000 km",
       fuel: "Hybride",
       transmission: "Automatique",
+      couleur: "Noir métallisé",
+      nombrePortes: "5",
+      nombrePlaces: "5",
+      visiteTechnique: "valide",
+      dateVisiteTechnique: "2025-06-15",
+      carteGrise: "disponible",
+      assurance: "valide",
+      accidentHistorique: "non",
+      climatisation: true,
+      gps: true,
+      siegesCuir: true,
+      toitOuvrant: true,
+      regulateurVitesse: true,
+      camera: true,
+      abs: true,
+      airbags: true,
+      bluetooth: true,
+      vitresElectriques: true,
+      prixNegociable: "oui",
+      dateVente: "immediatement",
+      description: "Magnifique Mercedes-Benz GLE 350 en excellent état. Véhicule très bien entretenu, toujours garé en garage. Carnet d'entretien à jour avec toutes les révisions effectuées chez Mercedes. Intérieur cuir beige impeccable, aucune rayure. Tous les équipements de série + pack AMG. Vente cause départ à l'étranger.",
+      vendeur: {
+        nom: "Jean Kouassi",
+        telephone: "+225 07 12 34 56 78",
+        email: "jean.kouassi@example.com",
+        localisation: "Abidjan, Cocody Riviera"
+      },
       trending: true,
+      vues: 1247,
     },
     {
       id: "2",
@@ -48,11 +116,43 @@ const Vehicles = () => {
       type: "vente",
       price: "250 000 000 Fcfa",
       image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800",
+      images: [
+        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800",
+        "https://images.unsplash.com/photo-1614162692292-7ac56d7f8e90?w=800",
+      ],
       year: 2024,
       mileage: "5 000 km",
       fuel: "Essence",
       transmission: "Automatique",
+      couleur: "Rouge carmin",
+      nombrePortes: "2",
+      nombrePlaces: "4",
+      visiteTechnique: "valide",
+      dateVisiteTechnique: "2026-01-20",
+      carteGrise: "disponible",
+      assurance: "valide",
+      accidentHistorique: "non",
+      climatisation: true,
+      gps: true,
+      siegesCuir: true,
+      toitOuvrant: false,
+      regulateurVitesse: true,
+      camera: true,
+      abs: true,
+      airbags: true,
+      bluetooth: true,
+      vitresElectriques: true,
+      prixNegociable: "non",
+      dateVente: "immediatement",
+      description: "Porsche 911 Carrera 2024 comme neuve. Seulement 5000 km au compteur. Configuration exclusive avec pack Sport Chrono, échappement sport et jantes 20 pouces. Intérieur tout cuir avec surpiqûres contrastées. Garantie constructeur valable jusqu'en 2027. Véhicule d'exception pour collectionneur.",
+      vendeur: {
+        nom: "Yao Michel",
+        telephone: "+225 05 98 76 54 32",
+        email: "yao.michel@example.com",
+        localisation: "Abidjan, Plateau"
+      },
       trending: true,
+      vues: 2156,
     },
     {
       id: "3",
@@ -60,10 +160,42 @@ const Vehicles = () => {
       type: "location",
       price: "35 000 Fcfa/jour",
       image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800",
+      images: [
+        "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800",
+        "https://images.unsplash.com/photo-1536700503339-1e4b06520771?w=800",
+      ],
       year: 2023,
       mileage: "25 000 km",
       fuel: "Électrique",
       transmission: "Automatique",
+      couleur: "Blanc perle",
+      nombrePortes: "4",
+      nombrePlaces: "5",
+      visiteTechnique: "valide",
+      dateVisiteTechnique: "2025-08-10",
+      carteGrise: "disponible",
+      assurance: "valide",
+      accidentHistorique: "non",
+      climatisation: true,
+      gps: true,
+      siegesCuir: false,
+      toitOuvrant: true,
+      regulateurVitesse: true,
+      camera: true,
+      abs: true,
+      airbags: true,
+      bluetooth: true,
+      vitresElectriques: true,
+      prixNegociable: "oui",
+      dateVente: "immediatement",
+      description: "Tesla Model 3 disponible à la location pour vos déplacements professionnels ou personnels. Véhicule 100% électrique, économique et écologique. Autopilot inclus. Chargeur rapide disponible. Idéal pour découvrir la conduite électrique sans engagement d'achat.",
+      vendeur: {
+        nom: "VROOM Location",
+        telephone: "+225 27 20 30 40 50",
+        email: "location@vroom.ci",
+        localisation: "Abidjan, Marcory Zone 4"
+      },
+      vues: 892,
     },
     {
       id: "4",
@@ -71,10 +203,84 @@ const Vehicles = () => {
       type: "location",
       price: "50 000 Fcfa/jour",
       image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800",
+      images: [
+        "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800",
+      ],
       year: 2024,
       mileage: "8 000 km",
       fuel: "Diesel",
       transmission: "Automatique",
+      couleur: "Gris minéral",
+      nombrePortes: "5",
+      nombrePlaces: "7",
+      visiteTechnique: "valide",
+      dateVisiteTechnique: "2026-02-15",
+      carteGrise: "disponible",
+      assurance: "valide",
+      accidentHistorique: "non",
+      climatisation: true,
+      gps: true,
+      siegesCuir: true,
+      toitOuvrant: true,
+      regulateurVitesse: true,
+      camera: true,
+      abs: true,
+      airbags: true,
+      bluetooth: true,
+      vitresElectriques: true,
+      prixNegociable: "oui",
+      dateVente: "immediatement",
+      description: "BMW X5 M Sport 7 places à louer. SUV de luxe parfait pour les familles ou groupes. Confort optimal avec sièges cuir chauffants, système audio Harman Kardon premium. Espace généreux pour bagages. Disponible avec ou sans chauffeur. Tarifs dégressifs pour locations longue durée.",
+      vendeur: {
+        nom: "VROOM Location",
+        telephone: "+225 27 20 30 40 50",
+        email: "location@vroom.ci",
+        localisation: "Abidjan, Cocody Angré"
+      },
+      vues: 654,
+    },
+    {
+      id: "5",
+      name: "Toyota Land Cruiser V8",
+      type: "vente",
+      price: "35 000 000 Fcfa",
+      image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800",
+      images: [
+        "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800",
+        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800",
+      ],
+      year: 2022,
+      mileage: "45 000 km",
+      fuel: "Diesel",
+      transmission: "Automatique",
+      couleur: "Blanc",
+      nombrePortes: "5",
+      nombrePlaces: "7",
+      visiteTechnique: "valide",
+      dateVisiteTechnique: "2025-12-01",
+      carteGrise: "disponible",
+      assurance: "valide",
+      accidentHistorique: "mineur",
+      climatisation: true,
+      gps: true,
+      siegesCuir: true,
+      toitOuvrant: false,
+      regulateurVitesse: true,
+      camera: true,
+      abs: true,
+      airbags: true,
+      bluetooth: true,
+      vitresElectriques: true,
+      prixNegociable: "oui",
+      dateVente: "1-mois",
+      description: "Toyota Land Cruiser V8 2022 en très bon état général. Véhicule robuste et fiable, idéal pour tous types de terrains. Un léger accrochage réparé sur le pare-choc avant (visible sur les photos). Entretien régulier chez Toyota. 4x4 performant avec mode tout-terrain. 7 places assises. Prix négociable pour achat rapide.",
+      vendeur: {
+        nom: "Koffi Adjoumani",
+        telephone: "+225 01 23 45 67 89",
+        email: "koffi.adjoumani@example.com",
+        localisation: "Abidjan, Yopougon"
+      },
+      vues: 1523,
     },
   ]);
 
@@ -115,11 +321,12 @@ const Vehicles = () => {
 
   const filteredCars = cars
     .filter(car => filter === "tous" ? true : car.type === filter)
-    .filter(car => 
-      searchQuery === "" ? true : 
-      car.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      car.fuel.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      car.transmission.toLowerCase().includes(searchQuery.toLowerCase())
+    .filter(car =>
+      searchQuery === "" ? true :
+        car.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        car.fuel.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        car.transmission.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        car.couleur.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
   return (
@@ -160,7 +367,7 @@ const Vehicles = () => {
                     {filteredCars.length} véhicule{filteredCars.length > 1 ? 's' : ''}
                   </p>
                 </div>
-                
+
                 <div className="flex gap-2 flex-wrap">
                   <Button
                     variant={filter === "tous" ? "default" : "outline"}
@@ -178,9 +385,8 @@ const Vehicles = () => {
                   </Button>
                   <Button
                     variant={filter === "location" ? "default" : "outline"}
-                    className={`rounded-xl font-bold border-2 hover:scale-105 transition-all ${
-                      filter === "location" ? "bg-green-600 hover:bg-green-700" : ""
-                    }`}
+                    className={`rounded-xl font-bold border-2 hover:scale-105 transition-all ${filter === "location" ? "bg-green-600 hover:bg-green-700" : ""
+                      }`}
                     onClick={() => setFilter("location")}
                   >
                     Location ({cars.filter(c => c.type === "location").length})
@@ -205,15 +411,14 @@ const Vehicles = () => {
                     alt={car.name}
                     className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
                   />
-                  
+
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                  
+
                   {/* Top Badges */}
                   <div className="absolute top-4 left-4 flex gap-2 z-10">
-                    <Badge className={`font-bold rounded-full shadow-lg ${
-                      car.type === "vente" ? "bg-primary" : "bg-green-600"
-                    }`}>
+                    <Badge className={`font-bold rounded-full shadow-lg ${car.type === "vente" ? "bg-primary" : "bg-green-600"
+                      }`}>
                       {car.type === "vente" ? "À vendre" : "Location"}
                     </Badge>
                     {car.trending && (
@@ -230,11 +435,10 @@ const Vehicles = () => {
                     onClick={() => handleFavorite(car.id, car.name)}
                   >
                     <Heart
-                      className={`h-5 w-5 transition-all ${
-                        favorites.has(car.id)
-                          ? 'fill-red-500 text-red-500'
-                          : 'text-gray-600'
-                      }`}
+                      className={`h-5 w-5 transition-all ${favorites.has(car.id)
+                        ? 'fill-red-500 text-red-500'
+                        : 'text-gray-600'
+                        }`}
                     />
                   </Button>
 
@@ -307,29 +511,29 @@ const Vehicles = () => {
                   <div className="flex gap-3 pt-2">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button 
-                          variant="outline" 
+                        <Button
+                          variant="outline"
                           className="flex-1 rounded-xl font-bold border-2 hover:scale-105 transition-all h-12"
                         >
                           Actions
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="bg-background w-64 rounded-2xl border-2">
-                        <DropdownMenuItem 
+                        <DropdownMenuItem
                           onClick={handleContactSeller}
                           className="rounded-xl font-semibold cursor-pointer p-3"
                         >
                           <Send className="mr-3 h-5 w-5" />
                           Contacter le vendeur
                         </DropdownMenuItem>
-                        <DropdownMenuItem 
+                        <DropdownMenuItem
                           onClick={handleReport}
                           className="rounded-xl font-semibold cursor-pointer p-3"
                         >
                           <AlertCircle className="mr-3 h-5 w-5" />
                           Signaler un problème
                         </DropdownMenuItem>
-                        <DropdownMenuItem 
+                        <DropdownMenuItem
                           onClick={() => handleShare(car.name)}
                           className="rounded-xl font-semibold cursor-pointer p-3"
                         >

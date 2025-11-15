@@ -31,6 +31,7 @@ import PartnerSubscription from "./pages/partner/PartnerSubscription";
 import AddVehicleForm from "./pages/partner/AddVehicleForm";
 import AutoEcole from "./pages/AutoEcole";
 import EntretienAgences from "./pages/Entretien";
+import PartnerSettings from "./pages/partner/PartenerSettings";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +77,7 @@ const App = () => {
             <Route path="/partner/analytics" element={<PartnerLayout><PartnerAnalytics /></PartnerLayout>} />
             <Route path="/partner/trends" element={<PartnerLayout><PartnerTrends /></PartnerLayout>} />
             <Route path="/partner/subscription" element={<PartnerLayout><PartnerSubscription /></PartnerLayout>} />
+            <Route path="/partner/settings" element={<PartnerLayout><PartnerSettings /></PartnerLayout>} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

@@ -370,8 +370,8 @@ const Partnership = () => {
                     <SelectItem value="location" className="rounded-xl font-semibold">
                       Location de véhicules
                     </SelectItem>
-                    <SelectItem value="autre" className="rounded-xl font-semibold">
-                      Autre
+                    <SelectItem value="autoEcole" className="rounded-xl font-semibold">
+                      Auto Ecole
                     </SelectItem>
                   </SelectContent>
                 </Select>
