@@ -339,7 +339,7 @@ const PartnerNotifications = () => {
                       </CardContent>
                     </Card>
                   );
-                })}
+                })}  
               </div>
             )}
           </TabsContent>

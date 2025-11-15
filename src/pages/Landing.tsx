@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Car, Shield, Zap, ArrowRight, Search, FileCheck, Key, UserPlus, ShoppingCart, Wallet, Truck, Wrench, GraduationCap, TrendingUp } from "lucide-react";
+import { Car, Shield, Zap, ArrowRight, Search, FileCheck, Key, UserPlus, ShoppingCart, Wallet, Wrench, GraduationCap, TrendingUp } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -11,12 +11,14 @@ import {
 
 const Landing = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [servicesVisible, setServicesVisible] = useState(true); // Changé à true
   const [featuresVisible, setFeaturesVisible] = useState(false);
   const [howItWorksVisible, setHowItWorksVisible] = useState(false);
   const [statsVisible, setStatsVisible] = useState(false);
   const [faqVisible, setFaqVisible] = useState(false);
   const [ctaVisible, setCtaVisible] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
 
@@ -25,6 +27,7 @@ const Landing = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const id = entry.target.id;
+            if (id === 'services') setServicesVisible(true);
             if (id === 'features') setFeaturesVisible(true);
             if (id === 'how-it-works') setHowItWorksVisible(true);
             if (id === 'stats') setStatsVisible(true);
@@ -36,7 +39,7 @@ const Landing = () => {
       { threshold: 0.1 }
     );
 
-    const sections = ['features', 'how-it-works', 'stats', 'faq', 'cta'];
+    const sections = ['services', 'features', 'how-it-works', 'stats', 'faq', 'cta'];
     sections.forEach(id => {
       const element = document.getElementById(id);
       if (element) observer.observe(element);
@@ -166,8 +169,7 @@ const Landing = () => {
       color: "from-pink-500 to-rose-500",
       url: "/autoEcole"
     }
-  ]
-
+  ];
 
   return (
     <div className="min-h-screen">
@@ -177,35 +179,38 @@ const Landing = () => {
           <img
             src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80"
             alt="Luxury car"
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover opacity-100" // Changé opacity de 60 à 100
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/50 to-background/30" />
+          {/* Gradient overlay réduit */}
+          <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/40 to-transparent" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
           <div className={`max-w-3xl transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tight leading-none">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tight leading-none text-white drop-shadow-2xl">
               Trouvez votre
               <span className="block mt-3 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
                 voiture idéale
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-10 font-medium leading-relaxed max-w-2xl">
+            <p className="text-xl md:text-2xl text-white mb-10 font-bold leading-relaxed max-w-2xl drop-shadow-xl">
               Revendez, achetez ou louez la voiture de vos rêves avec Vroom Ci.
               Des centaines de véhicules vérifiés vous attendent.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
-                size="lg" onClick={()=> navigate('/dashboard')}
-                className="text-lg font-bold rounded-2xl shadow-xl shadow-primary/30 hover:scale-105 transition-all px-8 py-6"
+                size="lg"
+                onClick={() => navigate('/dashboard')}
+                className="text-lg font-bold rounded-2xl shadow-2xl shadow-primary/50 hover:scale-105 transition-all px-8 py-6"
               >
                 Explorer les véhicules
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button
-                variant="outline" onClick={()=> navigate('partnerShip')}
+                variant="outline"
+                onClick={() => navigate('partnership')}
                 size="lg"
-                className="text-lg font-bold rounded-2xl border-2 hover:scale-105 transition-all px-8 py-6"
+                className="text-lg font-bold rounded-2xl border-2 border-white bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-black hover:scale-105 transition-all px-8 py-6"
               >
                 Devenir partenaire
               </Button>
@@ -215,8 +220,8 @@ const Landing = () => {
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-primary rounded-full flex items-start justify-center p-2">
-            <div className="w-1.5 h-3 bg-primary rounded-full" />
+          <div className="w-6 h-10 border-2 border-white rounded-full flex items-start justify-center p-2 backdrop-blur-sm">
+            <div className="w-1.5 h-3 bg-white rounded-full" />
           </div>
         </div>
       </section>
@@ -224,7 +229,8 @@ const Landing = () => {
       {/* Services Section */}
       <section id="services" className="py-24 bg-gradient-to-b from-background to-secondary/20">
         <div className="container mx-auto px-4">
-          <div className={`transition-all duration-700 ${featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          {/* Titre toujours visible */}
+          <div className="transition-all duration-700 opacity-100 translate-y-0">
             <h2 className="text-4xl md:text-6xl font-black text-center mb-4 tracking-tight">
               Nos{" "}
               <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
@@ -236,14 +242,14 @@ const Landing = () => {
             </p>
           </div>
 
+          {/* Cards toujours visibles */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {services.map((service, index) => (
               <div
                 key={service.title}
                 onClick={() => service.url && navigate(service.url)}
-                className={`group relative overflow-hidden bg-card p-6 rounded-3xl border-2 border-transparent hover:border-primary/20 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer ${featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-                  }`}
-                style={{ transitionDelay: featuresVisible ? `${index * 100}ms` : '0ms' }}
+                className="group relative overflow-hidden bg-card p-6 rounded-3xl border-2 border-transparent hover:border-primary/20 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer opacity-100 translate-y-0 animate-in fade-in slide-in-from-bottom"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Arrow indicator */}
                 <div className="absolute top-4 right-4 bg-primary rounded-full p-2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-2 group-hover:translate-x-0">
@@ -264,7 +270,6 @@ const Landing = () => {
           </div>
         </div>
       </section>
-
       {/* Features Section */}
       <section id="features" className="py-24">
         <div className="container mx-auto px-4">
@@ -358,7 +363,7 @@ const Landing = () => {
               <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                 Vroom {" "}
                 <span className="">Ci</span>
-              </span> 
+              </span>
               {" "}
               en chiffres
             </h2>
@@ -520,7 +525,7 @@ const Landing = () => {
           <div className="flex flex-col sm:flex-row gap-5 justify-center">
             <Button
               variant="secondary"
-              size="lg" onClick={()=> navigate("/dashboard")}
+              size="lg" onClick={() => navigate("/dashboard")}
               className="text-lg font-bold hover:scale-105 transition-all rounded-2xl px-8 py-6 shadow-xl"
             >
               Commencer maintenant
@@ -528,7 +533,7 @@ const Landing = () => {
             </Button>
             <Button
               variant="outline"
-              size="lg" onClick={()=> navigate("/auth")}
+              size="lg" onClick={() => navigate("/auth")}
               className="text-lg font-bold hover:scale-105 transition-all rounded-2xl bg-transparent text-primary-foreground border-2 border-primary-foreground hover:bg-primary-foreground/10 px-8 py-6"
             >
               <UserPlus className="mr-2 h-5 w-5" />
