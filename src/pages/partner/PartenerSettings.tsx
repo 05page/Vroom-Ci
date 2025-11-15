@@ -33,8 +33,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useNavigate } from "react-router-dom";
 
 const PartnerSettings = () => {
+  const navigate = useNavigate();
   // Informations de l'entreprise
   const [companyInfo, setCompanyInfo] = useState({
     name: "VROOM Auto Services",
@@ -356,7 +358,7 @@ const PartnerSettings = () => {
                       <p className="text-sm text-muted-foreground font-medium">Votre abonnement sera renouvelé automatiquement</p>
                     </div>
                   </div>
-                  <Button variant="outline" className="rounded-xl font-bold">
+                  <Button variant="outline" onClick={()=>navigate('/partner/subscription')} className="rounded-xl font-bold">
                     Modifier le plan
                   </Button>
                 </div>

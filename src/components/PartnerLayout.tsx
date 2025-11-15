@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { LogOut, Menu, LayoutDashboard, Car, MessageCircle, BarChart3, TrendingUp, Crown, Settings } from "lucide-react";
+import { LogOut, Menu, LayoutDashboard, Car, MessageCircle, BarChart3, TrendingUp, Crown, Settings, Bell } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -11,10 +11,6 @@ interface PartnerLayoutProps {
 const PartnerLayout = ({ children }: PartnerLayoutProps) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    console.log("Déconnexion");
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
@@ -43,7 +39,7 @@ const PartnerLayout = ({ children }: PartnerLayoutProps) => {
           </div>
           <Button
             variant="ghost"
-            onClick={handleLogout}
+            onClick={()=>navigate('/partner/auth')}
             className="rounded-xl font-bold hover:bg-destructive/10 hover:text-destructive transition-all"
           >
             <LogOut className="h-4 w-4 mr-2" />
@@ -77,7 +73,7 @@ const PartnerSidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
     { label: "Messages", path: "/partner/messages", icon: MessageCircle },
     { label: "Statistiques", path: "/partner/analytics", icon: BarChart3 },
     { label: "Tendances marché", path: "/partner/trends", icon: TrendingUp },
-    { label: "Abonnements", path: "/partner/subscription", icon: Crown },
+    { label: "Notifications", path: "/partner/notifications", icon: Bell },
     { label: "Paramètres", path: "/partner/settings", icon: Settings },
   ];
 
@@ -96,7 +92,7 @@ const PartnerSidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
             <Car className="h-7 w-7 text-primary-foreground" />
           </div>
           <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            VROOM
+            VROOM 
           </span>
         </div>
       </div>
