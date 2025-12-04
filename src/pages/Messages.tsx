@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Send, Search, ArrowLeft, MoreVertical, Phone, Video } from "lucide-react";
+import { Send, Search, ArrowLeft, Car } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation, useParams } from "react-router-dom";
 
@@ -14,6 +14,12 @@ interface Message {
   content: string;
   timestamp: string;
   isOwn: boolean;
+  carPreview?: {
+    name: string;
+    price: string;
+    image: string;
+    type: string;
+  };
 }
 
 interface Conversation {
@@ -24,13 +30,15 @@ interface Conversation {
   unread: number;
   initials: string;
   status: "online" | "offline";
+  carData?: any;
 }
 
 const Messages = () => {
-  const {carId} = useParams();
+  const { carId } = useParams();
   const location = useLocation();
-  const carData = location.state?.car
-  const [conversations] = useState<Conversation[]>([
+  const carData = location.state?.car;
+
+  const [conversations, setConversations] = useState<Conversation[]>([
     {
       id: "1",
       name: "Service Client",
@@ -61,36 +69,91 @@ const Messages = () => {
   ]);
 
   const [selectedConversation, setSelectedConversation] = useState<string>("");
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      sender: "Service Client",
-      content: "Bonjour, comment puis-je vous aider ?",
-      timestamp: "14:32",
-      isOwn: false,
-    },
-    {
-      id: "2",
-      sender: "Vous",
-      content: "Je souhaite avoir des informations sur la Mercedes GLE 350",
-      timestamp: "14:35",
-      isOwn: true,
-    },
-    {
-      id: "3",
-      sender: "Service Client",
-      content: "Merci pour votre demande, nous reviendrons vers vous dans les plus brefs délais",
-      timestamp: "14:36",
-      isOwn: false,
-    },
-  ]);
-
+  const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
+
+  // Créer une nouvelle conversation si carData est présent
+  useEffect(() => {
+    if (carData && carId) {
+      const existingConv = conversations.find(c => c.id === `car-${carId}`);
+      
+      if (!existingConv) {
+        const newConv: Conversation = {
+          id: `car-${carId}`,
+          name: `Vendeur - ${carData.name}`,
+          lastMessage: "Nouvelle conversation",
+          timestamp: "Maintenant",
+          unread: 0,
+          initials: carData.name.substring(0, 2).toUpperCase(),
+          status: "online",
+          carData: carData,
+        };
+        
+        setConversations(prev => [newConv, ...prev]);
+        setSelectedConversation(`car-${carId}`);
+        
+        // Message initial avec aperçu de la voiture
+        setMessages([
+          {
+            id: "car-preview",
+            sender: "Système",
+            content: `Vous démarrez une conversation à propos de ce véhicule`,
+            timestamp: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
+            isOwn: false,
+            carPreview: {
+              name: carData.name,
+              price: carData.price,
+              image: carData.image,
+              type: carData.type,
+            }
+          },
+          {
+            id: "welcome",
+            sender: "Vendeur",
+            content: `Bonjour ! Je suis le vendeur de la ${carData.name}. Comment puis-je vous aider ?`,
+            timestamp: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
+            isOwn: false,
+          }
+        ]);
+      } else {
+        setSelectedConversation(`car-${carId}`);
+      }
+    }
+  }, [carData, carId]);
+
+  // Charger les messages par défaut pour les conversations existantes
+  useEffect(() => {
+    if (selectedConversation && !selectedConversation.startsWith('car-')) {
+      setMessages([
+        {
+          id: "1",
+          sender: "Service Client",
+          content: "Bonjour, comment puis-je vous aider ?",
+          timestamp: "14:32",
+          isOwn: false,
+        },
+        {
+          id: "2",
+          sender: "Vous",
+          content: "Je souhaite avoir des informations sur la Mercedes GLE 350",
+          timestamp: "14:35",
+          isOwn: true,
+        },
+        {
+          id: "3",
+          sender: "Service Client",
+          content: "Merci pour votre demande, nous reviendrons vers vous dans les plus brefs délais",
+          timestamp: "14:36",
+          isOwn: false,
+        },
+      ]);
+    }
+  }, [selectedConversation]);
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
       const message: Message = {
-        id: String(messages.length + 1),
+        id: String(Date.now()),
         sender: "Vous",
         content: newMessage,
         timestamp: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
@@ -106,7 +169,6 @@ const Messages = () => {
 
   return (
     <div className="h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      {/* <Header /> */}
       <div className="h-full flex flex-col md:flex-row max-w-7xl mx-auto">
         {/* Conversations List */}
         <div className={`${selectedConversation ? 'hidden md:flex' : 'flex'} w-full md:w-96 border-r bg-background/80 backdrop-blur-xl flex-col`}>
@@ -223,12 +285,33 @@ const Messages = () => {
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <div
-                      className={`max-w-[75%] md:max-w-[70%] rounded-3xl px-4 md:px-5 py-3 shadow-md transition-all duration-300 hover:shadow-lg ${
+                      className={`max-w-[85%] md:max-w-[70%] rounded-3xl px-4 md:px-5 py-3 shadow-md transition-all duration-300 hover:shadow-lg ${
                         message.isOwn
                           ? "bg-primary text-primary-foreground rounded-br-md"
                           : "bg-card border-2 rounded-bl-md"
                       }`}
                     >
+                      {/* Aperçu de la voiture */}
+                      {message.carPreview && (
+                        <div className="mb-3 rounded-xl overflow-hidden border-2 border-primary/20 bg-background">
+                          <img 
+                            src={message.carPreview.image} 
+                            alt={message.carPreview.name}
+                            className="w-full h-32 object-cover"
+                          />
+                          <div className="p-3">
+                            <div className="flex items-center gap-2 mb-1">
+                              <Car className="h-4 w-4 text-primary" />
+                              <Badge variant="secondary" className="text-xs">
+                                {message.carPreview.type === "vente" ? "Vente" : "Location"}
+                              </Badge>
+                            </div>
+                            <h4 className="font-bold text-sm">{message.carPreview.name}</h4>
+                            <p className="text-primary font-black text-lg">{message.carPreview.price}</p>
+                          </div>
+                        </div>
+                      )}
+                      
                       <p className="text-sm font-medium leading-relaxed">{message.content}</p>
                       <p
                         className={`text-xs mt-2 font-semibold ${
