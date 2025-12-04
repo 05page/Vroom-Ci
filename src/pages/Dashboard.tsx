@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Car, ShoppingBag, MapPin, Wallet, Bell, Menu, Shield, Star, Building2, Upload, FileCheck, Wrench } from "lucide-react";
+import { Car, ShoppingBag, MapPin, Wallet, Bell, Menu, Shield, Star, Building2, Upload, FileCheck, Wrench, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
@@ -77,6 +77,15 @@ const Dashboard = () => {
       image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80",
       route: "/entretien",
     },
+
+    {
+      title: "Auto Ecole",
+      description: "Trouvez votre une auto école selon votre budget",
+      icon: GraduationCap,
+      gradient: "from-green-500 to-emerald-500",
+      image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80",
+      route: "/autoEcole",
+    },
   ];
 
   return (
@@ -99,7 +108,7 @@ const Dashboard = () => {
         </div>
 
         {/* Services Grid - Style Yango */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-12">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (

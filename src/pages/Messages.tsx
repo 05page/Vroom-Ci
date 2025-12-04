@@ -75,12 +75,13 @@ const Messages = () => {
   // Créer une nouvelle conversation si carData est présent
   useEffect(() => {
     if (carData && carId) {
+      // Vérifier si la conversation existe déjà (find permet de trouver le premier element qui correspond)
       const existingConv = conversations.find(c => c.id === `car-${carId}`);
       
-      if (!existingConv) {
+      if (!existingConv) { // Si la conversation n'existe pas
         const newConv: Conversation = {
           id: `car-${carId}`,
-          name: `Vendeur - ${carData.name}`,
+          name: `${carData.vendeur.nom}`,
           lastMessage: "Nouvelle conversation",
           timestamp: "Maintenant",
           unread: 0,
@@ -89,8 +90,8 @@ const Messages = () => {
           carData: carData,
         };
         
-        setConversations(prev => [newConv, ...prev]);
-        setSelectedConversation(`car-${carId}`);
+        setConversations(prev => [newConv, ...prev]); // Ajouter la nouvelle conversation au début du tableau
+        setSelectedConversation(`car-${carId}`);// Selectionner la nouvelle conversation
         
         // Message initial avec aperçu de la voiture
         setMessages([
@@ -116,7 +117,7 @@ const Messages = () => {
           }
         ]);
       } else {
-        setSelectedConversation(`car-${carId}`);
+        setSelectedConversation(`car-${carId}`);// Selectionner la conversation existante
       }
     }
   }, [carData, carId]);
