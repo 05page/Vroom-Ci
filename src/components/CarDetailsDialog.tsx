@@ -118,6 +118,10 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
     navigate(`/booking/${car.id}`, { state: { car } });
   };
 
+  const handleSendCard = () => {
+    navigate(`/messages/${car.id}`, {state: {car}})
+  }
+
   const handleFavorite = () => {
     setIsFavorite(!isFavorite);
     toast.success(isFavorite ? "Retiré des favoris" : "Ajouté aux favoris");
@@ -269,8 +273,10 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
             </h2>
             <div className="flex items-center gap-3">
               <p className="text-3xl font-black drop-shadow-lg">{car.price}</p>
-              {car.prixNegociable === "oui" && (
+              {car.prixNegociable === "oui" ? (
                 <Badge className="bg-yellow-500 text-black font-bold">Négociable</Badge>
+              ): (
+                <Badge className="bg-red-500 text-black font-bold">Non négociable</Badge>
               )}
             </div>
           </div>
@@ -533,11 +539,21 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
             >
               Fermer
             </Button>
+            {car.prixNegociable === "oui" &&(
+              <Button
+              variant="outline" onClick={handleSendCard}
+              className="flex-1 rounded-xl font-bold border-2 hover:scale-105 transition-all h-14"
+            >
+              <Send className="h-5 w-5 mr-2" />
+              Disctuer avec Mr {car.vendeur.nom}
+            </Button>
+            )}
             <Button
               onClick={handleFinalizeBooking}
               className="flex-1 rounded-xl font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all h-14"
             >
               <Send className="h-5 w-5 mr-2" />
+              
               {car.type === "vente" ? "Finaliser l'achat" : "Réserver maintenant"}
             </Button>
           </div>

@@ -98,7 +98,7 @@ const Vehicles = () => {
       airbags: true,
       bluetooth: true,
       vitresElectriques: true,
-      prixNegociable: "oui",
+      prixNegociable: "non",
       dateVente: "immediatement",
       description: "Magnifique Mercedes-Benz GLE 350 en excellent état. Véhicule très bien entretenu, toujours garé en garage. Carnet d'entretien à jour avec toutes les révisions effectuées chez Mercedes. Intérieur cuir beige impeccable, aucune rayure. Tous les équipements de série + pack AMG. Vente cause départ à l'étranger.",
       vendeur: {

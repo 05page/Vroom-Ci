@@ -7,7 +7,6 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { VendezVotreVoiture } from "@/components/Form";
 import Header from "@/components/Header";
 
 const Dashboard = () => {
@@ -46,7 +45,7 @@ const Dashboard = () => {
       image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&q=80",
     },
     {
-      title: "Ventes",
+      title: "Achats",
       description: "Achetez une voiture",
       route: "/vehicles?filter=vente",
       icon: ShoppingBag,
@@ -159,11 +158,6 @@ const Dashboard = () => {
         </div>
       </main>
 
-      {/* Sell Your Car Dialog */}
-      <VendezVotreVoiture 
-        isOpen={openDialog}
-        onClose={()=> setOpenDialog(false)}
-      />
     </div>
   );
 };

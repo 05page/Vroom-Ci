@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar, Clock, MapPin, Navigation, Phone, Wrench, Car, Search } from "lucide-react";
+import Header from "@/components/Header";
 
 const EntretienAgences = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -91,21 +92,7 @@ const EntretienAgences = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
             {/* Header */}
-            <header className="bg-background/80 backdrop-blur-xl border-b sticky top-0 z-50 shadow-sm">
-                <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                    <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.history.back()}>
-                        <div className="bg-primary rounded-xl p-2">
-                            <Car className="h-6 w-6 text-primary-foreground" />
-                        </div>
-                        <h1 className="text-2xl font-black tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                            VROOM
-                        </h1>
-                    </div>
-                    <Button variant="ghost" onClick={() => window.history.back()} className="font-bold rounded-xl hover:bg-primary/10">
-                        Retour
-                    </Button>
-                </div>
-            </header>
+            <Header />
 
             <div className="container mx-auto px-4 py-8 md:py-12">
                 {/* Hero Section */}

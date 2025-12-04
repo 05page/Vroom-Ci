@@ -65,8 +65,50 @@ export const PostVehicles = ({ isOpen, onClose }: Props) => {
         setImages(prev => prev.filter((_, i) => i !== index));
         setImagePreviews(prev => prev.filter((_, i) => i !== index));
     };
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+
+    const handleChange = (field: string, value: string | boolean) => {
+        setFormData((prev) => ({ ...prev, [field]: value }))
+    }
+    const nextStep = () => {
+        if (currentStep === 1) {
+            if (!formData.type) {
+                toast.error("Veuillez sélectionner le type de post")
+                return
+            }
+        } else if (currentStep === 2) {
+            if (!formData.marque || !formData.modele || !formData.annee || !formData.carburant ||
+                !formData.kilometrage) {
+                toast.error("Veuillez remplir tous les champs obligatoires");
+                return;
+            }
+        } else if (currentStep === 3) {
+            if (!formData.visiteTechnique || !formData.carteGrise || !formData.assurance) {
+                toast.error("Veuillez remplir tous les champs obligatoires");
+                return;
+            }
+        }
+        if (currentStep < 5) {
+            setCurrentStep(currentStep + 1);
+        }
+
+    }
+    const prevStep = () => {
+        if (currentStep > 1) setCurrentStep(currentStep - 1);
+    };
+
+    const handleSubmit = () => {
+        console.log("🔍 handleSubmit appelé - Étape:", currentStep);
+
+        // Validation des champs obligatoires de l'étape 5
+        if (!formData.prixSouhaite || !formData.dateVente) {
+            toast.error("Veuillez remplir le prix et la date de disponibilité");
+            return;
+        }
+        if (images.length === 0) {
+            toast.error("Veuillez ajouter au moins une photo de votre véhicule");
+            return;
+        }
+
         setIsSubmitted(true);
         setTimeout(() => {
             setIsSubmitted(false);
@@ -84,44 +126,6 @@ export const PostVehicles = ({ isOpen, onClose }: Props) => {
             setImagePreviews([]);
             onClose();
         }, 2000)
-    };
-    const handleChange = (field: string, value: string | boolean) => {
-        setFormData((prev) => ({ ...prev, [field]: value }))
-    }
-    const nextStep = () => {
-        if (currentStep === 1) {
-            if (!formData.type) {
-                toast.error("Veuillez sélectionner le type de post")
-            }
-        } else if (currentStep === 2) {
-            if (!formData.marque || !formData.modele || !formData.annee || !formData.carburant ||
-                !formData.kilometrage) {
-                toast.error("Veuillez remplir tous les champs obligatoires");
-                return;
-            }
-        } else if (currentStep === 3) {
-            if (!formData.visiteTechnique || !formData.carteGrise || !formData.assurance) {
-                toast.error("Veuillez remplir tous les champs obligatoires");
-                return;
-            }
-        }else if (currentStep === 5) {
-        if (!formData.prixSouhaite || !formData.dateVente) {
-            toast.error("Veuillez remplir le prix et la date de disponibilité");
-            return;
-        }
-        if (images.length === 0) {
-            toast.error("Veuillez ajouter au moins une photo de votre véhicule");
-            return;
-        }
-        return;
-    }
-    if(currentStep < 5){
-        setCurrentStep(currentStep + 1);
-    }
-
-    }
-    const prevStep = () => {
-        if (currentStep > 1) setCurrentStep(currentStep - 1);
     };
 
     if (isSubmitted) {
@@ -169,7 +173,7 @@ export const PostVehicles = ({ isOpen, onClose }: Props) => {
                     </div>
                 </DialogHeader>
 
-                <form onSubmit={handleSubmit} className="space-y-6 py-4">
+                <div className="space-y-6 py-4">
                     {/* Etape:1 Type de poste(vente ou location) */}
                     {/* Etape 1: Type de poste (vente ou location) */}
                     {currentStep === 1 && (
@@ -722,7 +726,8 @@ export const PostVehicles = ({ isOpen, onClose }: Props) => {
                             </Button>
                         ) : (
                             <Button
-                                type="submit"
+                                type="button"
+                                onClick={handleSubmit}
                                 className="w-full sm:flex-1 rounded-xl font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all"
                             >
                                 Publier l'annonce
@@ -738,7 +743,7 @@ export const PostVehicles = ({ isOpen, onClose }: Props) => {
                             Annuler
                         </Button>
                     </DialogFooter>
-                </form>
+                </div>
             </DialogContent>
         </Dialog>
     )
