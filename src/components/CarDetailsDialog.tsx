@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { CarRdvDialog } from "./CarRdvDialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -101,6 +102,7 @@ interface Props {
 export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [showRdvDialog, setShowRdvDialog] = useState(false);
 
   const allImages = car.images || [car.image];
 
@@ -115,7 +117,7 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
   const navigate = useNavigate();
 
   const handleFinalizeBooking = () => {
-    navigate(`/booking/${car.id}`, { state: { car } });
+    setShowRdvDialog(true);
   };
 
   const handleSendCard = () => {
@@ -190,10 +192,11 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
   const accidentStatus = getAccidentStatus();
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[95vw] md:max-w-5xl max-h-[95vh] overflow-y-auto p-0 rounded-3xl">
+      <DialogContent className="max-w-[98vw] sm:max-w-[95vw] md:max-w-5xl max-h-[95vh] overflow-y-auto p-0 rounded-2xl sm:rounded-3xl">
         {/* Image Carousel */}
-        <div className="relative h-[300px] md:h-[450px] w-full overflow-hidden rounded-t-3xl">
+        <div className="relative h-[200px] sm:h-[300px] md:h-[450px] w-full overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
           <img
             src={allImages[currentImageIndex]}
             alt={car.name}
@@ -267,23 +270,23 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
           </div>
 
           {/* Car Name & Price Overlay */}
-          <div className="absolute bottom-4 left-4 right-4 z-10 text-white">
-            <h2 className="text-3xl md:text-4xl font-black tracking-tight drop-shadow-lg mb-2">
+          <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 right-2 sm:right-4 z-10 text-white">
+            <h2 className="text-xl sm:text-3xl md:text-4xl font-black tracking-tight drop-shadow-lg mb-1 sm:mb-2 line-clamp-2">
               {car.name}
             </h2>
-            <div className="flex items-center gap-3">
-              <p className="text-3xl font-black drop-shadow-lg">{car.price}</p>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <p className="text-xl sm:text-3xl font-black drop-shadow-lg">{car.price}</p>
               {car.prixNegociable === "oui" ? (
-                <Badge className="bg-yellow-500 text-black font-bold">Négociable</Badge>
+                <Badge className="bg-yellow-500 text-black font-bold text-xs sm:text-sm">Négociable</Badge>
               ): (
-                <Badge className="bg-red-500 text-black font-bold">Non négociable</Badge>
+                <Badge className="bg-red-500 text-black font-bold text-xs sm:text-sm">Non négociable</Badge>
               )}
             </div>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-6 md:p-8 space-y-8">
+        <div className="p-4 sm:p-6 md:p-8 space-y-5 sm:space-y-8">
           {/* Vues et date */}
           {(car.vues || car.dateVente) && (
             <div className="flex items-center gap-4 text-sm text-muted-foreground font-semibold">
@@ -304,49 +307,49 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
 
           {/* Caractéristiques principales */}
           <div>
-            <h3 className="text-xl font-black mb-4 flex items-center gap-2">
-              <Car className="h-6 w-6 text-primary" />
+            <h3 className="text-base sm:text-xl font-black mb-3 sm:mb-4 flex items-center gap-2">
+              <Car className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               Caractéristiques principales
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <div className="bg-secondary/50 rounded-2xl p-4 border-2 border-border hover:border-primary/30 transition-all">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                    <Calendar className="h-5 w-5 text-primary" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
+              <div className="bg-secondary/50 rounded-xl sm:rounded-2xl p-3 sm:p-4 border-2 border-border hover:border-primary/30 transition-all">
+                <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary/10 rounded-lg sm:rounded-xl flex items-center justify-center">
+                    <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                   </div>
                 </div>
-                <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Année</p>
-                <p className="font-black text-lg">{car.year}</p>
+                <p className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase mb-0.5 sm:mb-1">Année</p>
+                <p className="font-black text-sm sm:text-lg">{car.year}</p>
               </div>
 
-              <div className="bg-secondary/50 rounded-2xl p-4 border-2 border-border hover:border-primary/30 transition-all">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                    <Gauge className="h-5 w-5 text-primary" />
+              <div className="bg-secondary/50 rounded-xl sm:rounded-2xl p-3 sm:p-4 border-2 border-border hover:border-primary/30 transition-all">
+                <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary/10 rounded-lg sm:rounded-xl flex items-center justify-center">
+                    <Gauge className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                   </div>
                 </div>
-                <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Kilométrage</p>
-                <p className="font-black text-lg">{car.mileage}</p>
+                <p className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase mb-0.5 sm:mb-1">Kilométrage</p>
+                <p className="font-black text-sm sm:text-lg">{car.mileage}</p>
               </div>
 
-              <div className="bg-secondary/50 rounded-2xl p-4 border-2 border-border hover:border-primary/30 transition-all">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                    <Fuel className="h-5 w-5 text-primary" />
+              <div className="bg-secondary/50 rounded-xl sm:rounded-2xl p-3 sm:p-4 border-2 border-border hover:border-primary/30 transition-all">
+                <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary/10 rounded-lg sm:rounded-xl flex items-center justify-center">
+                    <Fuel className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                   </div>
                 </div>
-                <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Carburant</p>
-                <p className="font-black text-lg">{car.fuel}</p>
+                <p className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase mb-0.5 sm:mb-1">Carburant</p>
+                <p className="font-black text-sm sm:text-lg">{car.fuel}</p>
               </div>
 
-              <div className="bg-secondary/50 rounded-2xl p-4 border-2 border-border hover:border-primary/30 transition-all">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                    <Settings className="h-5 w-5 text-primary" />
+              <div className="bg-secondary/50 rounded-xl sm:rounded-2xl p-3 sm:p-4 border-2 border-border hover:border-primary/30 transition-all">
+                <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary/10 rounded-lg sm:rounded-xl flex items-center justify-center">
+                    <Settings className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                   </div>
                 </div>
-                <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Transmission</p>
-                <p className="font-black text-lg">{car.transmission}</p>
+                <p className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase mb-0.5 sm:mb-1">Transmission</p>
+                <p className="font-black text-sm sm:text-lg">{car.transmission}</p>
               </div>
 
               {car.couleur && (
@@ -531,34 +534,42 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
           )}
 
           {/* Actions */}
-          <div className="flex gap-3 pt-4 sticky bottom-0 bg-background/95 backdrop-blur-xl pb-2 border-t-2">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-4 sticky bottom-0 bg-background/95 backdrop-blur-xl pb-2 border-t-2">
             <Button
               variant="outline"
               onClick={onClose}
-              className="flex-1 rounded-xl font-bold border-2 hover:scale-105 transition-all h-14"
+              className="w-full sm:flex-1 rounded-xl font-bold border-2 hover:scale-105 transition-all h-11 sm:h-14 text-sm sm:text-base order-3 sm:order-1"
             >
               Fermer
             </Button>
-            {car.prixNegociable === "oui" &&(
+            {car.prixNegociable === "oui" && car.vendeur && (
               <Button
-              variant="outline" onClick={handleSendCard}
-              className="flex-1 rounded-xl font-bold border-2 hover:scale-105 transition-all h-14"
-            >
-              <Send className="h-5 w-5 mr-2" />
-              Disctuer avec Mr {car.vendeur.nom}
-            </Button>
+                variant="outline" 
+                onClick={handleSendCard}
+                className="w-full sm:flex-1 rounded-xl font-bold border-2 hover:scale-105 transition-all h-11 sm:h-14 text-sm sm:text-base order-2"
+              >
+                <Send className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2" />
+                <span className="truncate">Discuter avec {car.vendeur.nom}</span>
+              </Button>
             )}
             <Button
               onClick={handleFinalizeBooking}
-              className="flex-1 rounded-xl font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all h-14"
+              className="w-full sm:flex-1 rounded-xl font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all h-11 sm:h-14 text-sm sm:text-base order-1 sm:order-3"
             >
-              <Send className="h-5 w-5 mr-2" />
-              
-              {car.type === "vente" ? "Finaliser l'achat" : "Réserver maintenant"}
+              <Send className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2" />
+              {car.type === "vente" ? "Finaliser l'achat" : "Réserver"}
             </Button>
           </div>
         </div>
       </DialogContent>
     </Dialog>
+
+    {/* Dialog RDV */}
+    <CarRdvDialog
+      isOpen={showRdvDialog}
+      onClose={() => setShowRdvDialog(false)}
+      car={car}
+    />
+    </>
   );
 };
