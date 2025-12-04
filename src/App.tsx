@@ -16,7 +16,6 @@ import Notifications from "./pages/Notifications";
 import Locations from "./pages/Locations";
 import NotFound from "./pages/NotFound";
 import SplashScreen from "./components/SplashScreen";
-import BookingForm from "./pages/BookingForm";
 import Account from "./pages/Account";
 import ClientSubscription from "./pages/ClientSubscription";
 import PaymentManagement from "./pages/PaymentManagement";
@@ -67,7 +66,6 @@ const App = () => {
             <Route path="/payments" element={<PaymentManagement />} />
             <Route path="/autoEcole" element={<Layout><AutoEcole /></Layout>}/>
             <Route path="/entretien" element={<Layout><EntretienAgences /></Layout>}/>
-            <Route path="/booking/:id" element={<Layout><BookingForm /></Layout>} />
             
             {/* Routes partenaires (collaborateurs) */}
             <Route path="/partner/auth" element={<PartnerAuth />} />
