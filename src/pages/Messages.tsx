@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Send, Search, ArrowLeft, MoreVertical, Phone, Video } from "lucide-react";
 import { toast } from "sonner";
+import { useLocation, useParams } from "react-router-dom";
 
 interface Message {
   id: string;
@@ -26,6 +27,9 @@ interface Conversation {
 }
 
 const Messages = () => {
+  const {carId} = useParams();
+  const location = useLocation();
+  const carData = location.state?.car
   const [conversations] = useState<Conversation[]>([
     {
       id: "1",
