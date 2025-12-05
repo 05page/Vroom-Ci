@@ -101,6 +101,7 @@ const Dashboard = () => {
             <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
               VROOM
             </span>
+            <span className="text-[hsl(153,100%,36%)]"> CI</span>
           </h2>
           <p className="text-muted-foreground text-lg font-medium">
             Que souhaitez-vous faire aujourd'hui ?

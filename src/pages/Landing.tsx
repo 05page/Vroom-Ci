@@ -276,9 +276,8 @@ const Landing = () => {
           <div className={`transition-all duration-700 ${featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="text-4xl md:text-6xl font-black text-center mb-4 tracking-tight">
               Pourquoi choisir{" "}
-              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                Vroom Ci
-              </span> ?
+              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">VROOM</span>
+              <span className="text-[hsl(153,100%,36%)]"> CI</span> ?
             </h2>
             <p className="text-center text-muted-foreground text-lg md:text-xl mb-20 max-w-3xl mx-auto font-medium">
               Une plateforme innovante qui révolutionne l'achat et la location de véhicules en Côte d'Ivoire
@@ -360,12 +359,9 @@ const Landing = () => {
         <div className="container mx-auto px-4">
           <div className={`transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="text-4xl md:text-6xl font-black text-center mb-4 tracking-tight">
-              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                Vroom {" "}
-                <span className="">Ci</span>
-              </span>
-              {" "}
-              en chiffres
+              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">VROOM</span>
+              <span className="text-[hsl(153,100%,36%)]"> CI</span>
+              {" "}en chiffres
             </h2>
             <p className="text-center text-muted-foreground text-lg md:text-xl mb-20 max-w-3xl mx-auto font-medium">
               La confiance de milliers de clients à travers la Côte d'Ivoire
@@ -400,9 +396,8 @@ const Landing = () => {
           <div className={`transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="text-4xl md:text-6xl font-black text-center mb-4 tracking-tight">
               À propos de{" "}
-              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                VROOM
-              </span>
+              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">VROOM</span>
+              <span className="text-[hsl(153,100%,36%)]"> CI</span>
             </h2>
             <p className="text-center text-muted-foreground text-lg md:text-xl mb-20 max-w-3xl mx-auto font-medium">
               Votre partenaire automobile de confiance en Côte d'Ivoire
@@ -417,7 +412,7 @@ const Landing = () => {
                     La première plateforme automobile complète de Côte d'Ivoire
                   </h3>
                   <p className="text-muted-foreground font-medium leading-relaxed text-lg">
-                    VROOM révolutionne le marché automobile ivoirien en offrant une solution tout-en-un pour l'achat,
+                    VROOM CI révolutionne le marché automobile ivoirien en offrant une solution tout-en-un pour l'achat,
                     la vente et la location de véhicules. Notre mission est de simplifier vos démarches automobiles
                     tout en garantissant qualité, sécurité et transparence.
                   </p>
@@ -455,7 +450,7 @@ const Landing = () => {
                   <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                     <img
                       src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&q=80"
-                      alt="À propos de VROOM"
+                      alt="À propos de VROOM CI"
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />

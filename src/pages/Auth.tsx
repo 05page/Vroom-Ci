@@ -80,7 +80,7 @@ const Auth = () => {
       toast.error("Veuillez remplir tous les champs");
       return;
     }
-    toast.success("Inscription réussie ! Bienvenue chez Vroom Ci 🚗");
+    toast.success("Inscription réussie ! Bienvenue chez VROOM CI 🚗");
     setTimeout(() => navigate("/"), 2000);
   };
 
@@ -128,7 +128,7 @@ const Auth = () => {
               <div className="space-y-6">
                 <div className="space-y-2">
                   <h1 className="text-4xl font-bold">Bienvenue sur</h1>
-                  <h2 className="text-5xl font-bold">Vroom CI</h2>
+                  <h2 className="text-5xl font-bold">VROOM <span className="text-[hsl(153,100%,36%)]">CI</span></h2>
                 </div>
                 <p className="text-lg text-primary-foreground/90">
                   {activeTab === "login"

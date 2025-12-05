@@ -86,7 +86,7 @@ const Locations = () => {
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">Nos Agences</h1>
           <p className="text-muted-foreground">
-            Trouvez l'agence VROOM la plus proche de vous
+            Trouvez l'agence VROOM CI la plus proche de vous
           </p>
         </div>
 
