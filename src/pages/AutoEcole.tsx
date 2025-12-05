@@ -102,6 +102,7 @@ const AutoEcole = () => {
                         <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                             VROOM
                         </span>
+                        <span className="text-[hsl(153,100%,36%)]"> CI</span>
                     </h1>
                     <p className="text-muted-foreground text-base sm:text-lg font-medium max-w-2xl mx-auto px-4">
                         Trouvez une auto-école près de chez vous et adaptée à votre budget

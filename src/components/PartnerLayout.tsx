@@ -91,8 +91,9 @@ const PartnerSidebar = ({ onNavigate }: { onNavigate?: () => void }) => {
           <div className="h-12 w-12 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
             <Car className="h-7 w-7 text-primary-foreground" />
           </div>
-          <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            VROOM 
+          <span className="text-2xl font-black tracking-tight">
+            <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">VROOM</span>
+            <span className="text-[hsl(153,100%,36%)]"> CI</span>
           </span>
         </div>
       </div>

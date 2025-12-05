@@ -40,7 +40,10 @@ export function AppSidebar() {
               <Car className="h-7 w-7 text-primary-foreground" />
             </div>
             {!isCollapsed && (
-              <span className="font-heading text-2xl font-bold text-primary">Vroom CI</span>
+              <span className="font-heading text-2xl font-bold">
+                <span className="text-primary">VROOM</span>
+                <span className="text-[hsl(153,100%,36%)]"> CI</span>
+              </span>
             )}
           </div>
         </div>
