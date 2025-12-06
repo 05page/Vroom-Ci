@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Bell, Heart, MessageCircle, Car, TrendingUp, CheckCheck, ArrowLeft, Settings, Check, Clock, CheckCircle2, Eye } from "lucide-react";
-import { toast } from "sonner";
 import Header from "@/components/Header";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
+import SuccessDialog from "@/components/SuccessDialog";
 interface Notification {
   id: string;
   type: "new_car" | "trending" | "system";
@@ -69,17 +68,22 @@ const Notifications = () => {
     },
   ]);
 
-  const [filter, setFilter] = useState<"all" | "unread">("all")
+  const [filter, setFilter] = useState<"all" | "unread">("all");
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState({ title: "", description: "" });
+
   const markAllAsRead = () => {
     setNotifications(prev => prev.map(n=> ({...n, read: true})));
-    toast.success("Toutes les notifications ont été marquées comme lues");
+    setDialogMessage({ title: "Succès !", description: "Toutes les notifications ont été marquées comme lues" });
+    setShowSuccessDialog(true);
   };
 
   const handleMarkAsRead = (id: string) => {
     setNotifications(prev =>
       prev.map(n => n.id === id ? { ...n, read: true } : n)
     );
-    toast.success("Notification marquée comme lue");
+    setDialogMessage({ title: "Succès !", description: "Notification marquée comme lue" });
+    setShowSuccessDialog(true);
   };
 
   const unreadCount = notifications.filter(n => !n.read).length;
@@ -345,6 +349,14 @@ const Notifications = () => {
           </Tabs>
         </div>
       </div>
+
+      <SuccessDialog
+        isOpen={showSuccessDialog}
+        onClose={() => setShowSuccessDialog(false)}
+        title={dialogMessage.title}
+        description={dialogMessage.description}
+        variant="success"
+      />
     </div>
   );
 };

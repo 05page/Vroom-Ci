@@ -15,7 +15,7 @@ import { Calendar, Clock, User, Mail, Phone, MessageSquare, CheckCircle, MapPin,
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { toast } from "sonner";
+import SuccessDialog from "@/components/SuccessDialog";
 
 interface CarData {
   id: string;
@@ -49,11 +49,14 @@ export const CarRdvDialog = ({ isOpen, onClose, car }: CarRdvDialogProps) => {
     secretCode: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showErrorDialog, setShowErrorDialog] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({ title: "", description: "" });
 
   const handleSubmit = () => {
     if (currentStep === 1) {
       if (!formData.nom || !formData.prenom || !formData.email || !formData.telephone) {
-        toast.error("Veuillez remplir tous les champs obligatoires");
+        setErrorMessage({ title: "Erreur", description: "Veuillez remplir tous les champs obligatoires" });
+        setShowErrorDialog(true);
         return;
       }
       setCurrentStep(2);
@@ -62,7 +65,8 @@ export const CarRdvDialog = ({ isOpen, onClose, car }: CarRdvDialogProps) => {
 
     if (currentStep === 2) {
       if (!formData.date || !formData.heure || !formData.agence) {
-        toast.error("Veuillez sélectionner une date, une heure et une agence");
+        setErrorMessage({ title: "Erreur", description: "Veuillez sélectionner une date, une heure et une agence" });
+        setShowErrorDialog(true);
         return;
       }
       setCurrentStep(3);
@@ -72,12 +76,11 @@ export const CarRdvDialog = ({ isOpen, onClose, car }: CarRdvDialogProps) => {
     // Validation paiement
     if (formData.paymentMethod === "mobile_money") {
       if (!formData.mobileProvider || !formData.mobileNumber || !formData.secretCode) {
-        toast.error("Veuillez remplir tous les champs de paiement");
+        setErrorMessage({ title: "Erreur", description: "Veuillez remplir tous les champs de paiement" });
+        setShowErrorDialog(true);
         return;
       }
     }
-
-    toast.success("Traitement du paiement...");
     
     setTimeout(() => {
       setIsSubmitted(true);
@@ -459,6 +462,14 @@ export const CarRdvDialog = ({ isOpen, onClose, car }: CarRdvDialogProps) => {
           </Button>
         </DialogFooter>
       </DialogContent>
+      
+      <SuccessDialog
+        isOpen={showErrorDialog}
+        onClose={() => setShowErrorDialog(false)}
+        title={errorMessage.title}
+        description={errorMessage.description}
+        variant="error"
+      />
     </Dialog>
   );
 };

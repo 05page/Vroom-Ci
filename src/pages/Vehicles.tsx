@@ -4,7 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Heart, Send, AlertCircle, Share2, Search, ArrowLeft, Car, Eye, Fuel, Gauge, Calendar, Settings } from "lucide-react";
-import { toast } from "sonner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { CarDetailsDialog } from "@/components/CarDetailsDialog";
 import Header from "@/components/Header";
+import SuccessDialog from "@/components/SuccessDialog";
 
 interface CarData {
   id: string;
@@ -288,16 +288,22 @@ const Vehicles = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCar, setSelectedCar] = useState<CarData | null>(null);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [showWarningDialog, setShowWarningDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState({ title: "", description: "" });
 
   const handleFavorite = (carId: string, carName: string) => {
     setFavorites(prev => {
       const newFavorites = new Set(prev);
       if (newFavorites.has(carId)) {
         newFavorites.delete(carId);
-        toast.info(`${carName} retiré des favoris`);
+        setDialogMessage({ title: "Retiré des favoris", description: `${carName} a été retiré de vos favoris` });
+        setShowInfoDialog(true);
       } else {
         newFavorites.add(carId);
-        toast.success(`${carName} ajouté aux favoris`);
+        setDialogMessage({ title: "Ajouté aux favoris !", description: `${carName} a été ajouté à vos favoris` });
+        setShowSuccessDialog(true);
       }
       return newFavorites;
     });
@@ -308,15 +314,18 @@ const Vehicles = () => {
   };
 
   const handleContactSeller = () => {
-    toast.info("Redirection vers la messagerie...");
+    setDialogMessage({ title: "Redirection", description: "Redirection vers la messagerie..." });
+    setShowInfoDialog(true);
   };
 
   const handleReport = () => {
-    toast.warning("Signalement envoyé");
+    setDialogMessage({ title: "Signalement envoyé", description: "Votre signalement a été pris en compte" });
+    setShowWarningDialog(true);
   };
 
   const handleShare = (carName: string) => {
-    toast.success(`${carName} partagé !`);
+    setDialogMessage({ title: "Partagé !", description: `${carName} a été partagé avec succès` });
+    setShowSuccessDialog(true);
   };
 
   const filteredCars = cars
@@ -565,6 +574,30 @@ const Vehicles = () => {
           )}
         </div>
       </div>
+
+      <SuccessDialog
+        isOpen={showSuccessDialog}
+        onClose={() => setShowSuccessDialog(false)}
+        title={dialogMessage.title}
+        description={dialogMessage.description}
+        variant="success"
+      />
+
+      <SuccessDialog
+        isOpen={showInfoDialog}
+        onClose={() => setShowInfoDialog(false)}
+        title={dialogMessage.title}
+        description={dialogMessage.description}
+        variant="info"
+      />
+
+      <SuccessDialog
+        isOpen={showWarningDialog}
+        onClose={() => setShowWarningDialog(false)}
+        title={dialogMessage.title}
+        description={dialogMessage.description}
+        variant="warning"
+      />
     </div>
   );
 };

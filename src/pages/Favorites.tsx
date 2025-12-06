@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Heart, Send, AlertCircle, Share2, ArrowLeft, Car, Trash2, Eye } from "lucide-react";
-import { toast } from "sonner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +14,7 @@ import { CarDetailsDialog } from "@/components/CarDetailsDialog";
 import car1 from "@/assets/car-1.jpg";
 import car3 from "@/assets/car-3.jpg";
 import Header from "@/components/Header";
+import SuccessDialog from "@/components/SuccessDialog";
 
 interface CarData {
   id: string;
@@ -61,10 +61,15 @@ const Favorites = () => {
   ]);
 
   const [selectedCar, setSelectedCar] = useState<CarData | null>(null);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [showWarningDialog, setShowWarningDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState({ title: "", description: "" });
 
   const handleRemoveFavorite = (carId: string, carName: string) => {
     setFavoriteCars(favoriteCars.filter(car => car.id !== carId));
-    toast.success(`${carName} retiré des favoris`);
+    setDialogMessage({ title: "Retiré des favoris", description: `${carName} a été retiré de vos favoris` });
+    setShowSuccessDialog(true);
   };
 
   const handleViewDetails = (car: CarData) => {
@@ -72,15 +77,18 @@ const Favorites = () => {
   };
 
   const handleContactSeller = () => {
-    toast.info("Redirection vers la messagerie...");
+    setDialogMessage({ title: "Redirection", description: "Redirection vers la messagerie..." });
+    setShowInfoDialog(true);
   };
 
   const handleReport = () => {
-    toast.warning("Signalement envoyé");
+    setDialogMessage({ title: "Signalement envoyé", description: "Votre signalement a été pris en compte" });
+    setShowWarningDialog(true);
   };
 
   const handleShare = (carName: string) => {
-    toast.success(`${carName} partagé !`);
+    setDialogMessage({ title: "Partagé !", description: `${carName} a été partagé avec succès` });
+    setShowSuccessDialog(true);
   };
 
   return (
@@ -245,6 +253,30 @@ const Favorites = () => {
           )}
         </div>
       </div>
+
+      <SuccessDialog
+        isOpen={showSuccessDialog}
+        onClose={() => setShowSuccessDialog(false)}
+        title={dialogMessage.title}
+        description={dialogMessage.description}
+        variant="success"
+      />
+
+      <SuccessDialog
+        isOpen={showInfoDialog}
+        onClose={() => setShowInfoDialog(false)}
+        title={dialogMessage.title}
+        description={dialogMessage.description}
+        variant="info"
+      />
+
+      <SuccessDialog
+        isOpen={showWarningDialog}
+        onClose={() => setShowWarningDialog(false)}
+        title={dialogMessage.title}
+        description={dialogMessage.description}
+        variant="warning"
+      />
     </div>
   );
 };
