@@ -38,8 +38,7 @@ import {
   Ban,
   Tag
 } from "lucide-react";
-import { toast } from "sonner";
-
+import SuccessDialog from "@/components/SuccessDialog";
 interface CarData {
   id: string;
   name: string;
@@ -103,7 +102,8 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showRdvDialog, setShowRdvDialog] = useState(false);
-
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState({ title: "", description: "" });
   const allImages = car.images || [car.image];
 
   const nextImage = () => {
@@ -125,12 +125,18 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
   }
 
   const handleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    toast.success(isFavorite ? "Retiré des favoris" : "Ajouté aux favoris");
+    const newState = !isFavorite;
+    setIsFavorite(newState);
+    setDialogMessage({
+      title: newState ? "Ajouté aux favoris !" : "Retiré des favoris",
+      description: newState ? "Ce véhicule a été ajouté à vos favoris" : "Ce véhicule a été retiré de vos favoris"
+    });
+    setShowSuccessDialog(true);
   };
 
   const handleShare = () => {
-    toast.success("Lien copié dans le presse-papier !");
+    setDialogMessage({ title: "Lien copié !", description: "Le lien a été copié dans le presse-papier" });
+    setShowSuccessDialog(true);
   };
 
   const getVisiteTechniqueStatus = () => {
@@ -569,6 +575,14 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
       isOpen={showRdvDialog}
       onClose={() => setShowRdvDialog(false)}
       car={car}
+    />
+    
+    <SuccessDialog
+      isOpen={showSuccessDialog}
+      onClose={() => setShowSuccessDialog(false)}
+      title={dialogMessage.title}
+      description={dialogMessage.description}
+      variant="success"
     />
     </>
   );

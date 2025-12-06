@@ -9,8 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "sonner";
 import { ArrowLeft, Upload, X } from "lucide-react";
+import SuccessDialog from "@/components/SuccessDialog";
 
 const vehicleSchema = z.object({
   brand: z.string().min(1, "La marque est requise"),
@@ -34,6 +34,9 @@ const AddVehicleForm = () => {
   const [images, setImages] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [showErrorDialog, setShowErrorDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState({ title: "", description: "" });
 
   const {
     register,
@@ -47,7 +50,8 @@ const AddVehicleForm = () => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length + images.length > 6) {
-      toast.error("Vous ne pouvez ajouter que 6 images maximum");
+      setDialogMessage({ title: "Erreur", description: "Vous ne pouvez ajouter que 6 images maximum" });
+      setShowErrorDialog(true);
       return;
     }
 
@@ -65,7 +69,8 @@ const AddVehicleForm = () => {
 
   const onSubmit = async (data: VehicleFormData) => {
     if (images.length === 0) {
-      toast.error("Veuillez ajouter au moins une image");
+      setDialogMessage({ title: "Erreur", description: "Veuillez ajouter au moins une image" });
+      setShowErrorDialog(true);
       return;
     }
 
@@ -84,10 +89,12 @@ const AddVehicleForm = () => {
       const existingVehicles = JSON.parse(localStorage.getItem("partnerVehicles") || "[]");
       localStorage.setItem("partnerVehicles", JSON.stringify([...existingVehicles, vehicleData]));
 
-      toast.success("Véhicule ajouté avec succès!");
-      navigate("/partner/vehicles");
+      setDialogMessage({ title: "Véhicule ajouté !", description: "Votre véhicule a été publié avec succès" });
+      setShowSuccessDialog(true);
+      setTimeout(() => navigate("/partner/vehicles"), 1500);
     } catch (error) {
-      toast.error("Une erreur est survenue");
+      setDialogMessage({ title: "Erreur", description: "Une erreur est survenue" });
+      setShowErrorDialog(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -273,6 +280,22 @@ const AddVehicleForm = () => {
           </form>
         </CardContent>
       </Card>
+
+      <SuccessDialog
+        isOpen={showSuccessDialog}
+        onClose={() => setShowSuccessDialog(false)}
+        title={dialogMessage.title}
+        description={dialogMessage.description}
+        variant="success"
+      />
+
+      <SuccessDialog
+        isOpen={showErrorDialog}
+        onClose={() => setShowErrorDialog(false)}
+        title={dialogMessage.title}
+        description={dialogMessage.description}
+        variant="error"
+      />
     </div>
   );
 };

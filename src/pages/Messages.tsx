@@ -5,8 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Send, Search, ArrowLeft, Car } from "lucide-react";
-import { toast } from "sonner";
 import { useLocation, useParams } from "react-router-dom";
+import SuccessDialog from "@/components/SuccessDialog";
 
 interface Message {
   id: string;
@@ -37,6 +37,7 @@ const Messages = () => {
   const { carId } = useParams();
   const location = useLocation();
   const carData = location.state?.car;
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   const [conversations, setConversations] = useState<Conversation[]>([
     {
@@ -162,7 +163,7 @@ const Messages = () => {
       };
       setMessages([...messages, message]);
       setNewMessage("");
-      toast.success("Message envoyé");
+      setShowSuccessDialog(true);
     }
   };
 
@@ -363,6 +364,14 @@ const Messages = () => {
           )}
         </div>
       </div>
+
+      <SuccessDialog
+        isOpen={showSuccessDialog}
+        onClose={() => setShowSuccessDialog(false)}
+        title="Message envoyé !"
+        description="Votre message a été envoyé avec succès"
+        variant="success"
+      />
     </div>
   );
 };

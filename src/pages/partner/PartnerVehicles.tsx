@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner";
 import { PostVehicles } from "@/components/postVehicles";
 import {
   DropdownMenu,
@@ -25,6 +24,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import SuccessDialog from "@/components/SuccessDialog";
 
 const PartnerVehicles = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,6 +54,9 @@ const PartnerVehicles = () => {
     }
   ]);
 
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState({ title: "", description: "" });
+
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 800);
     return () => clearTimeout(timer);
@@ -61,7 +64,8 @@ const PartnerVehicles = () => {
 
   const handleDeleteVehicle = (id: string) => {
     setVehicles(prev => prev.filter(v => v.id !== id));
-    toast.success("Véhicule supprimé avec succès");
+    setDialogMessage({ title: "Véhicule supprimé", description: "Le véhicule a été supprimé avec succès" });
+    setShowSuccessDialog(true);
   };
 
   const handleToggleStatus = (id: string) => {
@@ -70,7 +74,8 @@ const PartnerVehicles = () => {
         ? { ...v, status: v.status === "active" ? "pending" : "active" }
         : v
     ));
-    toast.success("Statut modifié");
+    setDialogMessage({ title: "Statut modifié", description: "Le statut du véhicule a été mis à jour" });
+    setShowSuccessDialog(true);
   };
 
   const filteredVehicles = vehicles.filter(vehicle =>
@@ -437,6 +442,14 @@ const PartnerVehicles = () => {
         <PostVehicles 
           isOpen={openForm}
           onClose={() => setOpenForm(false)}
+        />
+
+        <SuccessDialog
+          isOpen={showSuccessDialog}
+          onClose={() => setShowSuccessDialog(false)}
+          title={dialogMessage.title}
+          description={dialogMessage.description}
+          variant="success"
         />
       </div>
     </div>

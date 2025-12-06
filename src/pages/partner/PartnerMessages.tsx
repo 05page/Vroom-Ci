@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Send, Search, ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner";
+import SuccessDialog from "@/components/SuccessDialog";
 
 interface Message {
   id: number;
@@ -82,6 +82,7 @@ const PartnerMessages = () => {
   ]);
 
   const [newMessage, setNewMessage] = useState("");
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
@@ -94,7 +95,7 @@ const PartnerMessages = () => {
       };
       setMessages([...messages, message]);
       setNewMessage("");
-      toast.success("Message envoyé avec succès");
+      setShowSuccessDialog(true);
     }
   };
 
@@ -266,6 +267,14 @@ const PartnerMessages = () => {
           )}
         </div>
       </div>
+
+      <SuccessDialog
+        isOpen={showSuccessDialog}
+        onClose={() => setShowSuccessDialog(false)}
+        title="Message envoyé !"
+        description="Votre message a été envoyé avec succès"
+        variant="success"
+      />
     </div>
   );
 };

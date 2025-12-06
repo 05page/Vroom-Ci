@@ -6,11 +6,13 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Building2, Mail, Lock, User, Phone } from "lucide-react";
-import { toast } from "sonner";
+import SuccessDialog from "@/components/SuccessDialog";
 
 const PartnerAuth = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState({ title: "", description: "" });
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,8 +20,9 @@ const PartnerAuth = () => {
     
     setTimeout(() => {
       localStorage.setItem("partnerAuth", "true");
-      toast.success("Connexion réussie !");
-      navigate("/partner/dashboard");
+      setDialogMessage({ title: "Connexion réussie !", description: "Bienvenue sur votre espace partenaire" });
+      setShowSuccessDialog(true);
+      setTimeout(() => navigate("/partner/dashboard"), 1500);
       setIsLoading(false);
     }, 1000);
   };
@@ -30,8 +33,9 @@ const PartnerAuth = () => {
     
     setTimeout(() => {
       localStorage.setItem("partnerAuth", "true");
-      toast.success("Compte créé avec succès !");
-      navigate("/partner/dashboard");
+      setDialogMessage({ title: "Compte créé !", description: "Votre compte partenaire a été créé avec succès" });
+      setShowSuccessDialog(true);
+      setTimeout(() => navigate("/partner/dashboard"), 1500);
       setIsLoading(false);
     }, 1000);
   };
@@ -174,6 +178,14 @@ const PartnerAuth = () => {
           </div>
         </CardContent>
       </Card>
+
+      <SuccessDialog
+        isOpen={showSuccessDialog}
+        onClose={() => setShowSuccessDialog(false)}
+        title={dialogMessage.title}
+        description={dialogMessage.description}
+        variant="success"
+      />
     </div>
   );
 };
