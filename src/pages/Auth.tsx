@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, Mail, Phone, MapPin, Lock, Upload, FileCheck, ArrowLeft } from "lucide-react";
-
+import SuccessDialog from "@/components/SuccessDialog";
 type FormData = {
   fullName: string;
   role: string;
@@ -21,6 +20,9 @@ type FormData = {
 const Auth = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("login");
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [showErrorDialog, setShowErrorDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState({ title: "", description: "" });
 
   // Formulaire d'inscription
   const [signupData, setSignupData] = useState<FormData>({
@@ -77,21 +79,25 @@ const Auth = () => {
       !signupData.address ||
       !signupData.password
     ) {
-      toast.error("Veuillez remplir tous les champs");
+      setDialogMessage({ title: "Erreur", description: "Veuillez remplir tous les champs" });
+      setShowErrorDialog(true);
       return;
     }
-    toast.success("Inscription réussie ! Bienvenue chez VROOM CI 🚗");
-    setTimeout(() => navigate("/"), 2000);
+    setDialogMessage({ title: "Inscription réussie !", description: "Bienvenue chez VROOM CI ! Votre compte a été créé avec succès." });
+    setShowSuccessDialog(true);
+    setTimeout(() => navigate("/"), 2500);
   };
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!loginData.email || !loginData.password) {
-      toast.error("Veuillez remplir tous les champs");
+      setDialogMessage({ title: "Erreur", description: "Veuillez remplir tous les champs" });
+      setShowErrorDialog(true);
       return;
     }
-    toast.success("Connexion réussie ! Bienvenue 🚗");
-    setTimeout(() => navigate("/"), 2000);
+    setDialogMessage({ title: "Connexion réussie !", description: "Bienvenue sur VROOM CI !" });
+    setShowSuccessDialog(true);
+    setTimeout(() => navigate("/"), 2500);
   };
 
   const handleFileChange = (
@@ -450,6 +456,22 @@ const Auth = () => {
             </div>
           </div>
         </Card>
+
+        <SuccessDialog
+          isOpen={showSuccessDialog}
+          onClose={() => setShowSuccessDialog(false)}
+          title={dialogMessage.title}
+          description={dialogMessage.description}
+          variant="success"
+        />
+
+        <SuccessDialog
+          isOpen={showErrorDialog}
+          onClose={() => setShowErrorDialog(false)}
+          title={dialogMessage.title}
+          description={dialogMessage.description}
+          variant="error"
+        />
       </div>
     </div>
   );
