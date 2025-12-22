@@ -87,24 +87,7 @@ const Header = ({ showBack = false, backUrl }: HeaderProps) => {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-2">
-          <NavLinks />
-        </nav>
-
         <div className="flex items-center gap-2">
-          {/* Mobile Menu */}
-          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className="rounded-xl">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[280px] p-4 bg-background">
-              <div className="flex flex-col gap-2 mt-8">
-                <NavLinks onNavigate={() => setMobileMenuOpen(false)} />
-              </div>
-            </SheetContent>
-          </Sheet>
 
           {/* User Menu */}
           <DropdownMenu>
@@ -123,6 +106,9 @@ const Header = ({ showBack = false, backUrl }: HeaderProps) => {
               <DropdownMenuItem onClick={() => navigate("/account")} className="cursor-pointer">
                 <User className="mr-2 h-4 w-4" />
                 <span>Mon profil</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <NavLinks onNavigate={() => setMobileMenuOpen(false)} />
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive">
