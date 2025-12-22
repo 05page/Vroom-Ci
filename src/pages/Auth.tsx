@@ -40,14 +40,6 @@ const Auth = () => {
     password: "",
   });
 
-  const [cniFront, setCniFront] = useState<File | null>(null);
-  const [cniBack, setCniBack] = useState<File | null>(null);
-  const [permisConduire, setPermisConduire] = useState<File | null>(null);
-
-  const [cniFrontPreview, setCniFrontPreview] = useState<string>("");
-  const [cniBackPreview, setCniBackPreview] = useState<string>("");
-  const [permisPreview, setPermisPreview] = useState<string>("");
-
   const handleSignupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignupData({
       ...signupData,
@@ -98,30 +90,6 @@ const Auth = () => {
     setDialogMessage({ title: "Connexion réussie !", description: "Bienvenue sur VROOM CI !" });
     setShowSuccessDialog(true);
     setTimeout(() => navigate("/"), 2500);
-  };
-
-  const handleFileChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    type: "front" | "back" | "permis"
-  ) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const preview = reader.result as string;
-        if (type === "front") {
-          setCniFront(file);
-          setCniFrontPreview(preview);
-        } else if (type === "back") {
-          setCniBack(file);
-          setCniBackPreview(preview);
-        } else {
-          setPermisConduire(file);
-          setPermisPreview(preview);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   return (
@@ -348,97 +316,6 @@ const Auth = () => {
                           <p className="text-xs text-muted-foreground">
                             Minimum 8 caractères
                           </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Documents - Section simplifiée */}
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-2 mb-3">
-                        <FileCheck className="h-4 w-4 text-primary" />
-                        <Label className="text-sm font-semibold">Documents (optionnel)</Label>
-                      </div>
-                      
-                      <div className="grid grid-cols-3 gap-3">
-                        <div className="space-y-1.5">
-                          <Label htmlFor="cniFront" className="text-xs">CNI Recto</Label>
-                          <div className="relative">
-                            <Input
-                              id="cniFront"
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => handleFileChange(e, "front")}
-                              className="hidden"
-                            />
-                            <Label
-                              htmlFor="cniFront"
-                              className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-muted-foreground/25 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
-                            >
-                              {cniFrontPreview ? (
-                                <img
-                                  src={cniFrontPreview}
-                                  alt="CNI Recto"
-                                  className="h-full w-full object-cover rounded-lg"
-                                />
-                              ) : (
-                                <Upload className="h-6 w-6 text-muted-foreground" />
-                              )}
-                            </Label>
-                          </div>
-                        </div>
-
-                        <div className="space-y-1.5">
-                          <Label htmlFor="cniBack" className="text-xs">CNI Verso</Label>
-                          <div className="relative">
-                            <Input
-                              id="cniBack"
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => handleFileChange(e, "back")}
-                              className="hidden"
-                            />
-                            <Label
-                              htmlFor="cniBack"
-                              className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-muted-foreground/25 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
-                            >
-                              {cniBackPreview ? (
-                                <img
-                                  src={cniBackPreview}
-                                  alt="CNI Verso"
-                                  className="h-full w-full object-cover rounded-lg"
-                                />
-                              ) : (
-                                <Upload className="h-6 w-6 text-muted-foreground" />
-                              )}
-                            </Label>
-                          </div>
-                        </div>
-
-                        <div className="space-y-1.5">
-                          <Label htmlFor="permisConduire" className="text-xs">Permis</Label>
-                          <div className="relative">
-                            <Input
-                              id="permisConduire"
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => handleFileChange(e, "permis")}
-                              className="hidden"
-                            />
-                            <Label
-                              htmlFor="permisConduire"
-                              className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-muted-foreground/25 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
-                            >
-                              {permisPreview ? (
-                                <img
-                                  src={permisPreview}
-                                  alt="Permis"
-                                  className="h-full w-full object-cover rounded-lg"
-                                />
-                              ) : (
-                                <Upload className="h-6 w-6 text-muted-foreground" />
-                              )}
-                            </Label>
-                          </div>
                         </div>
                       </div>
                     </div>
