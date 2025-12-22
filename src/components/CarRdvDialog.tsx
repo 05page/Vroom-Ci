@@ -11,10 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, User, Mail, Phone, MessageSquare, CheckCircle, MapPin, Car, CreditCard } from "lucide-react";
+import { Calendar, Clock, User, Mail, Phone, MessageSquare, CheckCircle, MapPin, Car } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import SuccessDialog from "@/components/SuccessDialog";
 
 interface CarData {
@@ -43,10 +42,6 @@ export const CarRdvDialog = ({ isOpen, onClose, car }: CarRdvDialogProps) => {
     heure: "",
     agence: "",
     message: "",
-    paymentMethod: "mobile_money",
-    mobileProvider: "",
-    mobileNumber: "",
-    secretCode: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showErrorDialog, setShowErrorDialog] = useState(false);
@@ -69,42 +64,28 @@ export const CarRdvDialog = ({ isOpen, onClose, car }: CarRdvDialogProps) => {
         setShowErrorDialog(true);
         return;
       }
-      setCurrentStep(3);
+      // Soumission finale
+      setTimeout(() => {
+        setIsSubmitted(true);
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setCurrentStep(1);
+          setFormData({
+            nom: "",
+            prenom: "",
+            email: "",
+            telephone: "",
+            adresse: "",
+            date: "",
+            heure: "",
+            agence: "",
+            message: "",
+          });
+          onClose();
+        }, 3000);
+      }, 1500);
       return;
     }
-
-    // Validation paiement
-    if (formData.paymentMethod === "mobile_money") {
-      if (!formData.mobileProvider || !formData.mobileNumber || !formData.secretCode) {
-        setErrorMessage({ title: "Erreur", description: "Veuillez remplir tous les champs de paiement" });
-        setShowErrorDialog(true);
-        return;
-      }
-    }
-    
-    setTimeout(() => {
-      setIsSubmitted(true);
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setCurrentStep(1);
-        setFormData({
-          nom: "",
-          prenom: "",
-          email: "",
-          telephone: "",
-          adresse: "",
-          date: "",
-          heure: "",
-          agence: "",
-          message: "",
-          paymentMethod: "mobile_money",
-          mobileProvider: "",
-          mobileNumber: "",
-          secretCode: "",
-        });
-        onClose();
-      }, 3000);
-    }, 1500);
   };
 
   const handleChange = (field: string, value: string) => {
@@ -113,10 +94,6 @@ export const CarRdvDialog = ({ isOpen, onClose, car }: CarRdvDialogProps) => {
 
   const heuresDisponibles = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00"];
   const today = new Date().toISOString().split("T")[0];
-
-  // Calcul de la garantie (10-15% du prix)
-  const priceNumber = parseInt(car.price.replace(/[^0-9]/g, ""));
-  const garantie = Math.round(priceNumber * 0.1);
 
   if (isSubmitted) {
     return (
@@ -183,13 +160,13 @@ export const CarRdvDialog = ({ isOpen, onClose, car }: CarRdvDialogProps) => {
           {/* Progress Steps */}
           <div className="px-4 sm:px-6 pb-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs sm:text-sm font-medium">Étape {currentStep}/3</span>
-              <span className="text-xs sm:text-sm text-muted-foreground">{Math.round((currentStep / 3) * 100)}%</span>
+              <span className="text-xs sm:text-sm font-medium">Étape {currentStep}/2</span>
+              <span className="text-xs sm:text-sm text-muted-foreground">{Math.round((currentStep / 2) * 100)}%</span>
             </div>
             <div className="w-full bg-secondary rounded-full h-2">
               <div
                 className="bg-primary h-2 rounded-full transition-all duration-300"
-                style={{ width: `${(currentStep / 3) * 100}%` }}
+                style={{ width: `${(currentStep / 2) * 100}%` }}
               />
             </div>
           </div>
@@ -349,84 +326,6 @@ export const CarRdvDialog = ({ isOpen, onClose, car }: CarRdvDialogProps) => {
             </div>
           )}
 
-          {/* Step 3: Paiement garantie */}
-          {currentStep === 3 && (
-            <div className="space-y-4 animate-in fade-in slide-in-from-right duration-300">
-              <h3 className="text-lg font-black tracking-tight flex items-center gap-2">
-                <CreditCard className="h-5 w-5 text-primary" />
-                Paiement de la garantie
-              </h3>
-
-              <div className="bg-primary/5 border-2 border-primary/20 rounded-xl p-4">
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-sm">Garantie (10%)</span>
-                  <span className="text-xl font-black text-primary">{garantie.toLocaleString()} FCFA</span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Remboursable si annulation 48h avant le RDV
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <Label className="text-xs sm:text-sm font-bold">Mode de paiement</Label>
-                <RadioGroup value={formData.paymentMethod} onValueChange={(value) => handleChange("paymentMethod", value)}>
-                  <div className="flex items-center space-x-2 p-3 border-2 rounded-xl hover:bg-secondary/50 cursor-pointer">
-                    <RadioGroupItem value="mobile_money" id="mobile" />
-                    <Label htmlFor="mobile" className="cursor-pointer flex-1 font-medium text-sm">
-                      Mobile Money (Orange, MTN, Moov)
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2 p-3 border-2 rounded-xl hover:bg-secondary/50 cursor-pointer">
-                    <RadioGroupItem value="card" id="card" />
-                    <Label htmlFor="card" className="cursor-pointer flex-1 font-medium text-sm">
-                      Carte bancaire
-                    </Label>
-                  </div>
-                </RadioGroup>
-              </div>
-
-              {formData.paymentMethod === "mobile_money" && (
-                <div className="space-y-3 animate-in fade-in duration-200">
-                  <div className="space-y-2">
-                    <Label className="text-xs sm:text-sm font-bold">Opérateur *</Label>
-                    <div className="grid grid-cols-3 gap-2">
-                      {["orange", "mtn", "moov"].map((provider) => (
-                        <Button
-                          key={provider}
-                          type="button"
-                          variant={formData.mobileProvider === provider ? "default" : "outline"}
-                          className="h-10 rounded-xl font-bold text-xs sm:text-sm capitalize"
-                          onClick={() => handleChange("mobileProvider", provider)}
-                        >
-                          {provider}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-xs sm:text-sm font-bold">Numéro *</Label>
-                    <Input
-                      value={formData.mobileNumber}
-                      onChange={(e) => handleChange("mobileNumber", e.target.value)}
-                      placeholder="+225 07 XX XX XX XX"
-                      className="h-11 rounded-xl border-2 text-sm"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-xs sm:text-sm font-bold">Code secret (4 chiffres) *</Label>
-                    <Input
-                      type="password"
-                      maxLength={4}
-                      value={formData.secretCode}
-                      onChange={(e) => handleChange("secretCode", e.target.value)}
-                      placeholder="••••"
-                      className="h-11 rounded-xl border-2 text-sm"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
         </div>
 
         {/* Footer Actions */}
@@ -454,11 +353,7 @@ export const CarRdvDialog = ({ isOpen, onClose, car }: CarRdvDialogProps) => {
             onClick={handleSubmit}
             className="w-full sm:flex-1 rounded-xl font-bold shadow-lg shadow-primary/30 h-11 sm:h-12 text-sm"
           >
-            {currentStep < 3 ? (
-              "Continuer"
-            ) : (
-              <>Payer {garantie.toLocaleString()} FCFA</>
-            )}
+            {currentStep < 2 ? "Continuer" : "Confirmer le rendez-vous"}
           </Button>
         </DialogFooter>
       </DialogContent>

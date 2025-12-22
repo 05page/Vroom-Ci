@@ -36,7 +36,9 @@ import {
   Zap,
   CircleDot,
   Ban,
-  Tag
+  Tag,
+  Building2,
+  UserCircle
 } from "lucide-react";
 import SuccessDialog from "@/components/SuccessDialog";
 interface CarData {
@@ -86,6 +88,7 @@ interface CarData {
     telephone: string;
     email: string;
     localisation: string;
+    type?: "particulier" | "partenaire";
   };
   
   trending?: boolean;
@@ -517,7 +520,19 @@ export const CarDetailsDialog = ({ isOpen, onClose, car }: Props) => {
                     </div>
                     <div>
                       <p className="font-black text-lg">{car.vendeur.nom}</p>
-                      <p className="text-sm text-muted-foreground font-semibold">Vendeur particulier</p>
+                      <Badge 
+                        className={`text-xs ${
+                          car.vendeur.type === "partenaire" 
+                            ? "bg-orange-500 text-white" 
+                            : "bg-secondary text-foreground"
+                        }`}
+                      >
+                        {car.vendeur.type === "partenaire" ? (
+                          <><Building2 className="h-3 w-3 mr-1" />Partenaire Pro</>
+                        ) : (
+                          <><UserCircle className="h-3 w-3 mr-1" />Particulier</>
+                        )}
+                      </Badge>
                     </div>
                   </div>
                   <div className="space-y-2 pt-2">
