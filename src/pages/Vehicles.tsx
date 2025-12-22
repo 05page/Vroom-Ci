@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Heart, Send, AlertCircle, Share2, Search, ArrowLeft, Car, Eye, Fuel, Gauge, Calendar, Settings } from "lucide-react";
+import { Heart, Send, AlertCircle, Share2, Search, ArrowLeft, Car, Eye, Fuel, Gauge, Calendar, Settings, Building2, UserCircle } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -57,6 +57,7 @@ interface CarData {
     telephone: string;
     email: string;
     localisation: string;
+    type: "particulier" | "partenaire";
   };
 
   trending?: boolean;
@@ -105,7 +106,8 @@ const Vehicles = () => {
         nom: "Jean Kouassi",
         telephone: "+225 07 12 34 56 78",
         email: "jean.kouassi@example.com",
-        localisation: "Abidjan, Cocody Riviera"
+        localisation: "Abidjan, Cocody Riviera",
+        type: "particulier"
       },
       trending: true,
       vues: 1247,
@@ -149,7 +151,8 @@ const Vehicles = () => {
         nom: "Yao Michel",
         telephone: "+225 05 98 76 54 32",
         email: "yao.michel@example.com",
-        localisation: "Abidjan, Plateau"
+        localisation: "Abidjan, Plateau",
+        type: "particulier"
       },
       trending: true,
       vues: 2156,
@@ -193,7 +196,8 @@ const Vehicles = () => {
         nom: "VROOM Location",
         telephone: "+225 27 20 30 40 50",
         email: "location@vroom.ci",
-        localisation: "Abidjan, Marcory Zone 4"
+        localisation: "Abidjan, Marcory Zone 4",
+        type: "partenaire"
       },
       vues: 892,
     },
@@ -235,7 +239,8 @@ const Vehicles = () => {
         nom: "VROOM Location",
         telephone: "+225 27 20 30 40 50",
         email: "location@vroom.ci",
-        localisation: "Abidjan, Cocody Angré"
+        localisation: "Abidjan, Cocody Angré",
+        type: "partenaire"
       },
       vues: 654,
     },
@@ -278,7 +283,8 @@ const Vehicles = () => {
         nom: "Koffi Adjoumani",
         telephone: "+225 01 23 45 67 89",
         email: "koffi.adjoumani@example.com",
-        localisation: "Abidjan, Yopougon"
+        localisation: "Abidjan, Yopougon",
+        type: "particulier"
       },
       vues: 1523,
     },
@@ -453,6 +459,19 @@ const Vehicles = () => {
 
                   {/* Bottom Info Overlay */}
                   <div className="absolute bottom-4 left-4 right-4 z-10">
+                    <div className="flex items-center gap-2 mb-1">
+                      {car.vendeur.type === "partenaire" ? (
+                        <Badge className="bg-amber-500 text-white font-bold text-xs rounded-full shadow-lg flex items-center gap-1">
+                          <Building2 className="h-3 w-3" />
+                          Partenaire Pro
+                        </Badge>
+                      ) : (
+                        <Badge className="bg-slate-600 text-white font-bold text-xs rounded-full shadow-lg flex items-center gap-1">
+                          <UserCircle className="h-3 w-3" />
+                          Particulier
+                        </Badge>
+                      )}
+                    </div>
                     <h3 className="text-white text-2xl font-black tracking-tight drop-shadow-lg">
                       {car.name}
                     </h3>
