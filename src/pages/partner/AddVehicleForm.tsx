@@ -101,7 +101,7 @@ const AddVehicleForm = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-4xl">
+    <div className="container mx-auto p-6 max-w-6xl">
       <Button
         variant="ghost"
         onClick={() => navigate("/partner/vehicles")}
