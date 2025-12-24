@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Car, ArrowLeft, LogOut, Heart, MessageCircle, Bell, User } from "lucide-react";
+import { Car, ArrowLeft, LogOut, Heart, MessageCircle, Bell, User, Home, ShoppingBag, Store } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +18,7 @@ interface HeaderProps {
 
 const Header = ({ showBack = false, backUrl }: HeaderProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.clear();
@@ -32,7 +33,15 @@ const Header = ({ showBack = false, backUrl }: HeaderProps) => {
     }
   };
 
-  const navItems = [
+  const isActive = (path: string) => location.pathname === path;
+
+  const mainNavItems = [
+    { label: "Accueil", icon: Home, path: "/dashboard" },
+    { label: "Véhicules", icon: ShoppingBag, path: "/vehicles" },
+    { label: "Espace Partenaire", icon: Store, path: "/partner/dashboard" },
+  ];
+
+  const userNavItems = [
     { label: "Favoris", icon: Heart, path: "/favorites" },
     { label: "Messages", icon: MessageCircle, path: "/messages" },
     { label: "Notifications", icon: Bell, path: "/notifications", badge: 3 },
@@ -59,6 +68,21 @@ const Header = ({ showBack = false, backUrl }: HeaderProps) => {
           </h1>
         </div>
 
+        {/* Navigation desktop */}
+        <nav className="hidden md:flex items-center gap-1">
+          {mainNavItems.map((item) => (
+            <Button
+              key={item.path}
+              variant={isActive(item.path) ? "default" : "ghost"}
+              onClick={() => navigate(item.path)}
+              className="rounded-xl font-semibold"
+            >
+              <item.icon className="h-4 w-4 mr-2" />
+              {item.label}
+            </Button>
+          ))}
+        </nav>
+
         <div className="flex items-center gap-2">
           {/* User Menu with Nav Items */}
           <DropdownMenu>
@@ -74,12 +98,31 @@ const Header = ({ showBack = false, backUrl }: HeaderProps) => {
             <DropdownMenuContent align="end" className="w-56 bg-background border shadow-lg z-50">
               <DropdownMenuLabel className="font-bold">Mon compte</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              
               <DropdownMenuItem onClick={() => navigate("/account")} className="cursor-pointer">
                 <User className="mr-2 h-4 w-4" />
                 <span>Mon profil</span>
               </DropdownMenuItem>
+              
               <DropdownMenuSeparator />
-              {navItems.map((item) => (
+              <DropdownMenuLabel className="text-xs text-muted-foreground font-medium md:hidden">Navigation</DropdownMenuLabel>
+              
+              {/* Navigation mobile dans le dropdown */}
+              <div className="md:hidden">
+                {mainNavItems.map((item) => (
+                  <DropdownMenuItem
+                    key={item.path}
+                    onClick={() => navigate(item.path)}
+                    className={`cursor-pointer ${isActive(item.path) ? "bg-primary/10 text-primary" : ""}`}
+                  >
+                    <item.icon className="mr-2 h-4 w-4" />
+                    <span>{item.label}</span>
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuSeparator />
+              </div>
+              
+              {userNavItems.map((item) => (
                 <DropdownMenuItem
                   key={item.path}
                   onClick={() => navigate(item.path)}
@@ -94,6 +137,7 @@ const Header = ({ showBack = false, backUrl }: HeaderProps) => {
                   )}
                 </DropdownMenuItem>
               ))}
+              
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive">
                 <LogOut className="mr-2 h-4 w-4" />

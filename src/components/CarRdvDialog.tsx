@@ -125,7 +125,7 @@ export const CarRdvDialog = ({ isOpen, onClose, car }: CarRdvDialogProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg max-h-[95vh] overflow-y-auto rounded-2xl sm:rounded-3xl p-0">
+      <DialogContent className="max-w-3xl max-h-[95vh] overflow-y-auto rounded-2xl sm:rounded-3xl p-0">
         {/* Header avec aperçu voiture */}
         <div className="sticky top-0 z-10 bg-background border-b">
           <div className="p-4 sm:p-6">
