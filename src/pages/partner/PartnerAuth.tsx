@@ -20,6 +20,8 @@ const PartnerAuth = () => {
     
     setTimeout(() => {
       localStorage.setItem("partnerAuth", "true");
+      localStorage.setItem("userRole", "vendeur");
+      localStorage.setItem("userAuth", "true");
       setDialogMessage({ title: "Connexion réussie !", description: "Bienvenue sur votre espace partenaire" });
       setShowSuccessDialog(true);
       setTimeout(() => navigate("/partner/dashboard"), 1500);
@@ -33,6 +35,8 @@ const PartnerAuth = () => {
     
     setTimeout(() => {
       localStorage.setItem("partnerAuth", "true");
+      localStorage.setItem("userRole", "vendeur");
+      localStorage.setItem("userAuth", "true");
       setDialogMessage({ title: "Compte créé !", description: "Votre compte partenaire a été créé avec succès" });
       setShowSuccessDialog(true);
       setTimeout(() => navigate("/partner/dashboard"), 1500);

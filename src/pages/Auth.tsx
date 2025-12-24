@@ -75,9 +75,18 @@ const Auth = () => {
       setShowErrorDialog(true);
       return;
     }
+    
+    // Stocker le rôle et l'état d'authentification
+    localStorage.setItem("userRole", signupData.role);
+    localStorage.setItem("userAuth", "true");
+    localStorage.setItem("userName", signupData.fullName);
+    
     setDialogMessage({ title: "Inscription réussie !", description: "Bienvenue chez VROOM CI ! Votre compte a été créé avec succès." });
     setShowSuccessDialog(true);
-    setTimeout(() => navigate("/"), 2500);
+    
+    // Redirection basée sur le rôle
+    const redirectPath = signupData.role === "vendeur" ? "/partner/dashboard" : "/dashboard";
+    setTimeout(() => navigate(redirectPath), 2500);
   };
 
   const handleLoginSubmit = (e: React.FormEvent) => {
@@ -87,9 +96,18 @@ const Auth = () => {
       setShowErrorDialog(true);
       return;
     }
+    
+    // Simuler la récupération du rôle (en production, viendrait du backend)
+    // Pour la simulation, on utilise le rôle stocké ou on définit "client" par défaut
+    const storedRole = localStorage.getItem("userRole") || "client";
+    localStorage.setItem("userAuth", "true");
+    
     setDialogMessage({ title: "Connexion réussie !", description: "Bienvenue sur VROOM CI !" });
     setShowSuccessDialog(true);
-    setTimeout(() => navigate("/"), 2500);
+    
+    // Redirection basée sur le rôle
+    const redirectPath = storedRole === "vendeur" ? "/partner/dashboard" : "/dashboard";
+    setTimeout(() => navigate(redirectPath), 2500);
   };
 
   return (
