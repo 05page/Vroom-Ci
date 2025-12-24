@@ -9,6 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import Header from "@/components/Header";
 
+// Type d'utilisateur: "client" ou "vendeur"
+type UserType = "client" | "vendeur";
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
@@ -16,6 +19,9 @@ const Dashboard = () => {
   const [carExtFile, setCarExtFile] = useState<File | null>(null);
   const [carPreview, setCarPreview] = useState<string | null>("");
   const [carPreviewInt, setCarPreviewInt] = useState<string | null>("");
+
+  // Simuler le type d'utilisateur - à remplacer par un vrai système d'auth
+  const [userType] = useState<UserType>("client");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: "int" | "ext") => {
     const file = e.target.files?.[0];
@@ -35,14 +41,14 @@ const Dashboard = () => {
     }
   };
 
-  const services = [
+  // Services pour les clients uniquement
+  const clientServices = [
     {
       title: "Location",
       description: "Louez une voiture",
       route: "/vehicles?filter=location",
       icon: Car,
       gradient: "from-blue-500 to-cyan-500",
-      image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&q=80",
     },
     {
       title: "Achats",
@@ -50,7 +56,6 @@ const Dashboard = () => {
       route: "/vehicles?filter=vente",
       icon: ShoppingBag,
       gradient: "from-purple-500 to-pink-500",
-      image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80",
     },
     {
       title: "Lieux",
@@ -58,35 +63,70 @@ const Dashboard = () => {
       route: "/locations",
       icon: MapPin,
       gradient: "from-orange-500 to-red-500",
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
     },
     {
       title: "Vendez",
       description: "En quelques clics",
       icon: Wallet,
       gradient: "from-green-500 to-emerald-500",
-      image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80",
       action: () => setOpenDialog(true),
     },
-
     {
       title: "Entretien",
-      description: "En quelques clics",
+      description: "Entretenez votre véhicule",
       icon: Wrench,
-      gradient: "from-green-500 to-emerald-500",
-      image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80",
+      gradient: "from-amber-500 to-orange-500",
       route: "/entretien",
     },
-
     {
       title: "Auto Ecole",
-      description: "Trouvez votre une auto école selon votre budget",
+      description: "Trouvez une auto école",
       icon: GraduationCap,
-      gradient: "from-green-500 to-emerald-500",
-      image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80",
+      gradient: "from-indigo-500 to-violet-500",
       route: "/autoEcole",
     },
   ];
+
+  // Services pour les vendeurs uniquement
+  const vendeurServices = [
+    {
+      title: "Mes véhicules",
+      description: "Gérez vos annonces",
+      route: "/partner/vehicles",
+      icon: Car,
+      gradient: "from-blue-500 to-cyan-500",
+    },
+    {
+      title: "Ajouter",
+      description: "Publiez une annonce",
+      route: "/partner/vehicles/add",
+      icon: Upload,
+      gradient: "from-green-500 to-emerald-500",
+    },
+    {
+      title: "Voir les posts",
+      description: "Explorez les véhicules",
+      route: "/vehicles",
+      icon: ShoppingBag,
+      gradient: "from-purple-500 to-pink-500",
+    },
+    {
+      title: "Statistiques",
+      description: "Suivez vos performances",
+      route: "/partner/analytics",
+      icon: Star,
+      gradient: "from-amber-500 to-orange-500",
+    },
+    {
+      title: "Lieux",
+      description: "Trouvez nos agences",
+      route: "/locations",
+      icon: MapPin,
+      gradient: "from-orange-500 to-red-500",
+    },
+  ];
+
+  const services = userType === "vendeur" ? vendeurServices : clientServices;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
@@ -96,15 +136,22 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 md:py-12">
         <div className="mb-10 animate-in fade-in slide-in-from-bottom duration-700">
-          <h2 className="text-4xl md:text-5xl font-black mb-3 tracking-tight">
-            Bienvenue sur{" "}
-            <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-              VROOM
-            </span>
-            <span className="text-[hsl(153,100%,36%)]"> CI</span>
-          </h2>
+          <div className="flex items-center gap-3 mb-3">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
+              Bienvenue sur{" "}
+              <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+                VROOM
+              </span>
+              <span className="text-[hsl(153,100%,36%)]"> CI</span>
+            </h2>
+            {userType === "vendeur" && (
+              <Badge className="bg-orange-500 text-white font-bold">Vendeur</Badge>
+            )}
+          </div>
           <p className="text-muted-foreground text-lg font-medium">
-            Que souhaitez-vous faire aujourd'hui ?
+            {userType === "vendeur"
+              ? "Gérez vos annonces et suivez vos ventes"
+              : "Que souhaitez-vous faire aujourd'hui ?"}
           </p>
         </div>
 
