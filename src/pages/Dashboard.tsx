@@ -20,8 +20,9 @@ const Dashboard = () => {
   const [carPreview, setCarPreview] = useState<string | null>("");
   const [carPreviewInt, setCarPreviewInt] = useState<string | null>("");
 
-  // Simuler le type d'utilisateur - à remplacer par un vrai système d'auth
-  const [userType] = useState<UserType>("client");
+  // Récupérer le rôle depuis localStorage (défini lors de l'authentification)
+  const storedRole = localStorage.getItem("userRole") as UserType | null;
+  const userType: UserType = storedRole === "vendeur" ? "vendeur" : "client";
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: "int" | "ext") => {
     const file = e.target.files?.[0];
