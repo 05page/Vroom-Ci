@@ -32,6 +32,9 @@ import AutoEcole from "./pages/AutoEcole";
 import EntretienAgences from "./pages/Entretien";
 import PartnerSettings from "./pages/partner/PartenerSettings";
 import PartnerNotifications from "./pages/partner/Notifications";
+import VendeurVehicles from "./pages/vendeur/VendeurVehicles";
+import VendeurAddVehicle from "./pages/vendeur/VendeurAddVehicle";
+import VendeurStats from "./pages/vendeur/VendeurStats";
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -66,6 +69,11 @@ const App = () => {
             <Route path="/payments" element={<PaymentManagement />} />
             <Route path="/autoEcole" element={<Layout><AutoEcole /></Layout>}/>
             <Route path="/entretien" element={<Layout><EntretienAgences /></Layout>}/>
+            
+            {/* Routes vendeurs (particuliers) */}
+            <Route path="/vendeur/vehicles" element={<Layout><VendeurVehicles /></Layout>} />
+            <Route path="/vendeur/vehicles/add" element={<Layout><VendeurAddVehicle /></Layout>} />
+            <Route path="/vendeur/stats" element={<Layout><VendeurStats /></Layout>} />
             
             {/* Routes partenaires (collaborateurs) */}
             <Route path="/partner/auth" element={<PartnerAuth />} />

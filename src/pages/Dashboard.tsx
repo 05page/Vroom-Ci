@@ -93,14 +93,14 @@ const Dashboard = () => {
     {
       title: "Mes véhicules",
       description: "Gérez vos annonces",
-      route: "/partner/vehicles",
+      route: "/vendeur/vehicles",
       icon: Car,
       gradient: "from-blue-500 to-cyan-500",
     },
     {
       title: "Ajouter",
       description: "Publiez une annonce",
-      route: "/partner/vehicles/add",
+      route: "/vendeur/vehicles/add",
       icon: Upload,
       gradient: "from-green-500 to-emerald-500",
     },
@@ -114,7 +114,7 @@ const Dashboard = () => {
     {
       title: "Statistiques",
       description: "Suivez vos performances",
-      route: "/partner/analytics",
+      route: "/vendeur/stats",
       icon: Star,
       gradient: "from-amber-500 to-orange-500",
     },

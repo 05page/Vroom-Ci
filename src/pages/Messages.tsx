@@ -4,9 +4,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Send, Search, ArrowLeft, Car } from "lucide-react";
+import { Send, Search, ArrowLeft, Car, Mic, Play, Pause } from "lucide-react";
 import { useLocation, useParams } from "react-router-dom";
 import SuccessDialog from "@/components/SuccessDialog";
+import { MessageActions } from "@/components/MessageActions";
+import { AudioRecorder } from "@/components/AudioRecorder";
 
 interface Message {
   id: string;
@@ -14,6 +16,11 @@ interface Message {
   content: string;
   timestamp: string;
   isOwn: boolean;
+  isDeleted?: boolean;
+  isEdited?: boolean;
+  isAudio?: boolean;
+  audioUrl?: string;
+  audioDuration?: number;
   carPreview?: {
     name: string;
     price: string;
@@ -38,6 +45,8 @@ const Messages = () => {
   const location = useLocation();
   const carData = location.state?.car;
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [showAudioRecorder, setShowAudioRecorder] = useState(false);
+  const [playingAudio, setPlayingAudio] = useState<string | null>(null);
 
   const [conversations, setConversations] = useState<Conversation[]>([
     {
@@ -76,10 +85,9 @@ const Messages = () => {
   // Créer une nouvelle conversation si carData est présent
   useEffect(() => {
     if (carData && carId) {
-      // Vérifier si la conversation existe déjà (find permet de trouver le premier element qui correspond)
       const existingConv = conversations.find(c => c.id === `car-${carId}`);
       
-      if (!existingConv) { // Si la conversation n'existe pas
+      if (!existingConv) {
         const newConv: Conversation = {
           id: `car-${carId}`,
           name: `${carData.vendeur.nom}`,
@@ -91,10 +99,9 @@ const Messages = () => {
           carData: carData,
         };
         
-        setConversations(prev => [newConv, ...prev]); // Ajouter la nouvelle conversation au début du tableau
-        setSelectedConversation(`car-${carId}`);// Selectionner la nouvelle conversation
+        setConversations(prev => [newConv, ...prev]);
+        setSelectedConversation(`car-${carId}`);
         
-        // Message initial avec aperçu de la voiture
         setMessages([
           {
             id: "car-preview",
@@ -118,7 +125,7 @@ const Messages = () => {
           }
         ]);
       } else {
-        setSelectedConversation(`car-${carId}`);// Selectionner la conversation existante
+        setSelectedConversation(`car-${carId}`);
       }
     }
   }, [carData, carId]);
@@ -164,6 +171,56 @@ const Messages = () => {
       setMessages([...messages, message]);
       setNewMessage("");
       setShowSuccessDialog(true);
+    }
+  };
+
+  const handleEditMessage = (id: string, newContent: string) => {
+    setMessages(messages.map(m => 
+      m.id === id ? { ...m, content: newContent, isEdited: true } : m
+    ));
+  };
+
+  const handleDeleteForMe = (id: string) => {
+    setMessages(messages.filter(m => m.id !== id));
+  };
+
+  const handleDeleteForAll = (id: string) => {
+    setMessages(messages.map(m => 
+      m.id === id ? { ...m, content: "Ce message a été supprimé", isDeleted: true } : m
+    ));
+  };
+
+  const handleSendAudio = (audioBlob: Blob, duration: number) => {
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const message: Message = {
+      id: String(Date.now()),
+      sender: "Vous",
+      content: "",
+      timestamp: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
+      isOwn: true,
+      isAudio: true,
+      audioUrl,
+      audioDuration: duration,
+    };
+    setMessages([...messages, message]);
+    setShowAudioRecorder(false);
+    setShowSuccessDialog(true);
+  };
+
+  const formatAudioDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const toggleAudioPlayback = (messageId: string, audioUrl: string) => {
+    if (playingAudio === messageId) {
+      setPlayingAudio(null);
+    } else {
+      setPlayingAudio(messageId);
+      const audio = new Audio(audioUrl);
+      audio.play();
+      audio.onended = () => setPlayingAudio(null);
     }
   };
 
@@ -283,17 +340,30 @@ const Messages = () => {
                 {messages.map((message, index) => (
                   <div
                     key={message.id}
-                    className={`flex ${message.isOwn ? "justify-end" : "justify-start"} animate-in fade-in slide-in-from-bottom duration-300`}
+                    className={`group flex items-end gap-2 ${message.isOwn ? "justify-end" : "justify-start"} animate-in fade-in slide-in-from-bottom duration-300`}
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
+                    {message.isOwn && !message.isDeleted && (
+                      <MessageActions
+                        messageId={message.id}
+                        content={message.content}
+                        isOwn={message.isOwn}
+                        onEdit={handleEditMessage}
+                        onDeleteForMe={handleDeleteForMe}
+                        onDeleteForAll={handleDeleteForAll}
+                      />
+                    )}
+                    
                     <div
                       className={`max-w-[85%] md:max-w-[70%] rounded-3xl px-4 md:px-5 py-3 shadow-md transition-all duration-300 hover:shadow-lg ${
-                        message.isOwn
-                          ? "bg-primary text-primary-foreground rounded-br-md"
-                          : "bg-card border-2 rounded-bl-md"
+                        message.isDeleted
+                          ? "bg-muted/50 border-2 border-dashed"
+                          : message.isOwn
+                            ? "bg-primary text-primary-foreground rounded-br-md"
+                            : "bg-card border-2 rounded-bl-md"
                       }`}
                     >
-                      {/* Aperçu de la voiture */}
+                      {/* Car Preview */}
                       {message.carPreview && (
                         <div className="mb-3 rounded-xl overflow-hidden border-2 border-primary/20 bg-background">
                           <img 
@@ -313,40 +383,105 @@ const Messages = () => {
                           </div>
                         </div>
                       )}
+
+                      {/* Audio Message */}
+                      {message.isAudio && message.audioUrl ? (
+                        <div className="flex items-center gap-3">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className={`rounded-full h-10 w-10 ${message.isOwn ? "bg-primary-foreground/20" : "bg-primary/10"}`}
+                            onClick={() => toggleAudioPlayback(message.id, message.audioUrl!)}
+                          >
+                            {playingAudio === message.id ? (
+                              <Pause className={`h-5 w-5 ${message.isOwn ? "text-primary-foreground" : "text-primary"}`} />
+                            ) : (
+                              <Play className={`h-5 w-5 ${message.isOwn ? "text-primary-foreground" : "text-primary"}`} />
+                            )}
+                          </Button>
+                          <div className="flex-1">
+                            <div className={`h-1 rounded-full ${message.isOwn ? "bg-primary-foreground/30" : "bg-primary/30"}`}>
+                              <div 
+                                className={`h-full rounded-full ${message.isOwn ? "bg-primary-foreground" : "bg-primary"}`}
+                                style={{ width: playingAudio === message.id ? "60%" : "0%" }}
+                              />
+                            </div>
+                          </div>
+                          <span className={`text-xs font-semibold ${message.isOwn ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                            {formatAudioDuration(message.audioDuration || 0)}
+                          </span>
+                        </div>
+                      ) : (
+                        <p className={`text-sm font-medium leading-relaxed ${message.isDeleted ? "italic text-muted-foreground" : ""}`}>
+                          {message.content}
+                        </p>
+                      )}
                       
-                      <p className="text-sm font-medium leading-relaxed">{message.content}</p>
-                      <p
-                        className={`text-xs mt-2 font-semibold ${
-                          message.isOwn
-                            ? "text-primary-foreground/70 text-right"
-                            : "text-muted-foreground"
-                        }`}
-                      >
-                        {message.timestamp}
-                      </p>
+                      <div className="flex items-center justify-end gap-1 mt-2">
+                        {message.isEdited && !message.isDeleted && (
+                          <span className={`text-xs ${message.isOwn ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
+                            modifié
+                          </span>
+                        )}
+                        <p
+                          className={`text-xs font-semibold ${
+                            message.isOwn
+                              ? "text-primary-foreground/70"
+                              : "text-muted-foreground"
+                          }`}
+                        >
+                          {message.timestamp}
+                        </p>
+                      </div>
                     </div>
+                    
+                    {!message.isOwn && !message.isDeleted && (
+                      <MessageActions
+                        messageId={message.id}
+                        content={message.content}
+                        isOwn={message.isOwn}
+                        onEdit={handleEditMessage}
+                        onDeleteForMe={handleDeleteForMe}
+                        onDeleteForAll={handleDeleteForAll}
+                      />
+                    )}
                   </div>
                 ))}
               </div>
 
               {/* Input Area */}
               <div className="p-4 md:p-6 border-t bg-background/50 backdrop-blur-xl">
-                <div className="flex gap-2 md:gap-3">
-                  <Input
-                    placeholder="Écrivez votre message..."
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                    className="flex-1 h-12 md:h-14 rounded-2xl border-2 font-medium text-sm md:text-base px-4 md:px-5"
+                {showAudioRecorder ? (
+                  <AudioRecorder
+                    onSend={handleSendAudio}
+                    onCancel={() => setShowAudioRecorder(false)}
                   />
-                  <Button 
-                    onClick={handleSendMessage}
-                    size="lg"
-                    className="rounded-2xl font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all px-5 md:px-6 h-12 md:h-14"
-                  >
-                    <Send className="h-5 w-5" />
-                  </Button>
-                </div>
+                ) : (
+                  <div className="flex gap-2 md:gap-3">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-2xl h-12 md:h-14 w-12 md:w-14 border-2"
+                      onClick={() => setShowAudioRecorder(true)}
+                    >
+                      <Mic className="h-5 w-5" />
+                    </Button>
+                    <Input
+                      placeholder="Écrivez votre message..."
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                      className="flex-1 h-12 md:h-14 rounded-2xl border-2 font-medium text-sm md:text-base px-4 md:px-5"
+                    />
+                    <Button 
+                      onClick={handleSendMessage}
+                      size="lg"
+                      className="rounded-2xl font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all px-5 md:px-6 h-12 md:h-14"
+                    >
+                      <Send className="h-5 w-5" />
+                    </Button>
+                  </div>
+                )}
               </div>
             </>
           ) : (
