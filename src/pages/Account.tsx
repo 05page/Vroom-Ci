@@ -180,7 +180,7 @@ const Account = () => {
                       size="lg"
                       variant="secondary"
                       className="font-bold rounded-xl shadow-xl hover:scale-105 transition-all whitespace-nowrap"
-                      onClick={() => navigate("/partner/vehicles/add")}
+                      onClick={() => navigate("/vendeur/vehicles/add")}
                     >
                       <Upload className="h-4 w-4 mr-2" />
                       Publier une annonce
@@ -189,7 +189,7 @@ const Account = () => {
                       size="lg"
                       variant="outline"
                       className="font-bold rounded-xl shadow-xl hover:scale-105 transition-all whitespace-nowrap bg-white/10 border-white text-white hover:bg-white/20"
-                      onClick={() => navigate("/partner/analytics")}
+                      onClick={() => navigate("/vendeur/stats")}
                     >
                       <BarChart3 className="h-4 w-4 mr-2" />
                       Statistiques
