@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -8,7 +9,6 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { PostVehicles } from "@/components/postVehicles";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,8 +27,8 @@ import {
 import SuccessDialog from "@/components/SuccessDialog";
 
 const PartnerVehicles = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [openForm, setOpenForm] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [viewMode, setViewMode] = useState<"grid" | "table">("table");
   
@@ -120,7 +120,7 @@ const PartnerVehicles = () => {
             </div>
             <Button 
               size="lg"
-              onClick={() => setOpenForm(true)}
+              onClick={() => navigate("/partner/vehicles/add")}
               className="rounded-xl font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all"
             >
               <Plus className="h-5 w-5 mr-2" />
@@ -248,7 +248,7 @@ const PartnerVehicles = () => {
                 </div>
                 <Button 
                   size="lg" 
-                  onClick={() => setOpenForm(true)}
+                  onClick={() => navigate("/partner/vehicles/add")}
                   className="mt-6 rounded-xl font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all"
                 >
                   <Plus className="h-5 w-5 mr-2" />
@@ -439,10 +439,6 @@ const PartnerVehicles = () => {
           </div>
         )}
 
-        <PostVehicles 
-          isOpen={openForm}
-          onClose={() => setOpenForm(false)}
-        />
 
         <SuccessDialog
           isOpen={showSuccessDialog}
