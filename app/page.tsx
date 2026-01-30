@@ -1,10 +1,5 @@
-import Image from "next/image";
-import Header from "./components/Header";
-import LandingPage from "./Landing/Page";
+import LandingPage from "./landing/page";
+
 export default function Home() {
-  return (
-    <div>
-      <LandingPage />
-    </div>
-  );
+  return <LandingPage />;
 }
