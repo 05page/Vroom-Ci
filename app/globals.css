@@ -49,20 +49,20 @@
 :root {
   --radius: 0.625rem;
   /* Blanc belge - crème chaud */
-  --background: oklch(0.98 0.008 75);
+  --background: oklch(0.995 0.003 75);
   --foreground: oklch(0.145 0.012 60);
   /* Carte légèrement plus blanc */
-  --card: oklch(0.993 0.005 75);
+  --card: oklch(0.998 0.002 75);
   --card-foreground: oklch(0.145 0.012 60);
-  --popover: oklch(0.993 0.005 75);
+  --popover: oklch(0.998 0.002 75);
   --popover-foreground: oklch(0.145 0.012 60);
   /* Orange primaire */
   --primary: oklch(0.65 0.18 55);
   --primary-foreground: oklch(0.995 0.002 75);
   /* Tons chauds neutres */
-  --secondary: oklch(0.96 0.008 75);
+  --secondary: oklch(0.97 0.01 78);
   --secondary-foreground: oklch(0.22 0.012 60);
-  --muted: oklch(0.955 0.008 75);
+  --muted: oklch(0.965 0.01 78);
   --muted-foreground: oklch(0.55 0.02 60);
   /* Vert clair accent */
   --accent: oklch(0.92 0.04 145);
@@ -72,6 +72,7 @@
   --border: oklch(0.91 0.012 75);
   --input: oklch(0.91 0.012 75);
   --ring: oklch(0.65 0.18 55);
+  --table-header: oklch(0.94 0.03 80);
   /* Graphiques */
   --chart-1: oklch(0.65 0.18 55);
   --chart-2: oklch(0.65 0.15 145);
@@ -79,7 +80,7 @@
   --chart-4: oklch(0.78 0.15 80);
   --chart-5: oklch(0.60 0.12 175);
   /* Sidebar */
-  --sidebar: oklch(0.985 0.006 75);
+  --sidebar: oklch(0.995 0.003 75);
   --sidebar-foreground: oklch(0.145 0.012 60);
   --sidebar-primary: oklch(0.65 0.18 55);
   --sidebar-primary-foreground: oklch(0.995 0.002 75);
@@ -111,6 +112,7 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.75 0.16 55);
+  --table-header: oklch(0.26 0.02 80);
   /* Graphiques dark */
   --chart-1: oklch(0.75 0.16 55);
   --chart-2: oklch(0.70 0.14 145);

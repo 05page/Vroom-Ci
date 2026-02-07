@@ -157,7 +157,7 @@ const ProfilePage = () => {
 
                 <CardContent className="p-4 md:p-6 relative">
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-8">
-                        <Avatar className={`h-20 w-20 md:h-28 md:w-28 border-4 border-background shadow-2xl ring-4 shrink-0 ${user?.role === "client" ? "ring-orange-500" : "ring-green-500"}`}>
+                        <Avatar className={`h-20 w-20 md:h-28 md:w-28 border-4 border-background shadow-2xl ring-4 shrink-0 ${user?.role === "client" ? "ring-orange-200" : "ring-emerald-200"}`}>
                             <AvatarImage src="" alt={user?.name} />
                             <AvatarFallback className="text-2xl md:text-4xl bg-linear-to-br from-primary to-primary/80 text-primary-foreground font-black">
                                 {user?.name?.split(" ").map(n => n[0]).join("").toUpperCase()}
@@ -169,7 +169,7 @@ const ProfilePage = () => {
                                 <div className="space-y-1 text-center md:text-left">
                                     <div className="flex items-center justify-center md:justify-start gap-2 md:gap-3">
                                         <h1 className="text-xl md:text-3xl font-black tracking-tight">{user?.name ?? ""}</h1>
-                                        <Badge className={`font-bold rounded-full ${user?.role === "client" ? "bg-orange-500" : "bg-green-500"}`}>
+                                        <Badge className={`font-bold rounded-full ${user?.role === "client" ? "bg-orange-100 text-orange-800" : "bg-emerald-100 text-emerald-800"}`}>
                                             {user?.role === "vendeur" ? "Vendeur" : "Client"}
                                         </Badge>
                                     </div>

@@ -57,12 +57,12 @@ const Header = () => {
     ]
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 border-b bg-white/80 backdrop-blur-md dark:bg-black/80">
+        <header className="fixed top-0 left-0 right-0 z-50 border-b bg-background/90 backdrop-blur-md">
             <div className="container mx-auto flex h-14 md:h-16 items-center justify-between md:justify-center px-4">
                 {/* Mobile: Logo */}
                 <Link href="/" className="flex items-center gap-2 md:hidden">
-                    <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center">
-                        <Car className="h-4 w-4 text-white" />
+                    <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
+                        <Car className="h-4 w-4 text-accent-foreground" />
                     </div>
                     <span className="text-lg font-black text-foreground">Vroom CI</span>
                 </Link>
@@ -109,12 +109,14 @@ const Header = () => {
                         <MenubarMenu>
                             <MenubarTrigger className="cursor-pointer">
                                 <div className="flex items-center gap-2">
-                                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-orange-500">
+                                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-accent">
                                         <User className="h-4 w-4" />
                                     </div>
                                     <div className="flex flex-col items-start leading-tight">
                                         <span className="text-sm font-medium">{user?.name}</span>
-                                        <Badge className={`font-bold ${user?.role === "client" ? "bg-orange-500" : "bg-green-500"}`}>{user?.role}</Badge>
+                                        <Badge className={`font-bold ${user?.role === "client" ? "bg-orange-100 text-orange-800" : "bg-emerald-100 text-emerald-800"}`}>
+                                            {user?.role}
+                                        </Badge>
                                     </div>
                                 </div>
                             </MenubarTrigger>
@@ -161,12 +163,12 @@ const Header = () => {
                     <SheetContent side="right" className="w-[280px] p-0">
                         <SheetHeader className="p-5 pb-4">
                             <div className="flex items-center gap-3">
-                                <div className={`flex h-10 w-10 items-center justify-center rounded-full border-2 ${user?.role === "client" ? "border-orange-500" : "border-green-500"}`}>
+                                <div className={`flex h-10 w-10 items-center justify-center rounded-full border-2 ${user?.role === "client" ? "border-orange-200" : "border-emerald-200"}`}>
                                     <User className="h-5 w-5" />
                                 </div>
                                 <div>
                                     <SheetTitle className="text-sm font-bold">{user?.name}</SheetTitle>
-                                    <Badge className={`font-bold text-[10px] ${user?.role === "client" ? "bg-orange-500" : "bg-green-500"}`}>
+                                    <Badge className={`font-bold text-[10px] ${user?.role === "client" ? "bg-orange-100 text-orange-800" : "bg-emerald-100 text-emerald-800"}`}>
                                         {user?.role}
                                     </Badge>
                                 </div>
@@ -183,7 +185,7 @@ const Header = () => {
                                     onClick={() => setMobileOpen(false)}
                                     className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                                         pathname === item.href
-                                            ? "bg-orange-50 text-orange-600"
+                                            ? "bg-accent text-accent-foreground"
                                             : "text-muted-foreground hover:bg-muted"
                                     }`}
                                 >
@@ -206,7 +208,7 @@ const Header = () => {
                                     onClick={() => setMobileOpen(false)}
                                     className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                                         pathname === item.href
-                                            ? "bg-orange-50 text-orange-600"
+                                            ? "bg-accent text-accent-foreground"
                                             : "text-muted-foreground hover:bg-muted"
                                     }`}
                                 >
