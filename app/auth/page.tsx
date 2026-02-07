@@ -29,18 +29,18 @@ const AuthPage = () => {
         <div className="min-h-screen bg-[#f5f0e8] flex items-center justify-center px-4 py-12">
             {/* Background decorations */}
             <div className="fixed inset-0 pointer-events-none">
-                <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-200/20 rounded-full blur-3xl" />
+                <div className="absolute top-20 left-10 w-72 h-72 bg-orange-200/20 rounded-full blur-3xl" />
                 <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#ede8de]/60 rounded-full blur-3xl" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-100/10 rounded-full blur-3xl" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-100/10 rounded-full blur-3xl" />
             </div>
 
             <div className="relative z-10 w-full max-w-lg">
                 {/* Logo */}
                 <Link href="/" className="flex items-center justify-center gap-2 mb-8">
-                    <div className="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <div className="w-12 h-12 rounded-2xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
                         <Car className="h-6 w-6 text-white" />
                     </div>
-                    <span className="text-2xl font-black text-zinc-900">Vroom CI</span>
+                    <span className="text-2xl font-black text-foreground">Vroom CI</span>
                 </Link>
 
                 <Card className="rounded-3xl border border-[#ede8de] bg-white/95 backdrop-blur-md shadow-2xl overflow-hidden">
@@ -81,7 +81,7 @@ const AuthPage = () => {
                                                 id="login-email"
                                                 type="email"
                                                 placeholder="exemple@email.com"
-                                                className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-emerald-500 focus:ring-emerald-500/20"
+                                                className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-orange-500 focus:ring-orange-500/20"
                                             />
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@ const AuthPage = () => {
                                             <Label htmlFor="login-password" className="text-sm font-semibold text-zinc-700">
                                                 Mot de passe
                                             </Label>
-                                            <button type="button" className="text-xs text-emerald-600 hover:text-emerald-700 font-semibold">
+                                            <button type="button" className="text-xs text-orange-600 hover:text-orange-700 font-semibold">
                                                 Mot de passe oublie ?
                                             </button>
                                         </div>
@@ -101,7 +101,7 @@ const AuthPage = () => {
                                                 id="login-password"
                                                 type={showPassword ? "text" : "password"}
                                                 placeholder="Votre mot de passe"
-                                                className="pl-11 pr-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-emerald-500 focus:ring-emerald-500/20"
+                                                className="pl-11 pr-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-orange-500 focus:ring-orange-500/20"
                                             />
                                             <button
                                                 type="button"
@@ -115,7 +115,7 @@ const AuthPage = () => {
 
                                     <Button
                                         type="submit"
-                                        className="w-full h-12 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm cursor-pointer shadow-lg shadow-emerald-500/20"
+                                        className="w-full h-12 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm cursor-pointer shadow-lg shadow-orange-500/20"
                                     >
                                         Se connecter
                                     </Button>
@@ -164,27 +164,27 @@ const AuthPage = () => {
                                                 onClick={() => setAccountType("client")}
                                                 className={`relative flex flex-col items-center gap-3 p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer ${
                                                     accountType === "client"
-                                                        ? "border-emerald-500 bg-emerald-50 shadow-md shadow-emerald-500/10"
+                                                        ? "border-orange-500 bg-orange-50 shadow-md shadow-orange-500/10"
                                                         : "border-[#ede8de] bg-white hover:border-[#d5ccbc] hover:bg-[#f5f0e8]/30"
                                                 }`}
                                             >
                                                 {accountType === "client" && (
-                                                    <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
+                                                    <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-orange-500 flex items-center justify-center">
                                                         <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                                         </svg>
                                                     </div>
                                                 )}
                                                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
-                                                    accountType === "client" ? "bg-emerald-100" : "bg-[#f5f0e8]"
+                                                    accountType === "client" ? "bg-orange-100" : "bg-[#f5f0e8]"
                                                 }`}>
                                                     <UserCircle className={`h-7 w-7 ${
-                                                        accountType === "client" ? "text-emerald-600" : "text-[#b8a88a]"
+                                                        accountType === "client" ? "text-orange-600" : "text-[#b8a88a]"
                                                     }`} />
                                                 </div>
                                                 <div className="text-center">
                                                     <p className={`text-sm font-bold ${
-                                                        accountType === "client" ? "text-emerald-700" : "text-zinc-700"
+                                                        accountType === "client" ? "text-orange-700" : "text-zinc-700"
                                                     }`}>Client</p>
                                                     <p className="text-xs text-zinc-400 mt-0.5">Acheter ou louer</p>
                                                 </div>
@@ -195,27 +195,27 @@ const AuthPage = () => {
                                                 onClick={() => setAccountType("vendeur")}
                                                 className={`relative flex flex-col items-center gap-3 p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer ${
                                                     accountType === "vendeur"
-                                                        ? "border-emerald-500 bg-emerald-50 shadow-md shadow-emerald-500/10"
+                                                        ? "border-orange-500 bg-orange-50 shadow-md shadow-orange-500/10"
                                                         : "border-[#ede8de] bg-white hover:border-[#d5ccbc] hover:bg-[#f5f0e8]/30"
                                                 }`}
                                             >
                                                 {accountType === "vendeur" && (
-                                                    <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
+                                                    <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-orange-500 flex items-center justify-center">
                                                         <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                                         </svg>
                                                     </div>
                                                 )}
                                                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
-                                                    accountType === "vendeur" ? "bg-emerald-100" : "bg-[#f5f0e8]"
+                                                    accountType === "vendeur" ? "bg-orange-100" : "bg-[#f5f0e8]"
                                                 }`}>
                                                     <Store className={`h-7 w-7 ${
-                                                        accountType === "vendeur" ? "text-emerald-600" : "text-[#b8a88a]"
+                                                        accountType === "vendeur" ? "text-orange-600" : "text-[#b8a88a]"
                                                     }`} />
                                                 </div>
                                                 <div className="text-center">
                                                     <p className={`text-sm font-bold ${
-                                                        accountType === "vendeur" ? "text-emerald-700" : "text-zinc-700"
+                                                        accountType === "vendeur" ? "text-orange-700" : "text-zinc-700"
                                                     }`}>Vendeur</p>
                                                     <p className="text-xs text-zinc-400 mt-0.5">Vendre des vehicules</p>
                                                 </div>
@@ -235,7 +235,7 @@ const AuthPage = () => {
                                                     id="lastname"
                                                     type="text"
                                                     placeholder="Votre nom"
-                                                    className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-emerald-500 focus:ring-emerald-500/20"
+                                                    className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-orange-500 focus:ring-orange-500/20"
                                                 />
                                             </div>
                                         </div>
@@ -249,7 +249,7 @@ const AuthPage = () => {
                                                     id="firstname"
                                                     type="text"
                                                     placeholder="Votre prenom"
-                                                    className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-emerald-500 focus:ring-emerald-500/20"
+                                                    className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-orange-500 focus:ring-orange-500/20"
                                                 />
                                             </div>
                                         </div>
@@ -267,7 +267,7 @@ const AuthPage = () => {
                                                     id="reg-email"
                                                     type="email"
                                                     placeholder="Email"
-                                                    className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-emerald-500 focus:ring-emerald-500/20"
+                                                    className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-orange-500 focus:ring-orange-500/20"
                                                 />
                                             </div>
                                         </div>
@@ -281,7 +281,7 @@ const AuthPage = () => {
                                                     id="phone"
                                                     type="tel"
                                                     placeholder="+225 XX XX XX XX"
-                                                    className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-emerald-500 focus:ring-emerald-500/20"
+                                                    className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-orange-500 focus:ring-orange-500/20"
                                                 />
                                             </div>
                                         </div>
@@ -298,7 +298,7 @@ const AuthPage = () => {
                                                 id="address"
                                                 type="text"
                                                 placeholder="Abidjan, Cocody..."
-                                                className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-emerald-500 focus:ring-emerald-500/20"
+                                                className="pl-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-orange-500 focus:ring-orange-500/20"
                                             />
                                         </div>
                                     </div>
@@ -315,7 +315,7 @@ const AuthPage = () => {
                                                     id="reg-password"
                                                     type={showPassword ? "text" : "password"}
                                                     placeholder="Mot de passe"
-                                                    className="pl-11 pr-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-emerald-500 focus:ring-emerald-500/20"
+                                                    className="pl-11 pr-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-orange-500 focus:ring-orange-500/20"
                                                 />
                                                 <button
                                                     type="button"
@@ -336,7 +336,7 @@ const AuthPage = () => {
                                                     id="confirm-password"
                                                     type={showConfirmPassword ? "text" : "password"}
                                                     placeholder="Confirmer"
-                                                    className="pl-11 pr-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-emerald-500 focus:ring-emerald-500/20"
+                                                    className="pl-11 pr-11 h-12 rounded-xl bg-[#f5f0e8]/50 border-[#ede8de] focus:border-orange-500 focus:ring-orange-500/20"
                                                 />
                                                 <button
                                                     type="button"
@@ -351,14 +351,14 @@ const AuthPage = () => {
 
                                     <p className="text-xs text-zinc-400 leading-relaxed">
                                         En creant un compte, vous acceptez nos{" "}
-                                        <a href="#" className="text-emerald-600 hover:underline font-medium">conditions d&apos;utilisation</a>
+                                        <a href="#" className="text-orange-600 hover:underline font-medium">conditions d&apos;utilisation</a>
                                         {" "}et notre{" "}
-                                        <a href="#" className="text-emerald-600 hover:underline font-medium">politique de confidentialite</a>.
+                                        <a href="#" className="text-orange-600 hover:underline font-medium">politique de confidentialite</a>.
                                     </p>
 
                                     <Button
                                         type="submit"
-                                        className="w-full h-12 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm cursor-pointer shadow-lg shadow-emerald-500/20"
+                                        className="w-full h-12 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm cursor-pointer shadow-lg shadow-orange-500/20"
                                     >
                                         Creer mon compte
                                     </Button>

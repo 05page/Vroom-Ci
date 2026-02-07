@@ -41,7 +41,7 @@ const Header = () => {
     })
     const [mobileOpen, setMobileOpen] = useState(false)
 
-    if (pathname.startsWith("/auth") || pathname.startsWith("/Auth")) return null
+    if (pathname.startsWith("/auth") || pathname.startsWith("/Auth") || pathname.startsWith("/partenaire")) return null
 
     const navItems = [
         { href: "/", label: "Accueil", icon: Home },
@@ -61,10 +61,10 @@ const Header = () => {
             <div className="container mx-auto flex h-14 md:h-16 items-center justify-between md:justify-center px-4">
                 {/* Mobile: Logo */}
                 <Link href="/" className="flex items-center gap-2 md:hidden">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center">
                         <Car className="h-4 w-4 text-white" />
                     </div>
-                    <span className="text-lg font-black text-zinc-900">Vroom CI</span>
+                    <span className="text-lg font-black text-foreground">Vroom CI</span>
                 </Link>
 
                 {/* Desktop: Menubar */}
@@ -183,8 +183,8 @@ const Header = () => {
                                     onClick={() => setMobileOpen(false)}
                                     className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                                         pathname === item.href
-                                            ? "bg-emerald-50 text-emerald-600"
-                                            : "text-zinc-600 hover:bg-zinc-50"
+                                            ? "bg-orange-50 text-orange-600"
+                                            : "text-muted-foreground hover:bg-muted"
                                     }`}
                                 >
                                     <item.icon className="h-4 w-4" />
@@ -206,8 +206,8 @@ const Header = () => {
                                     onClick={() => setMobileOpen(false)}
                                     className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                                         pathname === item.href
-                                            ? "bg-emerald-50 text-emerald-600"
-                                            : "text-zinc-600 hover:bg-zinc-50"
+                                            ? "bg-orange-50 text-orange-600"
+                                            : "text-muted-foreground hover:bg-muted"
                                     }`}
                                 >
                                     <item.icon className="h-4 w-4" />

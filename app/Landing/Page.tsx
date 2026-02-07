@@ -42,28 +42,28 @@ const LandingPage = () => {
             icon: Search,
             title: "Recherchez",
             desc: "Parcourez notre catalogue et filtrez par marque, prix, type ou localisation.",
-            color: "bg-emerald-400",
+            color: "bg-orange-400",
         },
         {
             step: "02",
             icon: Eye,
             title: "Comparez",
             desc: "Consultez les details, photos et avis sur chaque vehicule pour faire le bon choix.",
-            color: "bg-emerald-500",
+            color: "bg-orange-500",
         },
         {
             step: "03",
             icon: MessageCircle,
             title: "Contactez",
             desc: "Echangez directement avec le vendeur via notre messagerie securisee.",
-            color: "bg-emerald-600",
+            color: "bg-orange-600",
         },
         {
             step: "04",
             icon: Handshake,
             title: "Finalisez",
             desc: "Prenez rendez-vous, visitez le vehicule et finalisez la transaction en confiance.",
-            color: "bg-emerald-700",
+            color: "bg-orange-700",
         },
     ]
 
@@ -147,17 +147,17 @@ const LandingPage = () => {
         <div className="min-h-screen bg-white">
             <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 bg-[#f5f0e8]" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(167,210,167,0.3),transparent_50%)]" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(234,165,80,0.3),transparent_50%)]" />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(245,240,232,0.5),transparent_50%)]" />
 
-                <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-200/20 rounded-full blur-3xl" />
+                <div className="absolute top-20 left-10 w-72 h-72 bg-orange-200/20 rounded-full blur-3xl" />
                 <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#ede8de]/40 rounded-full blur-3xl" />
 
                 <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pt-32 pb-20 text-center">
                     <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-zinc-900 tracking-tight leading-[0.9] mb-6">
                         Trouvez votre
                         <br />
-                        <span className="text-emerald-600">vehicule ideal</span>
+                        <span className="text-orange-600">vehicule ideal</span>
                     </h1>
 
                     <p className="text-lg md:text-xl text-zinc-500 max-w-2xl mx-auto mb-12 leading-relaxed">
@@ -177,7 +177,7 @@ const LandingPage = () => {
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                     />
                                 </div>
-                                <Button className="h-12 px-8 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-base cursor-pointer">
+                                <Button className="h-12 px-8 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-base cursor-pointer">
                                     <Search className="h-5 w-5 mr-2" />
                                     Rechercher
                                 </Button>
@@ -186,7 +186,7 @@ const LandingPage = () => {
                                 {["SUV", "Berline", "Toyota", "Mercedes", "Location"].map((tag) => (
                                     <button
                                         key={tag}
-                                        className="px-4 py-1.5 rounded-full text-sm font-medium bg-[#f5f0e8]/60 text-zinc-500 hover:bg-emerald-50 hover:text-emerald-600 transition-colors cursor-pointer"
+                                        className="px-4 py-1.5 rounded-full text-sm font-medium bg-[#f5f0e8]/60 text-zinc-500 hover:bg-orange-50 hover:text-orange-600 transition-colors cursor-pointer"
                                     >
                                         {tag}
                                     </button>
@@ -209,13 +209,13 @@ const LandingPage = () => {
             <section className="py-24 px-6 bg-white">
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-16">
-                        <Badge className="bg-emerald-50 text-emerald-600 border-emerald-200 rounded-full px-4 py-1 font-semibold mb-4">
+                        <Badge className="bg-orange-50 text-orange-600 border-orange-200 rounded-full px-4 py-1 font-semibold mb-4">
                             Nos Services
                         </Badge>
                         <h2 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900">
                             Une plateforme,
                             <br />
-                            <span className="text-emerald-600">toutes les solutions</span>
+                            <span className="text-orange-600">toutes les solutions</span>
                         </h2>
                         <p className="text-zinc-500 mt-4 max-w-xl mx-auto text-lg">
                             Que vous cherchiez a acheter, louer ou vendre, Vroom CI vous simplifie la vie.
@@ -225,14 +225,14 @@ const LandingPage = () => {
                     <div className="grid md:grid-cols-3 gap-6">
                         <Card className="group rounded-3xl border border-[#ede8de] overflow-hidden hover:shadow-xl transition-all duration-500 hover:-translate-y-2 cursor-pointer bg-white">
                             <CardContent className="p-8 flex flex-col h-full min-h-80">
-                                <div className="w-16 h-16 rounded-2xl bg-emerald-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                    <Car className="h-8 w-8 text-emerald-600" />
+                                <div className="w-16 h-16 rounded-2xl bg-orange-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    <Car className="h-8 w-8 text-orange-600" />
                                 </div>
                                 <h3 className="text-2xl font-black mb-3 text-zinc-900">Acheter</h3>
                                 <p className="text-zinc-500 text-sm leading-relaxed flex-1">
                                     Parcourez des centaines de vehicules verifies. Comparez les prix, consultez les details et trouvez la voiture parfaite pour vous.
                                 </p>
-                                <div className="flex items-center gap-2 mt-6 font-bold text-sm text-emerald-600 group-hover:gap-4 transition-all">
+                                <div className="flex items-center gap-2 mt-6 font-bold text-sm text-orange-600 group-hover:gap-4 transition-all">
                                     Explorer les vehicules
                                     <ArrowRight className="h-4 w-4" />
                                 </div>
@@ -257,14 +257,14 @@ const LandingPage = () => {
 
                         <Card className="group rounded-3xl border border-[#ede8de] overflow-hidden hover:shadow-xl transition-all duration-500 hover:-translate-y-2 cursor-pointer bg-white">
                             <CardContent className="p-8 flex flex-col h-full min-h-[320px]">
-                                <div className="w-16 h-16 rounded-2xl bg-emerald-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                    <HandCoins className="h-8 w-8 text-emerald-600" />
+                                <div className="w-16 h-16 rounded-2xl bg-orange-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    <HandCoins className="h-8 w-8 text-orange-600" />
                                 </div>
                                 <h3 className="text-2xl font-black mb-3 text-zinc-900">Vendre</h3>
                                 <p className="text-zinc-500 text-sm leading-relaxed flex-1">
                                     Publiez votre annonce en quelques minutes. Touchez des milliers d&apos;acheteurs potentiels et vendez au meilleur prix.
                                 </p>
-                                <div className="flex items-center gap-2 mt-6 font-bold text-sm text-emerald-600 group-hover:gap-4 transition-all">
+                                <div className="flex items-center gap-2 mt-6 font-bold text-sm text-orange-600 group-hover:gap-4 transition-all">
                                     Publier une annonce
                                     <ArrowRight className="h-4 w-4" />
                                 </div>
@@ -278,13 +278,13 @@ const LandingPage = () => {
             <section className="py-24 px-6 bg-[#f5f0e8]/40">
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-16">
-                        <Badge className="bg-emerald-50 text-emerald-600 border-emerald-200 rounded-full px-4 py-1 font-semibold mb-4">
+                        <Badge className="bg-orange-50 text-orange-600 border-orange-200 rounded-full px-4 py-1 font-semibold mb-4">
                             Comment ca marche
                         </Badge>
                         <h2 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900">
                             Simple, rapide,
                             <br />
-                            <span className="text-emerald-600">efficace</span>
+                            <span className="text-orange-600">efficace</span>
                         </h2>
                     </div>
 
@@ -314,12 +314,12 @@ const LandingPage = () => {
                 <div className="max-w-6xl mx-auto">
                     <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
                         <div>
-                            <Badge className="bg-emerald-50 text-emerald-600 border-emerald-200 rounded-full px-4 py-1 font-semibold mb-4">
+                            <Badge className="bg-orange-50 text-orange-600 border-orange-200 rounded-full px-4 py-1 font-semibold mb-4">
                                 Vehicules populaires
                             </Badge>
                             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900">
                                 Les plus
-                                <span className="text-emerald-600"> consultes</span>
+                                <span className="text-orange-600"> consultes</span>
                             </h2>
                         </div>
                         <Link href="/vehicles">
@@ -338,7 +338,7 @@ const LandingPage = () => {
                             >
                                 <div className="bg-[#f5f0e8] h-52 relative flex items-center justify-center">
                                     <Car className="h-16 w-16 text-[#d5ccbc]" />
-                                    <Badge className={`absolute top-4 left-4 rounded-full font-bold ${vehicle.type === "location" ? "bg-[#b8a88a] text-white" : "bg-emerald-500 text-white"}`}>
+                                    <Badge className={`absolute top-4 left-4 rounded-full font-bold ${vehicle.type === "location" ? "bg-[#b8a88a] text-white" : "bg-orange-500 text-white"}`}>
                                         {vehicle.type === "location" ? "Location" : "A vendre"}
                                     </Badge>
                                 </div>
@@ -348,7 +348,7 @@ const LandingPage = () => {
                                             <p className="text-xs text-zinc-400 font-semibold uppercase tracking-wider">{vehicle.marque}</p>
                                             <h3 className="text-lg font-black text-zinc-900">{vehicle.modele}</h3>
                                         </div>
-                                        <p className="text-lg font-black text-emerald-600">
+                                        <p className="text-lg font-black text-orange-600">
                                             {vehicle.prix}
                                             <span className="text-xs text-zinc-400 font-normal ml-1">FCFA</span>
                                         </p>
@@ -374,7 +374,7 @@ const LandingPage = () => {
             <section className="py-24 px-6 bg-[#f5f0e8]/40">
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-16">
-                        <Badge className="bg-emerald-50 text-emerald-600 border-emerald-200 rounded-full px-4 py-1 font-semibold mb-4">
+                        <Badge className="bg-orange-50 text-orange-600 border-orange-200 rounded-full px-4 py-1 font-semibold mb-4">
                             Pourquoi Vroom CI
                         </Badge>
                         <h2 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900">
@@ -392,8 +392,8 @@ const LandingPage = () => {
                                 className={`rounded-3xl border border-[#ede8de] ${feature.bg} hover:shadow-xl transition-all duration-300`}
                             >
                                 <CardContent className="p-8">
-                                    <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center mb-6">
-                                        <feature.icon className="h-7 w-7 text-emerald-600" />
+                                    <div className="w-14 h-14 rounded-2xl bg-orange-50 flex items-center justify-center mb-6">
+                                        <feature.icon className="h-7 w-7 text-orange-600" />
                                     </div>
                                     <h3 className="text-xl font-black text-zinc-900 mb-3">{feature.title}</h3>
                                     <p className="text-zinc-500 text-sm leading-relaxed">{feature.desc}</p>
@@ -405,7 +405,7 @@ const LandingPage = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
                         {icones.map((metric) => (
                             <div key={metric.label} className="text-center p-6 rounded-2xl bg-white border border-[#ede8de]">
-                                <metric.icon className="h-6 w-6 text-emerald-500 mx-auto mb-3" />
+                                <metric.icon className="h-6 w-6 text-orange-500 mx-auto mb-3" />
                                 <p className="text-2xl font-black text-zinc-900">{metric.value}</p>
                                 <p className="text-xs text-zinc-400 font-semibold mt-1">{metric.label}</p>
                             </div>
@@ -419,13 +419,13 @@ const LandingPage = () => {
                 <div className="max-w-6xl mx-auto">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div>
-                            <Badge className="bg-emerald-50 text-emerald-600 border-emerald-200 rounded-full px-4 py-1 font-semibold mb-6">
+                            <Badge className="bg-orange-50 text-orange-600 border-orange-200 rounded-full px-4 py-1 font-semibold mb-6">
                                 Devenir vendeur
                             </Badge>
                             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900 mb-6">
                                 Vendez vos vehicules
                                 <br />
-                                <span className="text-emerald-600">facilement</span>
+                                <span className="text-orange-600">facilement</span>
                             </h2>
                             <p className="text-zinc-500 text-lg leading-relaxed mb-8">
                                 Rejoignez notre reseau de vendeurs et touchez des milliers d&apos;acheteurs potentiels.
@@ -440,29 +440,29 @@ const LandingPage = () => {
                                     "Statistiques de vos annonces en temps reel",
                                 ].map((item) => (
                                     <div key={item} className="flex items-center gap-3">
-                                        <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                                            <BadgeCheck className="h-4 w-4 text-emerald-600" />
+                                        <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center shrink-0">
+                                            <BadgeCheck className="h-4 w-4 text-orange-600" />
                                         </div>
                                         <span className="text-sm text-zinc-600">{item}</span>
                                     </div>
                                 ))}
                             </div>
 
-                            <Button className="h-14 px-8 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-base cursor-pointer">
+                            <Link href="/vendeur/dashboard" className="h-14 px-8 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-base cursor-pointer">
                                 <Store className="h-5 w-5 mr-2" />
                                 Devenir vendeur
                                 <ArrowRight className="h-5 w-5 ml-2" />
-                            </Button>
+                            </Link>
                         </div>
 
                         <div className="relative">
                             <div className="bg-[#f5f0e8] rounded-3xl p-8 relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-200/30 rounded-full blur-3xl" />
+                                <div className="absolute top-0 right-0 w-40 h-40 bg-orange-200/30 rounded-full blur-3xl" />
                                 <div className="relative space-y-4">
                                     <div className="bg-white rounded-2xl p-5 border border-[#ede8de] shadow-sm">
                                         <div className="flex items-center gap-3 mb-3">
-                                            <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-                                                <TrendingUp className="h-5 w-5 text-emerald-600" />
+                                            <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
+                                                <TrendingUp className="h-5 w-5 text-orange-600" />
                                             </div>
                                             <div>
                                                 <p className="text-sm font-bold text-zinc-900">Ventes ce mois</p>
@@ -482,8 +482,8 @@ const LandingPage = () => {
                                         </div>
                                     </div>
                                     <div className="bg-white rounded-2xl p-4 border border-[#ede8de] shadow-sm flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                                            <Star className="h-5 w-5 fill-emerald-500 text-emerald-500" />
+                                        <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                            <Star className="h-5 w-5 fill-orange-500 text-orange-500" />
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold text-zinc-900">Note moyenne</p>
@@ -506,8 +506,8 @@ const LandingPage = () => {
                                 <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#ede8de]/50 rounded-full blur-3xl" />
                                 <div className="relative space-y-5">
                                     <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#f5f0e8]/60">
-                                        <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-                                            <Car className="h-6 w-6 text-emerald-600" />
+                                        <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">
+                                            <Car className="h-6 w-6 text-orange-600" />
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold text-zinc-900">Concessionnaires auto</p>
@@ -524,8 +524,8 @@ const LandingPage = () => {
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#f5f0e8]/60">
-                                        <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-                                            <Handshake className="h-6 w-6 text-emerald-600" />
+                                        <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">
+                                            <Handshake className="h-6 w-6 text-orange-600" />
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold text-zinc-900">Centres de controle technique</p>
@@ -552,7 +552,7 @@ const LandingPage = () => {
                             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900 mb-6">
                                 Developpez votre
                                 <br />
-                                <span className="text-emerald-600">activite</span> avec nous
+                                <span className="text-orange-600">activite</span> avec nous
                             </h2>
                             <p className="text-zinc-500 text-lg leading-relaxed mb-8">
                                 Que vous soyez concessionnaire, assureur, banque ou prestataire automobile,
@@ -589,12 +589,12 @@ const LandingPage = () => {
             <section className="py-24 px-6 bg-white">
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-16">
-                        <Badge className="bg-emerald-50 text-emerald-600 border-emerald-200 rounded-full px-4 py-1 font-semibold mb-4">
+                        <Badge className="bg-orange-50 text-orange-600 border-orange-200 rounded-full px-4 py-1 font-semibold mb-4">
                             Temoignages
                         </Badge>
                         <h2 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900">
                             Ils nous font
-                            <span className="text-emerald-600"> confiance</span>
+                            <span className="text-orange-600"> confiance</span>
                         </h2>
                     </div>
 
@@ -607,15 +607,15 @@ const LandingPage = () => {
                                 <CardContent className="p-8">
                                     <div className="flex gap-1 mb-4">
                                         {Array.from({ length: t.rating }).map((_, i) => (
-                                            <Star key={i} className="h-4 w-4 fill-emerald-400 text-emerald-400" />
+                                            <Star key={i} className="h-4 w-4 fill-orange-400 text-orange-400" />
                                         ))}
                                     </div>
                                     <p className="text-sm text-zinc-500 leading-relaxed mb-6">
                                         &quot;{t.text}&quot;
                                     </p>
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center">
-                                            <span className="text-sm font-black text-emerald-600">
+                                        <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center">
+                                            <span className="text-sm font-black text-orange-600">
                                                 {t.name.split(" ").map(n => n[0]).join("")}
                                             </span>
                                         </div>
@@ -637,8 +637,8 @@ const LandingPage = () => {
                     <Card className="rounded-[2rem] overflow-hidden border border-[#ede8de] bg-white shadow-2xl">
                         <CardContent className="p-12 md:p-16 text-center relative">
                             <div className="relative z-10">
-                                <div className="w-20 h-20 rounded-3xl bg-emerald-50 flex items-center justify-center mx-auto mb-8">
-                                    <Car className="h-10 w-10 text-emerald-600" />
+                                <div className="w-20 h-20 rounded-3xl bg-orange-50 flex items-center justify-center mx-auto mb-8">
+                                    <Car className="h-10 w-10 text-orange-600" />
                                 </div>
                                 <h2 className="text-3xl md:text-5xl font-black text-zinc-900 tracking-tight mb-4">
                                     Pret a demarrer ?
@@ -648,7 +648,7 @@ const LandingPage = () => {
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                     <Link href="/vehicles">
-                                        <Button className="h-14 px-8 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-base cursor-pointer shadow-lg">
+                                        <Button className="h-14 px-8 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-base cursor-pointer shadow-lg">
                                             <ArrowRight className="h-5 w-5 ml-2" />
                                             Inscrivez vous maintenant
                                         </Button>
@@ -667,7 +667,7 @@ const LandingPage = () => {
                     <div className="grid md:grid-cols-4 gap-12 mb-16">
                         <div className="md:col-span-1">
                             <div className="flex items-center gap-2 mb-4">
-                                <div className="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center">
+                                <div className="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center">
                                     <Car className="h-5 w-5 text-white" />
                                 </div>
                                 <span className="text-xl font-black">Vroom CI</span>
@@ -682,7 +682,7 @@ const LandingPage = () => {
                             <ul className="space-y-3">
                                 {["Acheter un vehicule", "Louer un vehicule", "Vendre un vehicule", "Vehicules populaires"].map((link) => (
                                     <li key={link}>
-                                        <a href="#" className="text-sm text-white/40 hover:text-emerald-400 transition-colors">
+                                        <a href="#" className="text-sm text-white/40 hover:text-orange-400 transition-colors">
                                             {link}
                                         </a>
                                     </li>
@@ -695,7 +695,7 @@ const LandingPage = () => {
                             <ul className="space-y-3">
                                 {["A propos", "Comment ca marche", "Conditions d'utilisation", "Politique de confidentialite"].map((link) => (
                                     <li key={link}>
-                                        <a href="#" className="text-sm text-white/40 hover:text-emerald-400 transition-colors">
+                                        <a href="#" className="text-sm text-white/40 hover:text-orange-400 transition-colors">
                                             {link}
                                         </a>
                                     </li>

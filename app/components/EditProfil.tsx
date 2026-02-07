@@ -27,7 +27,7 @@ export function EditProfil({ open, onOpenChange, onSubmit }: EditProfilProps) {
     };
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-106.25">
                 <DialogHeader>
                     <DialogTitle>Edit profile</DialogTitle>
                     <DialogDescription>

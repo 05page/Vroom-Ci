@@ -35,7 +35,7 @@ export default function RootLayout({
           position="top-center"
           toastOptions={{
             classNames: {
-              success: 'text-green-500',
+              success: 'text-orange-500',
             },
           }}
         />
