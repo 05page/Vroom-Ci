@@ -1,5 +1,5 @@
 const Stats = () => {
-    return(
+    return (
         <div className="space-y-6">
             <div>
                 <h1 className="text-2xl font-bold tracking-tight">Mes Stats</h1>
@@ -8,7 +8,7 @@ const Stats = () => {
                 </p>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Stats();
+export default Stats;
